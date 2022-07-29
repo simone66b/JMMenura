@@ -242,11 +242,6 @@ using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots; pyplot()
 
 
 # rho = 0.0
-# mat = [1.0 rho rho rho rho;
-#        rho 1.0 rho rho rho;
-#        rho rho 1.0 rho rho;
-#        rho rho rho 1.0 rho;
-#        rho rho rho rho 1.0]
 
 ## Iris data:
 
@@ -255,17 +250,13 @@ mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
        0.8717538  -0.4284401    1.0000000   0.9628654;
        0.8179411  -0.3661259    0.9628654   1.0000000]
 
-time_tot = 100.0
+mat = [1.0 .5;
+       0.5 1.0]
+
+time_tot = 1.0
 tspan = (0.0, time_tot)
 
-OU_noise = CorrelatedWienerProcess(mat, tspan[1], zeros(4), zeros(4)) 
-
-u0 = mu_vec
-
-
-using DifferentialEquations, Phylo, Plots; pyplot()
-
-function mysim(tree, x0=0.0, t0 = 0.0)
+function mysim(tree, x0=[0.0; 0.0], mat=[1 0; 0 1], t0 = 0.0)
     ## define the OU simulation
 
     function OU(x0, tspan)
@@ -280,13 +271,14 @@ function mysim(tree, x0=0.0, t0 = 0.0)
     end # diff
 
         dt = 0.001
-        alpha_vec = [3.0, 3.0, 4.0, 2.0]
-        mu_vec = [5.843333, 3.057333, 3.758000, 1.199333]
-        sigma_vec = [1.0, 1.0, 1.0,  1.0]
+        alpha_vec = [3.0, 3.0]
+        mu_vec = [5.0, 5.0]
+        sigma_vec = [1.0, 1.0]
 
-p = [alpha_vec, mu_vec, sigma_vec]
+        p = [alpha_vec, mu_vec, sigma_vec]
+        OU_noise = CorrelatedWienerProcess(mat, tspan[1], zeros(2), zeros(2)) 
 
-  prob = SDEProblem(drift, diff, u0,tspan, p=p, noise=OU_noise)       
+  prob = SDEProblem(drift, diff, x0,tspan, p=p, noise=OU_noise)       
   sol = solve(prob, dt=dt, p=p, adaptive=false)   
     end #OU
     
@@ -315,7 +307,7 @@ p = [alpha_vec, mu_vec, sigma_vec]
     tree
 end # mysim
 
-tr = Ultrametric(1024, 10.0);
+tr = Ultrametric(5, 1.0);
 tree = rand(tr);
 plot(tree)
 ## savefig("tree.png")
@@ -323,11 +315,21 @@ plot(tree)
 test = mysim(tree);
 testbranches=getbranches(test);
 
-plot(xlim=[0.0, 10.0], ylim= [-0.1, 2.0], legend=nothing)
+plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), legend=nothing)
+
+
+### nums = Int(time_tot/dt) + 1
 for i in testbranches
-    plot!(i.data["1"].t, i.data["1"].u, legend= nothing)
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, length(u1)))
+    myt = i.data["1"].t
+    plot!(uu1[:,1],  uu1[:,2])
 end
+
 current()
+
+
+
 savefig("trace.png")
 
 
@@ -343,11 +345,11 @@ plot(sol)
 
 myt = sol.t
 u1 = sol.u
+nums = Int(time_tot/dt) + 1
+uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, nums))
 
-uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, nums))
-
-plot(myt, uu1[1:nums,3], uu1[1:nums,4])
-plot(uu1[1:nums,1], uu1[1:nums,4])
+plot(myt, uu1[1:nums,1], uu1[1:nums,1])
+plot(uu1[1:nums,1], uu1[1:nums,2])
 
 histogram(uu1[1:nums, 1])
 plot(qqplot(Normal, uu1[1:nums, 1]))
