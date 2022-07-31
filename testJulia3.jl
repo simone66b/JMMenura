@@ -307,15 +307,16 @@ function mysim(tree, x0=[0.0; 0.0], mat=[1 0; 0 1], t0 = 0.0)
     tree
 end # mysim
 
-tr = Ultrametric(5, 1.0);
+tr = Ultrametric(10, 1.0);
 tree = rand(tr);
-plot(tree)
+
+p1 = plot(tree)
 ## savefig("tree.png")
 
 test = mysim(tree);
 testbranches=getbranches(test);
 
-plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), legend=nothing)
+plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), legend=nothing, reuse=false)
 
 
 ### nums = Int(time_tot/dt) + 1
