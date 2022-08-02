@@ -316,7 +316,7 @@ p1 = plot(tree)
 test = mysim(tree);
 testbranches=getbranches(test);
 
-plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), legend=nothing, reuse=false)
+plot(xlim=(0.0,1.0), ylim= (0.0, 7.0), legend=nothing, reuse=false)
 
 
 ### nums = Int(time_tot/dt) + 1
@@ -324,12 +324,14 @@ for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, length(u1)))
     myt = i.data["1"].t
-    plot!(uu1[:,1],  uu1[:,2])
+     plot!(myt, uu1[:, 1])
 end
 
 current()
 
-
+plot(xlim=(0.0,1.0), ylim= (0.0, 7.0), legend=nothing, reuse=false)
+plot!(myt, uu1,  legend=nothing)
+current()
 
 savefig("trace.png")
 
