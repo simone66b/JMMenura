@@ -330,29 +330,21 @@ end
 current()
 
 plot(xlim=(0.0,1.0), ylim= (0.0, 7.0), legend=nothing, reuse=false)
-plot!(myt, uu1,  legend=nothing)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, length(u1)))
+    myt = i.data["1"].t
+     plot!(myt, uu1[:, 2])
+end
 current()
 
+plot(xlim=(0.0,6.0), ylim= (0.0, 6.0), legend=nothing, reuse=false)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, length(u1)))
+     plot!(uu1[:,1], uu1[:, 2])
+end
+current()
+
+
 savefig("trace.png")
-
-
-
-
-
-prob = SDEProblem(f,g, u0,tspan, p=p, noise=OU_noise)
-dt = 1e-3
-
-nums = Int(time_tot/dt) + 1
-sol = solve(prob, dt=dt, p=p, adaptive=false);
-plot(sol)
-
-myt = sol.t
-u1 = sol.u
-nums = Int(time_tot/dt) + 1
-uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 2, nums))
-
-plot(myt, uu1[1:nums,1], uu1[1:nums,1])
-plot(uu1[1:nums,1], uu1[1:nums,2])
-
-histogram(uu1[1:nums, 1])
-plot(qqplot(Normal, uu1[1:nums, 1]))
