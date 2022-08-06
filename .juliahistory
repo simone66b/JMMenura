@@ -1,0 +1,16 @@
+import Pkg; Pkg.add("DifferentialEquations")
+import Pkg; Pkg.add("Phylo")
+exit()
+import Pkg; Pkg.add("Plots")
+import Pkg; Pkg.add("Distributions")
+import Pkg; Pkg.add("StatsPlots")
+import Pkg; Pkg.add("PyPlot")`
+import Pkg; Pkg.add("PyPlot")
+exit()
+length(mat)
+length(alpha_vec)
+plot(tree)
+x0
+mat
+include("testJulia3.jl")
+exit()
