@@ -14,3 +14,19 @@ x0
 mat
 include("testJulia3.jl")
 exit()
+u ={2.1, 1.5]
+u=[2.1, 1.5]
+sqrt(u)
+.sqrt(u)
+\alpha = 1
+?
+include("testJulia3.jl")
+import Pkg; Pkg.add("matplotlib")
+exit()
+import Pkg; Pkg.add("matplotlib")
+include("testJulia3.jl")
+include("testJulia3.jl")
+exit()
+include("testJulia3.jl")
+include("testJulia3.jl")
+exit()
