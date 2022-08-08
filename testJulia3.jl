@@ -69,7 +69,7 @@ end # mysim
 
 tr = Ultrametric(100, 1.0);
 tree = rand(tr);
-plot(tree)
+display(plot(tree))
 
 test = mysim(tree, x0, mat);
 testbranches=getbranches(test);

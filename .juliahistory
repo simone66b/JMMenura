@@ -38,3 +38,8 @@ Pkg.add("KissABC.jl")
 using Pkg
 Pkg.add("KissABC")
 exit()
+include("testJulia3.jl")
+import Pkg; Pkg.add("KissABC")
+include("testJulia3.jl")
+include("testJulia3.jl")
+exit()
