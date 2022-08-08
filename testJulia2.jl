@@ -231,6 +231,7 @@ savefig("trace.png")
 using Phylo, Plots
 
 tree = parsenewick("((a:1.0, (b:1.0, c:1.0):1.0):1.0, d:1.0);")
+tree = open(parsenewick, "tree.phy")
 theRoot = getroot(tree)
 
 theRoot.other[1].data["1"] = rand(10)

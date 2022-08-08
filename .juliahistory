@@ -30,3 +30,11 @@ exit()
 include("testJulia3.jl")
 include("testJulia3.jl")
 exit()
+plot(tree)
+plot(tree)
+tree
+using Pkg
+Pkg.add("KissABC.jl")
+using Pkg
+Pkg.add("KissABC")
+exit()

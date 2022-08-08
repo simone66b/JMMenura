@@ -1,4 +1,4 @@
-using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots, KissABC; pyplot();
 
 ## Iris data:
 
@@ -63,6 +63,9 @@ function mysim(tree, x0, mat, t0 = 0.0)
     Recurse!(tree, nodeInit) # do the recursive simulations
     tree
 end # mysim
+
+## tree = open(parsenewick, "tree.phy") Use if reading tree in from file
+## We will create a random tree instead.
 
 tr = Ultrametric(100, 1.0);
 tree = rand(tr);
