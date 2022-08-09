@@ -11,19 +11,21 @@ time_tot = 1.0
 tspan = (0.0, time_tot)
 x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## actual iris means
 
+## x0 = [0.5, 0.5, 0.5, 0.5]
+
 function mysim(tree, x0, mat, t0 = 0.0)
     ## define the OU simulation
     function OU(x0, tspan)
         function drift(du, u, p, t)
             alpha, mu, sigma = p
-            ## du .= alpha .* u
-            du .= alpha .* (mu - u)
+            ## du .= alpha .* u would be BM with drift
+            du .= alpha .* (mu - u) ## OU-like
         end # drift
 
         function diff(du, u, p, t)
             alpha, mu, sigma = p
-            ## du .= sigma
-            du .= sqrt.(u) .* sigma
+            ## du .= sigma would be OU
+            du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
         end # diff
 
         dt = 0.001
@@ -33,7 +35,8 @@ function mysim(tree, x0, mat, t0 = 0.0)
 
         p = [alpha_vec, mu_vec, sigma_vec]
         OU_noise = CorrelatedWienerProcess(mat, tspan[1],
-                                           zeros(length(alpha_vec)), zeros(length(alpha_vec))) 
+                                           zeros(length(alpha_vec)),
+                                           zeros(length(alpha_vec))) 
 
         prob = SDEProblem(drift, diff, x0,tspan, p=p, noise=OU_noise)       
         sol = solve(prob, dt=dt, p=p, adaptive=false)   
@@ -69,12 +72,13 @@ end # mysim
 
 tr = Ultrametric(100, 1.0);
 tree = rand(tr);
-display(plot(tree))
+plot(tree)
 
 test = mysim(tree, x0, mat);
-testbranches=getbranches(test);
+testbranches = getbranches(test);
 
-plot(xlim=(0.0,1.0), ylim= (0.0, 10.0), zlim=(0.0, 10.0), legend=nothing, reuse=false)
+plot(xlim = (0.0,1.0), ylim = (0.0, 10.0), zlim=(0.0, 10.0), legend=nothing,
+     reuse=false)
 for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
@@ -100,7 +104,8 @@ for i in testbranches
 end
 current()
 
-plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), zlim=(0, 10.0), legend=nothing, reuse=false)
+plot(xlim=(0.0,10.0), ylim= (0.0, 10.0), zlim=(0, 10.0), legend=nothing,
+     reuse=false)
 for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
