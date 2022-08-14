@@ -1,24 +1,3 @@
-import Pkg; Pkg.add("DifferentialEquations")
-import Pkg; Pkg.add("Phylo")
-exit()
-import Pkg; Pkg.add("Plots")
-import Pkg; Pkg.add("Distributions")
-import Pkg; Pkg.add("StatsPlots")
-import Pkg; Pkg.add("PyPlot")`
-import Pkg; Pkg.add("PyPlot")
-exit()
-length(mat)
-length(alpha_vec)
-plot(tree)
-x0
-mat
-include("testJulia3.jl")
-exit()
-u ={2.1, 1.5]
-u=[2.1, 1.5]
-sqrt(u)
-.sqrt(u)
-\alpha = 1
 ?
 include("testJulia3.jl")
 import Pkg; Pkg.add("matplotlib")
@@ -263,3 +242,259 @@ tiptimes
 tiptimesdict
 tiptimesdict[1]
 exit()
+ls()
+ls
+list()
+list.files()
+Pkg.add("Distances") #if you don't have it
+using Distances
+y
+euclidean(rand(10), rand(10))
+finaltraitvals
+tipnamesdict
+tiptimesdict
+keys(tiptimesdict)
+valuestiptimesdict
+values(tiptimesdict)
+keys(finaltraitvalues)
+keys(finaltraitvals)
+values(finaltraitvals)
+?order
+res
+tipnames
+plot(tree)
+fieldnames(typeof(tree))
+testtips
+tiptimes
+v1 = rand(4)
+v2 = rand(4)
+euclidean(v1, v2)
+squaredeuclidean(v1, v2)
+euclidean(v1, v2)
+ collect(Iterators.flatten(Iterators.flatten(finaltraitvals)))
+ collect(Iterators.flatten(Iterators.flatten(res)))
+vals
+vals = rand(400)
+euclidean(vals, resvalsflat)
+euclidean(vals, resvalsflat)
+[24, 24, 234]
+[24, 24, 234]'
+res
+finaltraitvals
+collect(Iterators.flatten(res))
+mat
+dim(mat)
+diffusion(5, 1)
+P
+P
+p
+tree
+x0
+mat
+tree
+fieldnames(typeof(tree))
+tree.tipdata
+getheight(tree)
+tree
+getheight(tree, node.)))
+diffusion(x0, tspand)
+diffusion(x0, tspan)
+test
+menura(tree, x0, mat)
+predictTraitTree(tree, x0, mat)
+tree
+x0
+mat
+tiptimes
+tree
+remove(p)
+menura(tree, x0, mat, p)
+diffusion(x0, tspan, mat, p)
+diffusion(x0, tspan, mat, p)
+x0
+tspan
+mat
+p
+diffusion(x0, tspan, p)
+menura(tree)
+tree
+simulation(x0, mat, tspan, p)
+simulation(x0, mat, tspan, p)
+x0
+mat
+p
+tree
+x0
+mat
+p
+simulation(x0, mat, tspan, p)
+p
+x0
+simulation(x0, mat, tspan, p)
+ones(5)
+simulation(x0, mat, tspan, p)
+p[1]
+simulation(x0, mat, tspan, p)
+diffusion(x0, tspan, p)
+diffusion(x0, tspan, p)
+simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+round(-0.00006)
+abs(-.4)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+diffusion(x0, tspan, p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diag(4)
+I
+using LinearAlgebra
+I
+I[4,4]
+I
+test = simulation(x0, mat, tspan, p)
+I
+I3.5
+0.5I
+test = simulation(x0, mat, tspan, p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 10.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+sigma
+sigma_vec
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+diffusion(x0, (0.0, 100.0), p)
+round(-0.00001)
+sqrt(round(-0.00001))
+diffusion(x0, (0.0, 100.0), p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, tspan, p)
+test = simulation(x0, mat, (0.0, 100.0), p)
+test = simulation(x0, mat, (0.0, 100.0), p)
+tspan
+tspan
+plot(tree)
+tree.plot
+fieldnames(typeof(tree))
+tree.data
+tree.tipdata
+tree.nodes
+?"Ultrametric"
+plot(tr)
+Exponential(3)
+exp(23)
+heights(test)
+tree
+heights(tree)
+using Phylo;
+height(tree)
+height(tr)
+tree.heightstoRoot
+tree.heightstotoot
+tree.heightstoroot
+heightstoroot(tree)
+heightstoroot(tree)
+heightstoroot(tree).x
+heightstoroot(tree).x
+heightstoroot(tree)
+tst = heightstoroot(tree)
+test
+tst
+tst.x
+fieldnames(typeof(tst))
+tst.data
+tst.axes
+tst.axes[1]
+tst.axes[1][1]
+tst.data[1][1]
+tst.data[1]
+tst.data
+include("testJulia3.jl")
+include("testJulia3.jl")
+exit()
+include("testJulia3.jl")
+whos()
+whos()
+whos()
+using JLD2
+include("testJulia3.jl")
+whos()
+who()
+whos
+include("testJulia3.jl")
+varinfo()
+@save "test.jld"
+exit()
+using JLD2
+@load "test.jld"
+include("testJulia3.jl")
+varinfo()
+@save "test.jld"
+exit()
+using JLD2
+@load "test.jld"
