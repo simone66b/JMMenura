@@ -1,4 +1,5 @@
-using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots, KissABC; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots,
+Distances, KissABC; pyplot();
 import Phylo.API;
 
 ## Iris data:
@@ -76,17 +77,15 @@ tree = rand(tr);
 plot(tree)
 
 test = mysim(tree, x0, mat);
-testbranches = getbranches(test);
-tbr = collect(testbranches);
 
 #### get the last multivariate trait value in a branch
 testtips = collect(nodefilter(isleaf, test));
 res = Array{Vector{Float64}}(undef, length(testtips));
 tipnames = Array{String}(undef, length(testtips));
-
 tiptimes = Vector{Float64}();
 finaltraitvals = Dict();
 tiptimesdict = Dict();
+
 for i in 1:length(testtips) 
 res[i] = testtips[i].inbound.data["1"].u[end];
     tipnames[i] = testtips[i].name;
@@ -97,9 +96,9 @@ map((i, j) -> finaltraitvals[i] = j, tipnames, res);
 map((i, j) -> tiptimesdict[i] = j, tipnames, tiptimes);
 
 
-plot(res)
 
-
+###########################3 Plotting ###################################3
+testbranches = getbranches(test);
 plot(xlim = (0.0,1.0), ylim = (0.0, 10.0), zlim=(0.0, 10.0), legend=nothing,
      reuse=false)
 for i in testbranches
@@ -137,4 +136,3 @@ for i in testbranches
 end
 current()
 
-## savefig("trace.png")

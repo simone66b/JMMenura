@@ -1,4 +1,5 @@
 using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots, KissABC; pyplot();
+import Phylo.API;
 
 ## Iris data:
 
@@ -70,12 +71,34 @@ end # mysim
 ## tree = open(parsenewick, "tree.phy") Use if reading tree in from file
 ## We will create a random tree instead.
 
-tr = Ultrametric(100, 1.0);
+tr = Ultrametric(5, 1.0);
 tree = rand(tr);
 plot(tree)
 
 test = mysim(tree, x0, mat);
 testbranches = getbranches(test);
+tbr = collect(testbranches);
+
+#### get the last multivariate trait value in a branch
+testtips = collect(nodefilter(isleaf, test));
+res = Array{Vector{Float64}}(undef, length(testtips));
+tipnames = Array{String}(undef, length(testtips));
+
+tiptimes = Vector{Float64}();
+finaltraitvals = Dict();
+tiptimesdict = Dict();
+for i in 1:length(testtips) 
+res[i] = testtips[i].inbound.data["1"].u[end];
+    tipnames[i] = testtips[i].name;
+    push!(tiptimes, testtips[i].inbound.data["1"].t[end]);
+end
+
+map((i, j) -> finaltraitvals[i] = j, tipnames, res);
+map((i, j) -> tiptimesdict[i] = j, tipnames, tiptimes);
+
+
+plot(res)
+
 
 plot(xlim = (0.0,1.0), ylim = (0.0, 10.0), zlim=(0.0, 10.0), legend=nothing,
      reuse=false)
