@@ -45,6 +45,7 @@ x0
 ones(4)
 ones(4) - x0
 exit()
+<<<<<<< Updated upstream
 testbranches
 length(testbranches)
 testbranches
@@ -498,3 +499,6 @@ varinfo()
 exit()
 using JLD2
 @load "test.jld"
+=======
+exit()
+>>>>>>> Stashed changes
