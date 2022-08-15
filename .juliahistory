@@ -498,6 +498,9 @@ exit()
 >>>>>>> Stashed changes
 import Pkg; Pkg.add("Distances")
 p
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> main
 exit()
