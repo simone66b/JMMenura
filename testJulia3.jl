@@ -1,6 +1,6 @@
 using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots,
 Distances, KissABC, LinearAlgebra, JLD2; pyplot();
-import Phylo.API;
+## import Phylo.API;
 
 ## Iris data:
 
@@ -11,18 +11,18 @@ mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
 
 ## mat=Matrix(1.0I, 4, 4) 
 
-time_tot = 10.0
+time_tot = 1.0
 tspan = (0.0, time_tot)
 x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## actual iris means
-x0 = [0.8, 0.3, 0.375, 0.199]
+## x0 = [0.8, 0.3, 0.375, 0.199]
 ## tree = open(parsenewick, "tree.phy") Use if reading tree in from file
 ## We will create a random tree instead.
 
-alpha_vec = [10.0, 10.0, 10.0, 10.0]
-mu_vec = [0.5, 0.43, 0.5, 0.5]
+alpha_vec = [3.0, 3.0, 3.0, 3.0]
+mu_vec = x0 ##  [0.5, 0.43, 0.5, 0.5]
 sigma_vec = [1.0, 1.0, 1.0, 1.0]
 
-x0 = [0.5, 0.5, 0.5, 0.5]
+## x0 = [0.5, 0.5, 0.5, 0.5]
 p = [alpha_vec, mu_vec, sigma_vec]
 
 function simulation(x0, mat, tspan, p)
@@ -35,9 +35,9 @@ function diffusion(x0, tspan, p, dt=0.001)
 
         function diff(du, u, p, t)
             alpha, mu, sigma = p
-            ## du .= sigma ## would be OU
+            du .= sigma ## would be OU
             ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
-            du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
+            ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
         end # diff
 
      noise = CorrelatedWienerProcess(mat, tspan[1],
@@ -111,17 +111,17 @@ end # simulation
 ## euclidean(vals, resvalsflat)
 ###########################3 Plotting ###################################3
 testbranches = getbranches(test);
-    plot(xlim = (0.0,1.0), ylim = (0.0, 1.0), zlim=(0.0, 1.0), legend=nothing,
+    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
      reuse=false)
 for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
     myt = i.data["1"].t
-    display(plot!(myt, uu1[:, 1], uu1[:,2]))
+    plot!(myt, uu1[:, 1], uu1[:,2])
 end
 current()
 
-plot(xlim=(0.0,1.0), ylim= (0.0, 1.0), legend=nothing, reuse=false)
+plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
 for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
@@ -130,7 +130,7 @@ for i in testbranches
 end
 current()
 
-plot(xlim=(0.0,1.0), ylim= (0.0, 1.0), legend=nothing, reuse=false)
+plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
 for i in testbranches
     u1= i.data["1"].u
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
@@ -138,7 +138,7 @@ for i in testbranches
 end
 current()
 
-plot(xlim=(0.0,1.0), ylim= (0.0, 1.0), zlim=(0, 1.0), legend=nothing,
+plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
      reuse=false)
 for i in testbranches
     u1= i.data["1"].u
