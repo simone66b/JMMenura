@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream
+=======
+exit()
+import Pkg; Pkg.add("matplotlib")
+include("testJulia3.jl")
+include("testJulia3.jl")
+>>>>>>> Stashed changes
 exit()
 include("testJulia3.jl")
 include("testJulia3.jl")
@@ -493,6 +500,7 @@ varinfo()
 exit()
 using JLD2
 @load "test.jld"
+<<<<<<< Updated upstream
 =======
 exit()
 >>>>>>> Stashed changes
@@ -503,4 +511,8 @@ p
 >>>>>>> Stashed changes
 =======
 >>>>>>> main
+=======
+q()
+exit()
+>>>>>>> Stashed changes
 exit()
