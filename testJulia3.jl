@@ -1,31 +1,6 @@
-using DifferentialEquations, Phylo, Plots, Distributions, StatsPlots,
-Distances, KissABC, LinearAlgebra, JLD2; pyplot();
-## import Phylo.API;
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC; pyplot();
 
-## Iris data:
-
-mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
-      -0.1175698   1.0000000   -0.4284401  -0.3661259;
-       0.8717538  -0.4284401    1.0000000   0.9628654;
-       0.8179411  -0.3661259    0.9628654   1.0000000]
-
-## mat=Matrix(1.0I, 4, 4) 
-
-time_tot = 1.0
-tspan = (0.0, time_tot)
-x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## actual iris means
-## x0 = [0.8, 0.3, 0.375, 0.199]
-## tree = open(parsenewick, "tree.phy") Use if reading tree in from file
-## We will create a random tree instead.
-
-alpha_vec = [3.0, 3.0, 3.0, 3.0]
-mu_vec = x0 ##  [0.5, 0.43, 0.5, 0.5]
-sigma_vec = [1.0, 1.0, 1.0, 1.0]
-
-## x0 = [0.5, 0.5, 0.5, 0.5]
-p = [alpha_vec, mu_vec, sigma_vec]
-
-function simulation(x0, mat, tspan, p)
+function simulation(alpha, mu, sigma)
 function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
             alpha, mu, sigma = p
@@ -47,7 +22,7 @@ function diffusion(x0, tspan, p, dt=0.001)
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
-function menura(tree, x0, mat, p, t0 = 0.0, dt=0.001) 
+function menura!(tree, x0, mat, p, t0 = 0.0, dt=0.001) 
     function Recurse!(tree, node)
         if ismissing(node.inbound) ## the root node, to get started
             for i in 1:length(node.other) ## 'other' means branches
@@ -72,7 +47,7 @@ function menura(tree, x0, mat, p, t0 = 0.0, dt=0.001)
     nodeInit = getroot(tree)
     Recurse!(tree, nodeInit) # do the recursive simulations
     tree
-end # menura
+end # menura!
 
 function predictTraitTree(tree)
 
@@ -95,21 +70,44 @@ function predictTraitTree(tree)
     collect(Iterators.flatten(res))
 end # predictTraitTree
 
-
-    tr = Ultrametric(100);
-    tree = rand(tr);
-    plot(tree)
-    tree2  = menura(tree, x0, mat, p)
+   tree2  = menura!(tree, x0, mat, p)
     predictTraitTree(tree2);
-    tree2
 end # simulation
 
-### plot(tree)
- test = simulation(x0, mat, tspan, p)
+tree = open(parsenewick, "exampletree.phy")
+   ##  tr = Ultrametric(100);
+   ##  tree = rand(tr);
+    ## plot(tree)
+    mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
+           -0.1175698   1.0000000   -0.4284401  -0.3661259;
+           0.8717538  -0.4284401    1.0000000   0.9628654;
+           0.8179411  -0.3661259    0.9628654   1.0000000]
+    time_tot = 1.0
+    tspan = (0.0, time_tot)
+    x0 = [5.843333, 3.057333, 3.758000, 1.199333] ##
 
+    p = [alpha, mu, sigma]
+    ## tr = Ultrametric(20)
+## tree = rand(tr)
+
+alpha = [3.0, 3.0, 3.0, 3.0];
+mu = [5.843333, 3.057333, 3.758000, 1.199333]; ## Start at the trait means
+sigma = [1.0, 1.0, 1.0, 1.0];
+
+tst = simulation(alpha, mu, sigma)
+
+npar = 3 ## alpha mu, sigma of the SDE
+ndims = length(alpha_vec)
+
+priors = Array{Factored{ndims}}(undef, npar)
+
+alpha = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
+mu = [Factored(Normal(0, 1)) for i in 1:ndims]
+sigma = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
 
 ## euclidean(vals, resvalsflat)
 ###########################3 Plotting ###################################3
+
 testbranches = getbranches(test);
     plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
      reuse=false)
