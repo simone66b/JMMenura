@@ -1,83 +1,3 @@
-<<<<<<< Updated upstream
-=======
-exit()
-import Pkg; Pkg.add("matplotlib")
-include("testJulia3.jl")
-include("testJulia3.jl")
->>>>>>> Stashed changes
-exit()
-include("testJulia3.jl")
-include("testJulia3.jl")
-exit()
-plot(tree)
-plot(tree)
-tree
-using Pkg
-Pkg.add("KissABC.jl")
-using Pkg
-Pkg.add("KissABC")
-exit()
-include("testJulia3.jl")
-import Pkg; Pkg.add("KissABC")
-include("testJulia3.jl")
-include("testJulia3.jl")
-exit()
-ones(5)
-1
-xo
-x0
-1-x0
-ones(4) - x0
-ones(4)' - x0
-ones(4) - x0'
-ones(4)
-x0
-length(x0)
-ones(length(x0))
-mat
-x0
-eye(5)
-I(5)
-?"Identity"
-u\
- x0
-x0
-ones(4)
-ones(4) - x0
-exit()
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-testbranches
-length(testbranches)
-testbranches
-last(mat)
-mat
-textbranches[1]
-testbranches[1]
-tbr <- first(testbranches)
-nodes = getnoeds(test)
-nodes = getnodes(test)
-nodes
-gettips(test)
-collect(nodeiter(test))
-test2 = collect(nodeiter(test))
-test2
-length(test2)
-test2[1].u
-test2.data
-test2[1].data
-test2.data["1"].u
-testbranches[1].data["1"].u
-testbranches[1].data
-testbranches[1].data.u
-testbranches[1].data[1]
-testbranches[1].data[1, 2]
-nodenamefilter(test)
-nodenamefilter(istip, test)
-nodenamefilter(isroot, test)
-test
-collect(testbranches)
-collect(testbranches)[1]
 plot(tree)
 tree
 tree.names
@@ -515,4 +435,66 @@ p
 q()
 exit()
 >>>>>>> Stashed changes
+exit()
+plot(test)
+test
+exit()
+x0
+using Phylo
+plot(tree)
+plot(tree)
+menura(tree, x0, mat, p, t0=0.0, dt=0.001)
+)
+typeof(mu1)
+using Distributions
+using KissABC
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+using KissABC
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+Factored(Truncated(Normal(0, 10), 0),
+                 Truncated(Normal(0, 10), 0))
+Factored(Truncated(Normal(0, 10), 0))
+Truncated(Normal(0, 10), 0)
+prior = Truncated(Normal(0.0, 10.0), l=0.0, u=Inf)
+
+prior = Truncated(Normal(0.0, 10.0),0.0, Inf)
+exit()
+exit()
+]
+exit()
+import Pkg; Pkg.add("PyPlot")
+rand(prior1)
+rand(prior1)
+rand(prior1)
+rand(prior1)
+exit()
+typeof(prior1)
+Array{Factored{3}}(undef, 4)
+sz
+length(alpha_vec)
+ndims
+npar
+priors
+ ERROR: UndefVarError: ESS not defined
+rand(priors)
+rand.(priors)
+rand.(priors)
+rand(priors[1])
+priors
+rand.(priors)
+priors
+rand.(sigma)
+sigma
+flatten(rand.(alpha))
+collect(rand.(alpha))
+rand.(alpha)
+rand.(alpha)
+rand.(alpha)[1,]
+rand.(alpha)[1,][1]
+rand.(alpha)
+i for 1 in rand.(alpha)
+[i for 1 in rand.(alpha)]
+[i for i in rand.(alpha)]
+[i for i in rand.(alpha)[i]]
+q()
 exit()
