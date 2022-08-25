@@ -1,58 +1,3 @@
-plot(tree)
-tree
-tree.names
-collect(testbranches)[1]
-getleafnames(test)
-getlength(test)
-getlength(tree)
-collect(getnodes(test), isleaf)
-nodefilter(test, isleaf)
-nodefilter(isleaf, test)
-collect(nodefilter(isleaf, test))
-test3 = collect(nodefilter(isleaf, test))
-test3 = collect(nodefilter(isleaf, test));
-dim(test3)
-dims(test3)
-test3
-test3[1]
-length(test3[1])
-test3[1]
-testbranches = getbranches(test)
-testbranches = getbranches(test);
-nodefilter(test)
-nodefilter(isleaf, test)
-tst2 = nodefilter(isleaf, test);
-tst2[1]
-tst2 = collect(nodefilter(isleaf, test));
-tst[1]
-tst2[1]
-testtips.data
-testtips[1].data
-tbr[1]
-tbr[1].data
-tbr[1].data["1"].u
-last(tbr[1].data["1"].u)
-tbr[1].data["1"].u[4]
-tbr[1].data["1"].u[4,]
-tbr[1].data["1"].u
-tbr[1].data["1"].t
-tbr[3].data["1"].t
-tbr[3].data["1"].u
-tbr[3].data["1"].u[3]
-tbr[5].data["1"].u[3]
-last(tbr[5].data["1"].u, 1)
-testtips[1]
-testtips[1].branch
-testtips[1].incoming
-fields(testtips[1])
-fieldnames(testtips[1])
-fieldnames(test)
-fieldnames(tbr[1])
-typeof(testtips[1])
-testtips[1].branch
-fieldnames(typeof(testtips[1]))
-testtips[1].inbound
-testtips[1].inbound.u
 testtips[1].inbound
 testtips[1].inbound.data
 testtips[1].inbound.data["1"].u
@@ -498,3 +443,58 @@ i for 1 in rand.(alpha)
 [i for i in rand.(alpha)[i]]
 q()
 exit()
+tree
+x0
+length(x)
+rand(x0)
+x0
+rand(Normal(10))
+rand(Normal(10, 100))
+rand(Normal(10, 100,3))
+priors
+alpha1
+priors = [alpha1, mu1, sigma1]
+priors = [alpha1 mu1 sigma1]
+priors = [alpha1, mu1, sigma1]
+approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+ndims
+rand(priors)
+rand(priors)
+tst = smc(priors, cost)
+typeof(priors)
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+typeof(prior)
+typeof(priors)
+sample(priors)
+rand(priors)
+simulation(alpha1, mu1, sigma1)
+y
+euclidean(x, y)
+x
+y
+alpha1
+exit()
+ts <- (1,2,3,4)
+tst = (1,2,3,4)
+tst[1]
+tst[4]
+thetuple
+tuple
+tst[3:4]
+p
+alpha1
+mu1
+plot(res)
+res
+typeof(res)
+res[1]
+res[1][1]
+res[1].particles
+stephist(res[1].particles)
+plot(res[1].particles)
+plot(res[4].particles)
+plot(res[7].particles)
+plot(res[1].particles)
+plot(res[1].particles)
+stephist(res[1].particles)

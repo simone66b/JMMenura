@@ -1,7 +1,7 @@
 using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC; pyplot();
 
-function simulation(alpha, mu, sigma)
-function diffusion(x0, tspan, p, dt=0.001)
+function simulation(ams)
+    function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
             alpha, mu, sigma = p
             ## du .= alpha .* u would be BM with drift
@@ -71,10 +71,10 @@ function predictTraitTree(tree)
 end # predictTraitTree
 
    tree2  = menura!(tree, x0, mat, p)
-    predictTraitTree(tree2);
+   predictTraitTree(tree2);
 end # simulation
 
-tree = open(parsenewick, "exampletree.phy")
+## tree = open(parsenewick, "exampletree.phy")
    ##  tr = Ultrametric(100);
    ##  tree = rand(tr);
     ## plot(tree)
@@ -86,63 +86,44 @@ tree = open(parsenewick, "exampletree.phy")
     tspan = (0.0, time_tot)
     x0 = [5.843333, 3.057333, 3.758000, 1.199333] ##
 
-    p = [alpha, mu, sigma]
-    ## tr = Ultrametric(20)
-## tree = rand(tr)
 
-alpha = [3.0, 3.0, 3.0, 3.0];
-mu = [5.843333, 3.057333, 3.758000, 1.199333]; ## Start at the trait means
-sigma = [1.0, 1.0, 1.0, 1.0];
+tr = Ultrametric(200)
+tree = rand(tr)
 
-tst = simulation(alpha, mu, sigma)
+alpha1 = (3.0, 3.0, 3.0, 3.0)
+mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
+sigma1 = (1.0, 1.0, 1.0, 1.0);
+p = (alpha1, mu1, sigma1)
+
+tst = simulation(p)
 
 npar = 3 ## alpha mu, sigma of the SDE
-ndims = length(alpha_vec)
+ndims = length(alpha1)
 
-priors = Array{Factored{ndims}}(undef, npar)
+priors = Factored(Dirac(1),
+                  Dirac(1),
+                  Dirac(1),
+                  Dirac(1),
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
+Truncated(Normal(0, 3), 0, Inf),
+Truncated(Normal(0, 3), 0, Inf)
+)
 
-alpha = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
-mu = [Factored(Normal(0, 1)) for i in 1:ndims]
-sigma = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
+exampledat = simulation(p)
 
-## euclidean(vals, resvalsflat)
-###########################3 Plotting ###################################3
+function cost((alpha1, mu1, sigma1))
+    x=simulation((alpha1, mu1, sigma1))
+    y=exampledat
+    sqeuclidean(x, y)
+end #cost
 
-testbranches = getbranches(test);
-    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
-     reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    myt = i.data["1"].t
-    plot!(myt, uu1[:, 1], uu1[:,2])
-end
-current()
+approx_density = ApproxKernelizedPosterior(priors,cost,0.5)
+res = sample(approx_density,AIS(25),1000,ntransitions=100, discard_initial = 250)   
 
-plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    myt = i.data["1"].t
-    plot!(myt, uu1[:, 3])
-end
-current()
 
-plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    plot!(uu1[:,3], uu1[:, 1])
-end
-current()
-
-plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
-     reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    myt = i.data["1"].t
-    plot!(uu1[:,3], uu1[:, 1], uu1[:,2])
-end
-current()
-
+## ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
