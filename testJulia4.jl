@@ -100,10 +100,9 @@ tst = simulation(p)
 npar = 3 ## alpha mu, sigma of the SDE
 ndims = length(alpha1)
 
-priors = Factored(Dirac(1),
-                  Dirac(1),
-                  Dirac(1),
-                  Dirac(1),
+priors = Factored(
+                  Truncated(Normal(0, 3), 0, Inf),
+                  Truncated(Normal(0, 3), 0, Inf),
                   Truncated(Normal(0, 3), 0, Inf),
                   Truncated(Normal(0, 3), 0, Inf),
                   Truncated(Normal(0, 3), 0, Inf),
@@ -111,19 +110,18 @@ priors = Factored(Dirac(1),
                   Truncated(Normal(0, 3), 0, Inf),
                   Truncated(Normal(0, 3), 0, Inf),
 Truncated(Normal(0, 3), 0, Inf),
-Truncated(Normal(0, 3), 0, Inf)
-)
+Truncated(Normal(0, 3), 0, Inf))
 
 exampledat = simulation(p)
 
 function cost((alpha1, mu1, sigma1))
     x=simulation((alpha1, mu1, sigma1))
     y=exampledat
-    sqeuclidean(x, y)
+    euclidean(x, y)
 end #cost
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.5)
-res = sample(approx_density,AIS(25),1000,ntransitions=100, discard_initial = 250)   
+approx_density = ApproxKernelizedPosterior(priors,cost,0.05)
+res = sample(approx_density,AIS(25), MCMCThreads(), 1000, 4, ntransitions=100, discard_initial = 250)   
 
 
-## ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
+### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)

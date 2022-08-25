@@ -1,41 +1,3 @@
-testtips[1].inbound
-testtips[1].inbound.data
-testtips[1].inbound.data["1"].u
-testtips[1].inbound.data["1"].u
-res
-a = Vector(Float64, 3)
-a = Vector{Float64, 3}
-a = Vector{Float64}
-a[1] = .39587
-a
-a[]
-myvec = a[1:10]
-res[1]
-res[1:3] = [.3534 .35454 .354]
-C = Array{Float64}[] 
-C = Array{Float64, 4}[] 
-C[1] = [239874 23487 34587987]
-C[1] = [239874, 23487, 34587987]
-C = Array{Float64, undef, 0, 0}
-C = Array{Float64}(undef, 0, 0}
-C = Array{Float64}(undef, 0, 0)
-C = Array{Float64}(undef, 15, 1)
-C[1] = [234 432 213 123]
-C = Array{Matrix{Float64}}}(undef, 15, 1)
-C = Array{Matrix{Float64}}(undef, 15, 1)
-C[1] = [243 24 25 123]
-C
-length(testtips)
-length(res)
-length(res)
-res[1]
-res[1,1]
-typof(res)
-typeof(res)
-C = Array{Matrix{Float64}}(undef, 15, 1)
-C[1]
-C[1,1]
-C(1,1)
 C[1]
 C[,1]
 C[:1]
@@ -498,3 +460,41 @@ plot(res[7].particles)
 plot(res[1].particles)
 plot(res[1].particles)
 stephist(res[1].particles)
+priors
+priors[1]
+priors.p
+priors.p[1]
+typeof(priors)
+priors.p[3]
+?istuple
+?is_tuple
+test.p = (1,2)
+test =()
+test.p = (1,2)
+plot(res[1].particles)
+plot(res[4].particles)
+plot(res[8].particles)
+plot(res[12].particles)
+ressmc
+ressmc.p
+typeof(ressmc)
+ressmc.P
+ressmc.W
+ressmc.ϵ
+ressmc.P
+ressmc.P[1]
+ressmc.P[1]
+ressmc
+rssmc.P[1:100]
+ressmc.P[1:100]
+ressmc.P
+ressmc.A
+ressmc.P.A
+fieldnames(ressmc)
+ABCDE()
+rand(priors)
+Threads.nthreads()
+exit()
+Threads.nthreads()
+Threads.nthreads()
+exit()
