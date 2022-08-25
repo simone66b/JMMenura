@@ -1,4 +1,3 @@
-C[1]
 C[,1]
 C[:1]
 C = Array{Matrix{Float64}}[undef, 15, 1]
@@ -498,3 +497,4 @@ exit()
 Threads.nthreads()
 Threads.nthreads()
 exit()
+Threads.nthreads()

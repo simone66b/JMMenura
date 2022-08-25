@@ -121,7 +121,7 @@ function cost((alpha1, mu1, sigma1))
 end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.05)
-res = sample(approx_density,AIS(25), MCMCThreads(), 1000, 4, ntransitions=100, discard_initial = 250)   
+res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)   
 
 
 ### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
