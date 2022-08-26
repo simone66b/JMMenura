@@ -1,4 +1,4 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2; pyplot();
 
 function simulation(ams)
     function diffusion(x0, tspan, p, dt=0.001)
@@ -100,17 +100,20 @@ tst = simulation(p)
 npar = 3 ## alpha mu, sigma of the SDE
 ndims = length(alpha1)
 
-priors = Factored(
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf),
-    Truncated(Normal(0, 3), 0, Inf))
+# priors = Factored(
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf),
+#     Truncated(Normal(0, 3), 0, Inf))
+
+priordists = [Truncated(Normal(0,3), 0, Inf)]
+priors = Factored(repeat(priordists, 12)...,)
 
 exampledat = simulation(p)
 
@@ -120,12 +123,10 @@ function cost((alpha1, mu1, sigma1))
     euclidean(x, y)
 end #cost
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.05)
+approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
 res = sample(approx_density, AIS(25), 5000, ntransitions=100, discard_initial = 250)   
+
+save_object("ABCResults.jld2", res)
 
 ## res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)
 ### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
-
-alpha1 = (3.0, 3.0, 3.0, 3.0)
-mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
-sigma1 = (1.0, 1.0, 1.0, 1.0);
