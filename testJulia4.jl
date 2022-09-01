@@ -1,6 +1,6 @@
 using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
 
-function simulation(amscov)
+function simulation(amscov, tree)
     function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
             alpha, mu, sigma, cov1 = p
@@ -23,19 +23,20 @@ function simulation(amscov)
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
-function menura!(tree, x0, mat, p, t0 = 0.0, dt=0.001) 
+function menura!(tree, x0, t0 = 0.0, dt=0.001) 
     function Recurse!(tree, node)
         if ismissing(node.inbound) ## the root node, to get started
             for i in 1:length(node.other) ## 'other' means branches
                 node.other[i].data["1"]  = ## "1" is a placeholder for the Dict
-               diffusion(x0, (t0, getheight(tree, node.other[i].inout[2])), p);
+                diffusion(x0, (t0, getheight(tree, node.other[i].inout[2])),
+                          node.data["2"][i]);
             end
         else
             for i in 1:length(node.other) ## NB 'other' are branches here!
                 node.other[i].data["1"] =
                     diffusion(node.inbound.data["1"].u[end],
                        (getheight(tree, node), getheight(tree, node) +
-                        node.other[i].length), p);
+                        node.other[i].length),  node.data["2"][i]);
             end # for
         end
         for i in 1:length(node.other)
@@ -69,14 +70,21 @@ function predictTraitTree(tree)
     collect(Iterators.flatten(res))
 end # predictTraitTree
 
-   tree2  = menura!(tree, x0, mat, p)
-   predictTraitTree(tree2);
+function putp!(tree, p1, p2=p1)
+    for i in 1:length(tree.nodes) ## 'other' means branches
+        tree.nodes[i].data["2"] = (p1, p2)
+    end
+    tree
+end # putp!
+    
+    tree = putp!(tree, p)
+    tree2  = menura!(tree, x0)
+   (tree2, predictTraitTree(tree2))
+    ## tree2
 end # simulation
 
 ## tree = open(parsenewick, "exampletree.phy")
-   ##  tr = Ultrametric(100);
-   ##  tree = rand(tr);
-    ## plot(tree)
+
     mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
            -0.1175698   1.0000000   -0.4284401  -0.3661259;
            0.8717538  -0.4284401    1.0000000   0.9628654;
@@ -86,7 +94,7 @@ end # simulation
     x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## starting values
 
 
-tr = Ultrametric(50)
+tr = Ultrametric(100)
 tree = rand(tr)
 
 alpha1 = (3.0, 3.0, 3.0, 3.0)
@@ -111,16 +119,16 @@ ndims = length(alpha1)
 priordists = [Truncated(Normal(0,3), 0, Inf)]
 priors = Factored(repeat(priordists, 12)...,)
 
-exampledat = simulation(p)
+exampledat = simulation(p, tree)
 
 function cost((alpha1, mu1, sigma1, cov))
-    x=simulation((alpha1, mu1, sigma1, cov))
-    y=exampledat
+    x=simulation((alpha1, mu1, sigma1, cov), tree)[2]
+    y=exampledat[2]
     euclidean(x, y)
 end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 5000, ntransitions=100, discard_initial = 250)   
+res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
 
 save_object("ABCResults.jld2", res)
 
@@ -131,3 +139,43 @@ save_object("ABCResults.jld2", res)
     size = (400, 800),
     markersize = 20, 
     series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
+
+
+testbranches = getbranches(exampledat[1]);
+    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
+     reuse=false)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    myt = i.data["1"].t
+    plot!(myt, uu1[:, 1], uu1[:,2])
+end
+current()
+
+plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    myt = i.data["1"].t
+    plot!(myt, uu1[:, 3])
+end
+current()
+
+plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    plot!(uu1[:,3], uu1[:, 1])
+end
+current()
+
+plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
+     reuse=false)
+for i in testbranches
+    u1= i.data["1"].u
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    myt = i.data["1"].t
+    plot!(uu1[:,3], uu1[:, 1], uu1[:,2])
+end
+current()
+
