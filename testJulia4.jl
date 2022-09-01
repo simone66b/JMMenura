@@ -1,24 +1,25 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
 
 function simulation(amscov)
     function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
-            alpha, mu, sigma, cov = p
+            alpha, mu, sigma, cov1 = p
             ## du .= alpha .* u would be BM with drift
             du .= alpha .* (mu .- u) ## OU-like
         end # drift
 
         function diff(du, u, p, t)
-            alpha, mu, sigma, cov = p
+            alpha, mu, sigma, cov1 = p
             du .= sigma ## would be OU
             ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
             ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
         end # diff
-
-     noise = CorrelatedWienerProcess(mat, tspan[1],
-                                    zeros(dim(mat)),
-                                    zeros(dim(mat))) 
-    prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=cov)       
+        cov1=p[4]
+        noise = CorrelatedWienerProcess(cov1, tspan[1],
+                                        zeros(dim(cov1)),
+                                        zeros(dim(cov1)))
+      
+    prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=noise)       
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
@@ -82,7 +83,7 @@ end # simulation
            0.8179411  -0.3661259    0.9628654   1.0000000]
     time_tot = 1.0
     tspan = (0.0, time_tot)
-    x0 = [5.843333, 3.057333, 3.758000, 1.199333] ##
+    x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## starting values
 
 
 tr = Ultrametric(50)
@@ -92,9 +93,6 @@ alpha1 = (3.0, 3.0, 3.0, 3.0)
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
 p = (alpha1, mu1, sigma1, mat)
-
-tst = simulation(p)
-
 npar = 3 ## alpha mu, sigma of the SDE
 ndims = length(alpha1)
 
@@ -129,3 +127,7 @@ save_object("ABCResults.jld2", res)
 ## res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)
 ### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
 
+ plot(tree,
+    size = (400, 800),
+    markersize = 20, 
+    series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
