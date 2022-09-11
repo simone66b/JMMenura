@@ -127,10 +127,10 @@ function cost((alpha1, mu1, sigma1, cov))
     euclidean(x, y)
 end #cost
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
+## approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+## res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
 
-save_object("ABCResults.jld2", res)
+## save_object("ABCResults.jld2", res)
 
 ## res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)
 ### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
