@@ -1,4 +1,4 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra, GeometricIntegratorsDiffEq; pyplot();
 
 function simulation(amscov, tree)
     function diffusion(x0, tspan, p, dt=0.001)
