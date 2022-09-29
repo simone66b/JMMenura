@@ -71,7 +71,8 @@ function predictTraitTree(tree)
 end # predictTraitTree
 
    tree2  = menura!(tree, x0, mat, p)
-    predictTraitTree(tree2);
+    ##  predictTraitTree(tree2);
+    tree2
 end # simulation
 
 tree = open(parsenewick, "exampletree.phy")
@@ -86,29 +87,30 @@ tree = open(parsenewick, "exampletree.phy")
     tspan = (0.0, time_tot)
     x0 = [5.843333, 3.057333, 3.758000, 1.199333] ##
 
-    p = [alpha, mu, sigma]
+
     ## tr = Ultrametric(20)
 ## tree = rand(tr)
 
-alpha = [3.0, 3.0, 3.0, 3.0];
-mu = [5.843333, 3.057333, 3.758000, 1.199333]; ## Start at the trait means
-sigma = [1.0, 1.0, 1.0, 1.0];
+alpha1 = [3.0, 3.0, 3.0, 3.0]
+mu1 = [5.843333, 3.057333, 3.758000, 1.199333]; ## Start at the trait means
+sigma1 = [1.0, 1.0, 1.0, 1.0];
+p = [alpha1, mu1, sigma1]
 
-tst = simulation(alpha, mu, sigma)
+tst = simulation(alpha1, mu1, sigma1)
 
 npar = 3 ## alpha mu, sigma of the SDE
-ndims = length(alpha_vec)
+ndims = length(alpha1)
 
 priors = Array{Factored{ndims}}(undef, npar)
 
-alpha = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
-mu = [Factored(Normal(0, 1)) for i in 1:ndims]
-sigma = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
+alpha1 = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
+mu1 = [Factored(Normal(0, 1)) for i in 1:ndims]
+sigma1 = [Factored(Truncated(Normal(0, 10), 0, Inf)) for i in 1:ndims]
 
 ## euclidean(vals, resvalsflat)
 ###########################3 Plotting ###################################3
 
-testbranches = getbranches(test);
+testbranches = getbranches(tst);
     plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
      reuse=false)
 for i in testbranches

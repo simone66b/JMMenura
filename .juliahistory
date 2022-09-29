@@ -1,329 +1,3 @@
-plot(tree)
-tree
-tree.names
-collect(testbranches)[1]
-getleafnames(test)
-getlength(test)
-getlength(tree)
-collect(getnodes(test), isleaf)
-nodefilter(test, isleaf)
-nodefilter(isleaf, test)
-collect(nodefilter(isleaf, test))
-test3 = collect(nodefilter(isleaf, test))
-test3 = collect(nodefilter(isleaf, test));
-dim(test3)
-dims(test3)
-test3
-test3[1]
-length(test3[1])
-test3[1]
-testbranches = getbranches(test)
-testbranches = getbranches(test);
-nodefilter(test)
-nodefilter(isleaf, test)
-tst2 = nodefilter(isleaf, test);
-tst2[1]
-tst2 = collect(nodefilter(isleaf, test));
-tst[1]
-tst2[1]
-testtips.data
-testtips[1].data
-tbr[1]
-tbr[1].data
-tbr[1].data["1"].u
-last(tbr[1].data["1"].u)
-tbr[1].data["1"].u[4]
-tbr[1].data["1"].u[4,]
-tbr[1].data["1"].u
-tbr[1].data["1"].t
-tbr[3].data["1"].t
-tbr[3].data["1"].u
-tbr[3].data["1"].u[3]
-tbr[5].data["1"].u[3]
-last(tbr[5].data["1"].u, 1)
-testtips[1]
-testtips[1].branch
-testtips[1].incoming
-fields(testtips[1])
-fieldnames(testtips[1])
-fieldnames(test)
-fieldnames(tbr[1])
-typeof(testtips[1])
-testtips[1].branch
-fieldnames(typeof(testtips[1]))
-testtips[1].inbound
-testtips[1].inbound.u
-testtips[1].inbound
-testtips[1].inbound.data
-testtips[1].inbound.data["1"].u
-testtips[1].inbound.data["1"].u
-res
-a = Vector(Float64, 3)
-a = Vector{Float64, 3}
-a = Vector{Float64}
-a[1] = .39587
-a
-a[]
-myvec = a[1:10]
-res[1]
-res[1:3] = [.3534 .35454 .354]
-C = Array{Float64}[] 
-C = Array{Float64, 4}[] 
-C[1] = [239874 23487 34587987]
-C[1] = [239874, 23487, 34587987]
-C = Array{Float64, undef, 0, 0}
-C = Array{Float64}(undef, 0, 0}
-C = Array{Float64}(undef, 0, 0)
-C = Array{Float64}(undef, 15, 1)
-C[1] = [234 432 213 123]
-C = Array{Matrix{Float64}}}(undef, 15, 1)
-C = Array{Matrix{Float64}}(undef, 15, 1)
-C[1] = [243 24 25 123]
-C
-length(testtips)
-length(res)
-length(res)
-res[1]
-res[1,1]
-typof(res)
-typeof(res)
-C = Array{Matrix{Float64}}(undef, 15, 1)
-C[1]
-C[1,1]
-C(1,1)
-C[1]
-C[,1]
-C[:1]
-C = Array{Matrix{Float64}}[undef, 15, 1]
-C = Array{Matrix{Float64}}(undef, 15, 1)
-C[1] = .4
-C[1] = [.3 .4]
-C[2] = [.3 .4]
-C[2] = [.3 .4, .3]
-C[2] = [.3 .4 .3]
-C
-length(testtips)
-finaltraitvals
-finaltraitvals'
-as.matrix(final.traitvals)
-[finaltraitvals]
-typeof(finaltraitvals)
-res
-res
-fieldnames(testtips[1])
-fieldnames(testtips)
-fieldnames(typeof(testtips))
-fieldnames(typeof(testbranches))
-testbranches.x
-test.branches.x[3]
-test.branches[3].x
-fieldnames(typeof(testbranches))
-testbranches.x
-testbranches.x[1]
-[100]
-testbranches.x[100]
-testbranches.x[394]
-fieldnames(typeof(testtips))
-fieldnames(typeof(testtips[1]))
-testtips[1].name
-res
-tipnames
-tipnames[1] = "i"
-tipnames
-tipnames
-Array()
-vcat(res, tipnames)
-hcat(res, tipnames)
-endtraits["tip 1"]
-mydict
-tipnames
-res
-mydict
-mydict["tip 4"]
-tipnames[4]
-res[4]
-res
- testtips[1].inbound.data["1"].t[end]
- testtips[1].inbound.data["1"].t[end]
-finaltipnames
-finaltraitvals
-finaltraitvals
-finaltraitvals
-finaltraitvals
-testtips[1].height
-fieldnames(typeof(testtips[1]))
-testtips[1].inbound.data["1"].t[end]
- testtips[i].inbound.data["1"].t[end]
- testtips[1].inbound.data["1"].t[end]
-i = 1
- testtips[1].inbound.data["1"].t[end]
-typeof(tiptimes)
-typeof(testtips[i].inbound.data["1"].t[end])
-finaltraitvals
-tiptimes
-tiptimesdict
-tiptimesdict[1]
-exit()
-ls()
-ls
-list()
-list.files()
-Pkg.add("Distances") #if you don't have it
-using Distances
-y
-euclidean(rand(10), rand(10))
-finaltraitvals
-tipnamesdict
-tiptimesdict
-keys(tiptimesdict)
-valuestiptimesdict
-values(tiptimesdict)
-keys(finaltraitvalues)
-keys(finaltraitvals)
-values(finaltraitvals)
-?order
-res
-tipnames
-plot(tree)
-fieldnames(typeof(tree))
-testtips
-tiptimes
-v1 = rand(4)
-v2 = rand(4)
-euclidean(v1, v2)
-squaredeuclidean(v1, v2)
-euclidean(v1, v2)
- collect(Iterators.flatten(Iterators.flatten(finaltraitvals)))
- collect(Iterators.flatten(Iterators.flatten(res)))
-vals
-vals = rand(400)
-euclidean(vals, resvalsflat)
-euclidean(vals, resvalsflat)
-[24, 24, 234]
-[24, 24, 234]'
-res
-finaltraitvals
-collect(Iterators.flatten(res))
-mat
-dim(mat)
-diffusion(5, 1)
-P
-P
-p
-tree
-x0
-mat
-tree
-fieldnames(typeof(tree))
-tree.tipdata
-getheight(tree)
-tree
-getheight(tree, node.)))
-diffusion(x0, tspand)
-diffusion(x0, tspan)
-test
-menura(tree, x0, mat)
-predictTraitTree(tree, x0, mat)
-tree
-x0
-mat
-tiptimes
-tree
-remove(p)
-menura(tree, x0, mat, p)
-diffusion(x0, tspan, mat, p)
-diffusion(x0, tspan, mat, p)
-x0
-tspan
-mat
-p
-diffusion(x0, tspan, p)
-menura(tree)
-tree
-simulation(x0, mat, tspan, p)
-simulation(x0, mat, tspan, p)
-x0
-mat
-p
-tree
-x0
-mat
-p
-simulation(x0, mat, tspan, p)
-p
-x0
-simulation(x0, mat, tspan, p)
-ones(5)
-simulation(x0, mat, tspan, p)
-p[1]
-simulation(x0, mat, tspan, p)
-diffusion(x0, tspan, p)
-diffusion(x0, tspan, p)
-simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-round(-0.00006)
-abs(-.4)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-test = simulation(x0, mat, tspan, p)
-diffusion(x0, tspan, p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diag(4)
-I
-using LinearAlgebra
-I
-I[4,4]
-I
-test = simulation(x0, mat, tspan, p)
-I
-I3.5
-0.5I
-test = simulation(x0, mat, tspan, p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
@@ -497,4 +171,330 @@ i for 1 in rand.(alpha)
 [i for i in rand.(alpha)]
 [i for i in rand.(alpha)[i]]
 q()
+exit()
+tree
+x0
+length(x)
+rand(x0)
+x0
+rand(Normal(10))
+rand(Normal(10, 100))
+rand(Normal(10, 100,3))
+priors
+alpha1
+priors = [alpha1, mu1, sigma1]
+priors = [alpha1 mu1 sigma1]
+priors = [alpha1, mu1, sigma1]
+approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+ndims
+rand(priors)
+rand(priors)
+tst = smc(priors, cost)
+typeof(priors)
+prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
+typeof(prior)
+typeof(priors)
+sample(priors)
+rand(priors)
+simulation(alpha1, mu1, sigma1)
+y
+euclidean(x, y)
+x
+y
+alpha1
+exit()
+ts <- (1,2,3,4)
+tst = (1,2,3,4)
+tst[1]
+tst[4]
+thetuple
+tuple
+tst[3:4]
+p
+alpha1
+mu1
+plot(res)
+res
+typeof(res)
+res[1]
+res[1][1]
+res[1].particles
+stephist(res[1].particles)
+plot(res[1].particles)
+plot(res[4].particles)
+plot(res[7].particles)
+plot(res[1].particles)
+plot(res[1].particles)
+stephist(res[1].particles)
+priors
+priors[1]
+priors.p
+priors.p[1]
+typeof(priors)
+priors.p[3]
+?istuple
+?is_tuple
+test.p = (1,2)
+test =()
+test.p = (1,2)
+plot(res[1].particles)
+plot(res[4].particles)
+plot(res[8].particles)
+plot(res[12].particles)
+ressmc
+ressmc.p
+typeof(ressmc)
+ressmc.P
+ressmc.W
+ressmc.ϵ
+ressmc.P
+ressmc.P[1]
+ressmc.P[1]
+ressmc
+rssmc.P[1:100]
+ressmc.P[1:100]
+ressmc.P
+ressmc.A
+ressmc.P.A
+fieldnames(ressmc)
+ABCDE()
+rand(priors)
+Threads.nthreads()
+exit()
+Threads.nthreads()
+Threads.nthreads()
+exit()
+Threads.nthreads()
+priordists
+rand(priordists)
+rand(priordists)
+repeat(priordists, 12)
+repeat((priordists), 12)
+priors
+using JLD2
+y
+using JLD2
+save_object("ABCResults.jld2", res)
+test = read("ABCResults.jld2")
+test
+using JLD2
+res
+load_object("ABCResults.jld2")
+exit()
+p[4]
+using Distributions
+rand(InverseWishart(mat, 10))
+using Distributions
+rand(InverseWishart(mat, 10))
+rand(InverseWishart(10, mat))
+mat
+rand(InverseWishart(1000, mat))
+rand(InverseWishart(3, mat))
+rand(InverseWishart(4, mat))
+tst = rand(InverseWishart(4, mat))
+tst/diag(tst)
+tst/diagonal(tst)
+cor(InverseWishart(4, mat))
+using StatsBase
+y
+cor(InverseWishart(4, mat))
+cor(InverseWishart)
+mat
+mat/3.0
+mat
+dim
+dim(mat)
+using LinearAlgebra
+Diagonal(mat)
+?repeat
+using LinearAlgebra
+Is = sqrt.(1.0/Diagonal(mat))
+Is = sqrt.(1.0/.Diagonal(mat))
+Is = sqrt.(1.0 ./ Diagonal(mat))
+mat
+mat
+Is
+mat
+cov2cor(mat, Diagonal(mat))
+cov2cor(mat, [1,1,1,1])
+mat
+diag(mat)
+cov2cor(mat, diag(mat))
+q()
+exit()
+import Pkg; Pkg.add("JLD2")
+(3.0, 3.0, 3.0, 3.0)
+p
+x0
+tspan
+p
+dt
+diffusion(x0, tspan, p)
+diffusion(x0, tspan, p)
+diffusion(x0, tspan, p)
+cov = mat
+p
+p[4]
+cov=p[4]
+cov1 = p[4]
+dt=0.001
+tr = Ultrametric(10)
+tree = rand(tr)
+genodes(tree)
+getnodes(tree)
+fieldnames(typeof(tree))
+tree.data
+plot(tree)
+plot(hummers,
+    size = (400, 800),
+    linecolor = :orange, linewidth = 5,
+    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
+    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
+    tipfont = (4,))
+)
+plot(tree,
+    size = (400, 800),,
+    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
+    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
+    tipfont = (4,))
+)
+plot(tree,
+    size = (400, 800),
+    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
+    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
+    tipfont = (4,))
+)
+plot(tree,
+    size = (400, 800),
+    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
+    series_annotations = text.(1:nnodes(tree), 5, :center, :center, :white,
+    tipfont = (4,))
+)
+plot(tree,
+    size = (400, 800),
+    markersize = 100, 
+    series_annotations = text.(1:nnodes(tree), 5, :center, :center, :white
+)
+)
+nnodes(tree)
+1:nnodes(tree)
+getnodes(tree)
+getbranches(tree)
+tree
+getbranches(tree)
+length(getbranches(tree))
+tst = getbranches(tree)
+tst[1]
+fieldnames(typeof(tst))
+tst.x
+length(tst.x)
+getnodes(tree)
+p
+putp!(tree, p)
+fieldnames(typeof(tree))
+tree.nodedict
+tree.nodes
+fieldnames(typeof(tree))
+tree.nodedict
+tree.nodes[2]
+tree.nodes
+fieldnames(typeof(tree))
+tree.name
+tree.roots
+tree.branches
+tree.nodes
+tree.nodes[11:end]
+tree.node
+tree.nodes
+tree.branches
+tree.branches
+tree.branches[1]
+tree.branches[10]
+tree.branches[11]
+tree.branches[12]
+tree.branches
+fieldnames(typeof(tree))
+fieldnames(typeof(tree.nodes))
+tree.nodedict
+fieldnames(typeof(tree.nodes))
+fieldnames(typeof(tree))
+tree.data
+ntips(tree)
+tree.branch[1]
+tree.branches[1]
+tree.branches[end]
+tree.other
+tree.inbound
+tree.node
+tree.nodes
+tree.nodes[1]
+fieldnames(tree.nodes[1])
+fieldnames(typeof(tree.nodes[1]))
+length(tree.nodes)
+fieldnames(typeof(tree.nodes[1]))
+tree.nodes[1].inbound
+tree.nodes[1].other
+fieldnames(typeof(tree.nodes[1].other))
+tree.nodes[1].other
+fieldnames(typeof(tree.nodes[1].other))
+putp!(tree, p)
+length(tree.nodes)
+putp!(tree, p)
+tree.node
+tree.nodes
+putp!(tree, p)
+p
+putp!(tree, p)
+tree
+tree.node[1].data["2"]
+tree.nodes[1].data["2"]
+tree.nodes[1].data["1"]
+fieldnames(typeof(tree.nodes[1]))
+fieldnames(typeof(tree.nodes[3]))
+putp!(tree, p)
+tree
+tree.node[1]
+tree.nodes[1]
+tree.nodes[1].data
+tst = tree.nodes[1].data
+tst
+tst["2"]
+tst["2"][1]
+tst["2"][2]
+tree.nodes
+tree.nodes[1].data
+tree.nodes[1].data
+p1
+p2
+p
+tree.nodes[1].data
+length(tree.nodes[1].data)
+tree.nodes[1].data
+tree.nodes[1].data[1]
+tree.nodes[1].data["1"]
+tree.nodes[1].data["2"]
+tree.nodes[1].other
+tree.nodes[1].other[1]
+tree.nodes[1].other
+tree.nodes[1].data
+tree.nodes[1].other
+tree.nodes[1].other.data["2"]
+tree.nodes[1].other[1]
+tree.nodes[1].other.data
+tree.nodes[1].other
+fieldnames(typeof(tree.nodes[1].other)
+)
+nodeInit
+tree.nodes[1].data
+)
+tree
+exit()
+pwd()
+pwd()(
+)
+pwd()
+exit()
+q()
+exit()
 exit()
