@@ -7,12 +7,6 @@ diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
-diffusion(x0, (0.0, 10.0), p)
 diffusion(x0, (0.0, 100.0), p)
 diffusion(x0, (0.0, 100.0), p)
 diffusion(x0, (0.0, 100.0), p)
@@ -498,3 +492,20 @@ exit()
 q()
 exit()
 exit()
+?println
+x0 = [1.5, 3; 3, 1.5]
+x0 = [1.5, 3 3, 1.5]
+x0 = [1.5, 3, 3, 1.5]
+x0 = [1.5 3; 3 1.5]
+ function drift(du, u, p, t)
+            alpha, mu, sigma = p
+            ## du .= alpha .* u would be BM with drift
+            du = alpha * (mu - u) ## OU-like
+        end # drift
+
+        function diff(du, u, p, t)
+            alpha, mu, sigma = p
+            du = sigma ## would be OU
+            ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
+            ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
+        end # diff
