@@ -1,4 +1,3 @@
-using Phylo;
 height(tree)
 height(tr)
 tree.heightstoRoot
@@ -497,4 +496,5 @@ sde
 ode = ODE((t, x, ẋ) -> ẋ[1] = x[1], [1.0]);
 int = Integrator(ode, TableauExplicitEuler(), 0.1);
 sol = integrate(ode, int, 10);
+exit()
 exit()
