@@ -1,5 +1,5 @@
 using DifferentialEquations, Phylo, Plots, Distributions, Statistics,
-    Distances, KissABC, JLD2, LinearAlgebra, pyplot();
+    Distances, KissABC, JLD2, LinearAlgebra; pyplot();
 
 
         function drift(du, u, p, t)
@@ -60,3 +60,43 @@ sde = SDE(1, 1, v, B, t0, q0; parameters=p)
 
 
 int = Integrator(sde, TableauImplicitEuler(), 0.001)
+
+#####################################################################
+
+P0 = [ 2.5 .5; .5 2.5] ## 2 x 2 positive definite matrix
+
+function LB(X, Y)
+    X*Y - Y*X ### matrix commutator
+end;
+
+
+    PO = schur(P0)
+PO.vectors * PO.Schur * PO.vectors'
+
+## PO.vectors is skew-symmetric.
+
+Q0 = PO.vectors;
+
+function A(t, Q0)
+    t * Q0;
+end;
+
+G = [0 -1; 1 0]
+A = schur(G).vectors
+
+    function drift(u, p, t)
+        G = p
+        du .= 1.0 .* t .* G ## a = 1.0 for example
+    end # drift
+
+function diffusion(u, p, t)
+    G = p
+    du = 2.0 * G ## constant diffusion b= 2 for example
+end
+
+time_tot = 1.0
+tspan = (0.0, time_tot)
+u0 = [0 0 ; 0 0]
+prob = SDEProblem(drift, diffusion, u0, tspan, p=p)
+
+sol = solve(prob,EM(), p=p, dt=0.001)
