@@ -1,440 +1,3 @@
-@save "test.jld"
-exit()
-using JLD2
-@load "test.jld"
-include("testJulia3.jl")
-varinfo()
-@save "test.jld"
-exit()
-using JLD2
-@load "test.jld"
-<<<<<<< Updated upstream
-=======
-exit()
->>>>>>> Stashed changes
-import Pkg; Pkg.add("Distances")
-p
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> main
-=======
-q()
-exit()
->>>>>>> Stashed changes
-exit()
-plot(test)
-test
-exit()
-x0
-using Phylo
-plot(tree)
-plot(tree)
-menura(tree, x0, mat, p, t0=0.0, dt=0.001)
-)
-typeof(mu1)
-using Distributions
-using KissABC
-prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
-using KissABC
-prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
-Factored(Truncated(Normal(0, 10), 0),
-                 Truncated(Normal(0, 10), 0))
-Factored(Truncated(Normal(0, 10), 0))
-Truncated(Normal(0, 10), 0)
-prior = Truncated(Normal(0.0, 10.0), l=0.0, u=Inf)
-
-prior = Truncated(Normal(0.0, 10.0),0.0, Inf)
-exit()
-exit()
-]
-exit()
-import Pkg; Pkg.add("PyPlot")
-rand(prior1)
-rand(prior1)
-rand(prior1)
-rand(prior1)
-exit()
-typeof(prior1)
-Array{Factored{3}}(undef, 4)
-sz
-length(alpha_vec)
-ndims
-npar
-priors
- ERROR: UndefVarError: ESS not defined
-rand(priors)
-rand.(priors)
-rand.(priors)
-rand(priors[1])
-priors
-rand.(priors)
-priors
-rand.(sigma)
-sigma
-flatten(rand.(alpha))
-collect(rand.(alpha))
-rand.(alpha)
-rand.(alpha)
-rand.(alpha)[1,]
-rand.(alpha)[1,][1]
-rand.(alpha)
-i for 1 in rand.(alpha)
-[i for 1 in rand.(alpha)]
-[i for i in rand.(alpha)]
-[i for i in rand.(alpha)[i]]
-q()
-exit()
-tree
-x0
-length(x)
-rand(x0)
-x0
-rand(Normal(10))
-rand(Normal(10, 100))
-rand(Normal(10, 100,3))
-priors
-alpha1
-priors = [alpha1, mu1, sigma1]
-priors = [alpha1 mu1 sigma1]
-priors = [alpha1, mu1, sigma1]
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
-ndims
-rand(priors)
-rand(priors)
-tst = smc(priors, cost)
-typeof(priors)
-prior=Factored(Uniform(1,3), Truncated(Normal(0,0.1), 0, 100))
-typeof(prior)
-typeof(priors)
-sample(priors)
-rand(priors)
-simulation(alpha1, mu1, sigma1)
-y
-euclidean(x, y)
-x
-y
-alpha1
-exit()
-ts <- (1,2,3,4)
-tst = (1,2,3,4)
-tst[1]
-tst[4]
-thetuple
-tuple
-tst[3:4]
-p
-alpha1
-mu1
-plot(res)
-res
-typeof(res)
-res[1]
-res[1][1]
-res[1].particles
-stephist(res[1].particles)
-plot(res[1].particles)
-plot(res[4].particles)
-plot(res[7].particles)
-plot(res[1].particles)
-plot(res[1].particles)
-stephist(res[1].particles)
-priors
-priors[1]
-priors.p
-priors.p[1]
-typeof(priors)
-priors.p[3]
-?istuple
-?is_tuple
-test.p = (1,2)
-test =()
-test.p = (1,2)
-plot(res[1].particles)
-plot(res[4].particles)
-plot(res[8].particles)
-plot(res[12].particles)
-ressmc
-ressmc.p
-typeof(ressmc)
-ressmc.P
-ressmc.W
-ressmc.ϵ
-ressmc.P
-ressmc.P[1]
-ressmc.P[1]
-ressmc
-rssmc.P[1:100]
-ressmc.P[1:100]
-ressmc.P
-ressmc.A
-ressmc.P.A
-fieldnames(ressmc)
-ABCDE()
-rand(priors)
-Threads.nthreads()
-exit()
-Threads.nthreads()
-Threads.nthreads()
-exit()
-Threads.nthreads()
-priordists
-rand(priordists)
-rand(priordists)
-repeat(priordists, 12)
-repeat((priordists), 12)
-priors
-using JLD2
-y
-using JLD2
-save_object("ABCResults.jld2", res)
-test = read("ABCResults.jld2")
-test
-using JLD2
-res
-load_object("ABCResults.jld2")
-exit()
-p[4]
-using Distributions
-rand(InverseWishart(mat, 10))
-using Distributions
-rand(InverseWishart(mat, 10))
-rand(InverseWishart(10, mat))
-mat
-rand(InverseWishart(1000, mat))
-rand(InverseWishart(3, mat))
-rand(InverseWishart(4, mat))
-tst = rand(InverseWishart(4, mat))
-tst/diag(tst)
-tst/diagonal(tst)
-cor(InverseWishart(4, mat))
-using StatsBase
-y
-cor(InverseWishart(4, mat))
-cor(InverseWishart)
-mat
-mat/3.0
-mat
-dim
-dim(mat)
-using LinearAlgebra
-Diagonal(mat)
-?repeat
-using LinearAlgebra
-Is = sqrt.(1.0/Diagonal(mat))
-Is = sqrt.(1.0/.Diagonal(mat))
-Is = sqrt.(1.0 ./ Diagonal(mat))
-mat
-mat
-Is
-mat
-cov2cor(mat, Diagonal(mat))
-cov2cor(mat, [1,1,1,1])
-mat
-diag(mat)
-cov2cor(mat, diag(mat))
-q()
-exit()
-import Pkg; Pkg.add("JLD2")
-(3.0, 3.0, 3.0, 3.0)
-p
-x0
-tspan
-p
-dt
-diffusion(x0, tspan, p)
-diffusion(x0, tspan, p)
-diffusion(x0, tspan, p)
-cov = mat
-p
-p[4]
-cov=p[4]
-cov1 = p[4]
-dt=0.001
-tr = Ultrametric(10)
-tree = rand(tr)
-genodes(tree)
-getnodes(tree)
-fieldnames(typeof(tree))
-tree.data
-plot(tree)
-plot(hummers,
-    size = (400, 800),
-    linecolor = :orange, linewidth = 5,
-    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
-    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
-    tipfont = (4,))
-)
-plot(tree,
-    size = (400, 800),,
-    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
-    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
-    tipfont = (4,))
-)
-plot(tree,
-    size = (400, 800),
-    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
-    series_annotations = text.(1:nnodes(hummers), 5, :center, :center, :white,
-    tipfont = (4,))
-)
-plot(tree,
-    size = (400, 800),
-    markersize = 10, markercolor = :steelblue, markerstrokecolor = :white,
-    series_annotations = text.(1:nnodes(tree), 5, :center, :center, :white,
-    tipfont = (4,))
-)
-plot(tree,
-    size = (400, 800),
-    markersize = 100, 
-    series_annotations = text.(1:nnodes(tree), 5, :center, :center, :white
-)
-)
-nnodes(tree)
-1:nnodes(tree)
-getnodes(tree)
-getbranches(tree)
-tree
-getbranches(tree)
-length(getbranches(tree))
-tst = getbranches(tree)
-tst[1]
-fieldnames(typeof(tst))
-tst.x
-length(tst.x)
-getnodes(tree)
-p
-putp!(tree, p)
-fieldnames(typeof(tree))
-tree.nodedict
-tree.nodes
-fieldnames(typeof(tree))
-tree.nodedict
-tree.nodes[2]
-tree.nodes
-fieldnames(typeof(tree))
-tree.name
-tree.roots
-tree.branches
-tree.nodes
-tree.nodes[11:end]
-tree.node
-tree.nodes
-tree.branches
-tree.branches
-tree.branches[1]
-tree.branches[10]
-tree.branches[11]
-tree.branches[12]
-tree.branches
-fieldnames(typeof(tree))
-fieldnames(typeof(tree.nodes))
-tree.nodedict
-fieldnames(typeof(tree.nodes))
-fieldnames(typeof(tree))
-tree.data
-ntips(tree)
-tree.branch[1]
-tree.branches[1]
-tree.branches[end]
-tree.other
-tree.inbound
-tree.node
-tree.nodes
-tree.nodes[1]
-fieldnames(tree.nodes[1])
-fieldnames(typeof(tree.nodes[1]))
-length(tree.nodes)
-fieldnames(typeof(tree.nodes[1]))
-tree.nodes[1].inbound
-tree.nodes[1].other
-fieldnames(typeof(tree.nodes[1].other))
-tree.nodes[1].other
-fieldnames(typeof(tree.nodes[1].other))
-putp!(tree, p)
-length(tree.nodes)
-putp!(tree, p)
-tree.node
-tree.nodes
-putp!(tree, p)
-p
-putp!(tree, p)
-tree
-tree.node[1].data["2"]
-tree.nodes[1].data["2"]
-tree.nodes[1].data["1"]
-fieldnames(typeof(tree.nodes[1]))
-fieldnames(typeof(tree.nodes[3]))
-putp!(tree, p)
-tree
-tree.node[1]
-tree.nodes[1]
-tree.nodes[1].data
-tst = tree.nodes[1].data
-tst
-tst["2"]
-tst["2"][1]
-tst["2"][2]
-tree.nodes
-tree.nodes[1].data
-tree.nodes[1].data
-p1
-p2
-p
-tree.nodes[1].data
-length(tree.nodes[1].data)
-tree.nodes[1].data
-tree.nodes[1].data[1]
-tree.nodes[1].data["1"]
-tree.nodes[1].data["2"]
-tree.nodes[1].other
-tree.nodes[1].other[1]
-tree.nodes[1].other
-tree.nodes[1].data
-tree.nodes[1].other
-tree.nodes[1].other.data["2"]
-tree.nodes[1].other[1]
-tree.nodes[1].other.data
-tree.nodes[1].other
-fieldnames(typeof(tree.nodes[1].other)
-)
-nodeInit
-tree.nodes[1].data
-)
-tree
-exit()
-pwd()
-pwd()(
-)
-pwd()
-exit()
-q()
-exit()
-exit()
-?println
-x0 = [1.5, 3; 3, 1.5]
-x0 = [1.5, 3 3, 1.5]
-x0 = [1.5, 3, 3, 1.5]
-x0 = [1.5 3; 3 1.5]
- function drift(du, u, p, t)
-            alpha, mu, sigma = p
-            ## du .= alpha .* u would be BM with drift
-            du = alpha * (mu - u) ## OU-like
-        end # drift
-
-        function diff(du, u, p, t)
-            alpha, mu, sigma = p
-            du = sigma ## would be OU
-            ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
-            ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
-        end # diff
-?SDE
-using GeometricIntegrators
-   function v(t, q, v, p)
-          λ = p[:λ]
-          v[1] = λ*q[1]
-          v[2] = λ*q[2]
       end
   
       function B(t, q, B, p, col=0)
@@ -497,4 +60,441 @@ schur(G)
 schur( [0.0 -0.4994999999999997; 0.4994999999999997 0.0])
  [0.0 -0.4994999999999997; 0.4994999999999997 0.0]
 G
+exit()
+eigen(iris)
+sol
+sol
+sol.u
+sol.u[last]
+sol.u[1001]
+eigen(sol.u[1001])
+import Pkg; Pkg.add("ExponentialUtiities")
+import Pkg; Pkg.add("ExponentialUtiities")
+sol
+last
+sol.u[1001]
+eigen(result)
+Omega1
+Omega2
+First
+Second
+Omega2
+Omega1
+eigen(result)
+eigen(iris)
+schur(iris)
+eigen(result)
+exit()
+using Statistics
+?correlation
+using Statistics
+cor(result)
+cor(results)
+cor(result)
+cor(iris)
+iris
+cor(iris)
+cor(result)
+iris
+cor(result)
+cor(iris)
+cor(iris)
+cor(iris)
+exit()
+  C-c C-cERROR: 
+exit()
+res
+exampledat
+plot(res)
+typeof(res)
+res
+prsample=[rand(prior) for i in 1:5000] 
+prsample=[rand(priors) for i in 1:5000] 
+plot(prsample)
+prsample
+priors
+exampledat
+y
+gen_cov_mat(p)
+gen_cov_mat(p)
+sol.u
+p
+p
+cor(p[2])
+cor(p[4])
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+eigen(gen_cov_mat(p))
+p
+eigen(gen_cov_mat(p))
+p
+eigen(p[4])
+cor(p[4])
+p[4]
+p[4]
+cor(p[4])
+cor(p[4]) 
+cor(gen_cov_mat(p))
+gen_cov_mat(p)
+p
+gen_cov_mat(p[4])
+p
+p[4]
+P0
+gen_cov_mat(p[4])
+using ExponentialUtilities
+gen_cov_mat(p[4])
+p[4]
+cor(p[4])
+gen_cov_mat(p[4])
+schur(p[4])
+schur(p[4]).vector
+schur(p[4]).vectors
+gen_cov_mat(p[4])
+schur(p[4])
+schur(p[4]).vectors
+gen_cov_mat(p)
+cor(p[4])
+gen_cov_mat(P0)
+gen_cov_mat(p[4])
+p
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+p[4]
+result
+sol
+p[4]
+last(sol.u)
+result
+sol
+A
+B
+P0
+gen_cov_mat(p)
+P0
+gen_cov_mat(p)
+gen_cov_mat(p)
+gen_cov_mat(p)
+eigen(gen_cov_mat(p))
+A
+B
+Omega1
+p[4]
+sol
+a
+p
+prob
+P0
+u0
+last(sol.u)
+sol.u[1001]
+exit()
+eigen(A * iris * A')
+eigen(iris)
+sol
+det. sol.u
+?det
+.det(sol.u)
+det.(sol.u)
+plot(det.(sol.u))
+using Plots; pyplot();
+plot(det.(sol.u))
+schur(iris)
+-A
+A'
+sol = solve(prob,EM(), p=p, dt=0.001); ## Solve using E-M scheme
+p
+t=1
+ 2.0 * t .* B 
+plot(det.(sol.u))
+?schur
+A * schur(iris).F * A'
+A * schur(iris).Schur * A'
+iris
+-A
+A'
+A * schur(iris).Schur * A'
+iris
+mat = [0, -1, -1, -1;
+A'
+-A
+exit()
+-A
+A'
+-A
+A'
+T
+A
+iris
+1/2*(iris - iris')
+1/2*(iris + iris')
+iris
+iris
+iris
+-A
+A'
+-A'
+A
+A
+iris
+-iris
+iris'
+iris
+iris
+diag(iris)
+diag!(iris) = 0
+diag(iris)
+Diagonal(iris)
+iris
+-iris
+iris'
+p
+-A == A'
+iris == result
+result
+iris
+eigen(result)
+eigen(iris)
+eigen(result).vectors == eigen(iris).vectors
+-A == A'
+u0 = zeros(4)
+  C-c C-c  C-c C-c
+eigen(iris)
+First
+Second
+last(sol.u)
+sol.u
+sol.u
+sol.u
+sol.u
+sol.u
+sol.u
+sol.u
+sol.u
+sol.u
+using SimpleDiff
+import Pkg; Pkg.add("SimpleDiff")
+using SimpleDiffEq
+using SimpleDiffEq
+sol.u
+sol.u
+sol.u
+sol
+prob
+p
+last(sol.u)
+sol
+sol
+sol
+sol.u
+p
+sol
+result
+iris
+last(sol.u)
+sol.u
+sol.u
+drift
+diffusion
+exit()
+sol.u
+p
+sol.u
+u0
+drift
+p.A
+p.B
+typeof(p.B)
+p
+u0
+prob
+prob
+u0
+prob
+prob
+p
+A, B = p
+A
+B
+sol
+sol.u
+sol.u
+sol.u
+prob
+u0
+sol.u
+sol
+sol
+exit()
+inverse(mm)
+inv(mm)
+p
+u0
+drift
+diffusion
+sol = solve(prob, EM(), p=p, dt=0.001); ## Solve using E-M scheme NOT WORKING!
+sol.u
+sol.u
+solve(prob)
+mm
+mm
+ones(4)
+sol.u
+sol.u
+ [0.0 0.8599378479858834; -0.7310670615049639 0.0]'
+- [0.0 0.8599378479858834; -0.7310670615049639 0.0]
+ [0.0 0.8599378479858834; -0.7310670615049639 0.0]
+- [0.0 0.8599378479858834; -0.7310670615049639 0.0]
+zz =  [0.0 0.8599378479858834; -0.7310670615049639 0.0]
+-zz == zz'
+zz
+zz'
+-zz
+zz'== zz
+inv(mm)
+sol.u
+tst = last(sol.u)
+-tst == tst'
+sol.u
+zz = last(sol.u)
+zz' == -zz
+zz = [0 1; -1 0]
+-zz == zz'
+zz = last(sol.u)
+-zz == z'
+-zz == zz'
+tspan
+sol.u
+zz = last(sol.u)
+- zz == zz'
+sol.u
+zz = last(sol.u)
+- zz == zz'
+sol.u
+zz = last(sol.u)
+- zz == zz'
+zz = last(sol.u)
+- zz == zz'
+sol.u
+identity(4)
+id(5)
+sol.u
+sol.u
+zz = last(sol.u)
+-zz=zz'
+-zz==zz'
+zz
+sol.u
+zz = last(sol.u)
+-zz==zz'
+zz = exponential!(last(sol.u))
+-zz = zz'
+zz = last(sol.u)
+-zz == zz'
+sol.u
+sol.u
+zz = last(sol.u)
+-zz = zz'
+-zz == zz'
+zz
+-zz
+zz'
+zeros(2,2)
+MM
+MM
+-MM == MM'
+round(zz)
+zz
+zz[1,1] = zz[4,4] = 0.0
+zz[1,1] = 0.0
+zz[4,4] = 0.0
+zz[2,2] = 0.0
+zz
+zz'
+-zz
+MM' == -MM
+sol
+exponential!(zz)
+zz
+-zz = zz'
+-zz == zz'
+sol.u
+G =  [0  0.0424340    -1.2743154   -0.5162707;
+         -0.0424340   0   0.3296564  0.1216394;
+         1.2743154  -0.3296564    0   -1.2956094;
+         0.5162707  -0.1216394    1.2956094   0];
+  C-c C-c  C-c C-c
+G =  [0  0.0424340    -1.2743154   -0.5162707;
+         -0.0424340   0   0.3296564  0.1216394;
+         1.2743154  -0.3296564    0   -1.2956094;
+         0.5162707  -0.1216394    1.2956094   0];
+-G == G'
+last(sol.u)
+zz = last(sol.u)
+-zz == zz'
+result
+eigen(result)
+Omega1
+p
+-p.A == p.A'
+-p.B == p.B'
+Omega1
+Omega1
+Omega1
+last(sol.u)
+Omega1
+Omega2
+Omega1
+Omega2
+Omega1
+Omega1
+Omega2
+First
+Second
+Omega1
+Omega2
+last(sol.u)
+Omega1
+Omega2
+eigen(result).values
+result
+eigen(result)
+eigen(iris)
+Omega1
+Omega1
+Omega2neg
+First
+Second
+result
+result
+iris
+cor(iris)
+cor(result)
+result
+iris
+exit()
 exit()

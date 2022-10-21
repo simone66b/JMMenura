@@ -127,18 +127,18 @@ function cost((alpha1, mu1, sigma1, cov))
     euclidean(x, y)
 end #cost
 
-## approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-## res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
+approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
 
-## save_object("ABCResults.jld2", res)
+save_object("ABCResults.jld2", res)
 
-## res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)
-### ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
+res = sample(approx_density,AIS(25), MCMCThreads(), 5000, 4, ntransitions=10, discard_initial = 250)
+ressmc = smc(priors, cost, nparticles=500, epstol=0.01)
 
- plot(tree,
-    size = (400, 800),
-    markersize = 20, 
-    series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
+ # plot(tree,
+ #    size = (400, 800),
+ #    markersize = 20, 
+ #    series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
 
 
 testbranches = getbranches(exampledat[1]);
@@ -152,30 +152,30 @@ for i in testbranches
 end
 current()
 
-plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    myt = i.data["1"].t
-    plot!(myt, uu1[:, 3])
-end
-current()
+# plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
+# for i in testbranches
+#     u1= i.data["1"].u
+#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+#     myt = i.data["1"].t
+#     plot!(myt, uu1[:, 3])
+# end
+# current()
 
-plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    plot!(uu1[:,3], uu1[:, 1])
-end
-current()
+# plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
+# for i in testbranches
+#     u1= i.data["1"].u
+#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+#     plot!(uu1[:,3], uu1[:, 1])
+# end
+# current()
 
-plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
-     reuse=false)
-for i in testbranches
-    u1= i.data["1"].u
-    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-    myt = i.data["1"].t
-    plot!(uu1[:,3], uu1[:, 1], uu1[:,2])
-end
-current()
+# plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
+#      reuse=false)
+# for i in testbranches
+#     u1= i.data["1"].u
+#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+#     myt = i.data["1"].t
+#     plot!(uu1[:,3], uu1[:, 1], uu1[:,2])
+# end
+# current()
 

@@ -1,23 +1,25 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra, ExponentialUtilities; pyplot();
 
-function simulation(amscov, tree)
+function simulation(p1, tree)
     function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
-            alpha, mu, sigma, cov1 = p
+            alpha = p[1];
+            mu = p[2];
             ## du .= alpha .* u would be BM with drift
             du .= alpha .* (mu .- u) ## OU-like
         end # drift
 
         function diff(du, u, p, t)
-            alpha, mu, sigma, cov1 = p
+            sigma = p[3]
             du .= sigma ## would be OU
             ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
             ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
         end # diff
         cov1=p[4]
-        noise = CorrelatedWienerProcess(cov1, tspan[1],
-                                        zeros(dim(cov1)),
-                                        zeros(dim(cov1)))
+        cor1 = cor(p[4])
+        noise = CorrelatedWienerProcess(cor1, tspan[1],
+                                        zeros(dim(cor1)),
+                                        zeros(dim(cor1)))
       
     prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=noise)       
     solve(prob, dt=dt, p=p, adaptive=false)
@@ -67,15 +69,44 @@ function predictTraitTree(tree)
         push!(tiptimes, testtips[i].inbound.data["1"].t[end]);
     end
 
-    collect(Iterators.flatten(res))
+    collect(Iterators.flatten(res));
 end # predictTraitTree
 
 function putp!(tree, p1, p2=p1)
     for i in 1:length(tree.nodes) ## 'other' means branches
-        tree.nodes[i].data["2"] = (p1, p2)
+        tree.nodes[i].data["2"] = (p1, p2);
     end
-    tree
+    tree;
 end # putp!
+
+    function gen_cov_mat(p) ## Q matrix
+        function drift(du, u, p, t) ## drift function for the SDE
+            A = schur(p[4]).vectors;
+            a = p[5];
+            du .= a .* t .* A;
+        end # drift
+
+        function diffusion(du, u, p, t) ## diffusion function for the SDE
+            B = schur(p[4]).vectors;
+            b = p[6];
+            du = b .* t .* B;
+        end
+
+         time_tot = 1.0;
+        tspan = (0.0, time_tot);
+        u0 = p[4];
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=p); ## setup SDE problem
+        
+        sol = solve(prob, EM(), p=p, dt=0.001); ## Solve using E-M scheme
+        
+        Omega1 = last(sol.u); ## get the final matrix
+        Omega2 = last(sol.u); ## get another copy
+        
+        First = exponential!(Omega1); ## matrix exponential
+        Second = exponential!(-Omega2); ## matrix exponential
+        
+        result = First * p[4] * Second #
+    end #gen_cov_mat   
     
     tree = putp!(tree, p)
     tree2  = menura!(tree, x0)
@@ -83,27 +114,36 @@ end # putp!
     ## tree2
 end # simulation
 
-## tree = open(parsenewick, "exampletree.phy")
-
-    mat = [1.0000000  -0.1175698    0.8717538   0.8179411;
-           -0.1175698   1.0000000   -0.4284401  -0.3661259;
-           0.8717538  -0.4284401    1.0000000   0.9628654;
-           0.8179411  -0.3661259    0.9628654   1.0000000]
     time_tot = 1.0
     tspan = (0.0, time_tot)
     x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## starting values
+P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
+       -0.0424340   0.1899794   -0.3296564  -0.1216394;
+       1.2743154  -0.3296564    3.1162779   1.2956094;
+       0.5162707  -0.1216394    1.2956094   0.5810063];
 
 
 tr = Ultrametric(100)
 tree = rand(tr)
+ ## Q matrix
+a1=1.0;
+b1=2.0;
 
 alpha1 = (3.0, 3.0, 3.0, 3.0)
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
-p = (alpha1, mu1, sigma1, mat)
+p = (alpha1, mu1, sigma1, P0, a1, b1)
 npar = 3 ## alpha mu, sigma of the SDE
 ndims = length(alpha1)
+exampledat = simulation(p, tree)
 
+
+
+
+
+
+
+################################ ABC #################################################3
 # priors = Factored(
 #     Truncated(Normal(0, 3), 0, Inf),
 #     Truncated(Normal(0, 3), 0, Inf),
@@ -119,7 +159,7 @@ ndims = length(alpha1)
 priordists = [Truncated(Normal(0,3), 0, Inf)]
 priors = Factored(repeat(priordists, 12)...,)
 
-exampledat = simulation(p, tree)
+
 
 function cost((alpha1, mu1, sigma1, cov))
     x=simulation((alpha1, mu1, sigma1, cov), tree)[2]
