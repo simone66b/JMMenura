@@ -42,9 +42,11 @@ result = First * iris * Second; ## reconstruct P_1
 
 
 ##################################################################
+using DifferentialEquations, LinearAlgebra, ExponentialUtilities, Statistics;
 
 G = [0 -1; 1 0];
 p = (A=G, B=G);
+
 function drift(du, u, p, t) ## drift function for the SDE
     du .= t * p.A;
 end # drift
@@ -57,10 +59,5 @@ time_tot = 1.0;
 tspan = (0.0, time_tot);
 u0 = zeros(2,2);
 
-fun = SDEFunction(drift, diffusion; mass_matrix=I(4));
-prob = SDEProblem(fun, diffusion, u0, tspan, p=p); ## setup SDE problem
-sol = solve(prob, p=p, dt=0.001); ## Solve using E-M scheme NOT WORKING!
-sol.u
-
-zz = last(sol.u)
--zz == zz'
+prob = SDEProblem(drift, diffusion, u0, tspan, p=p); ## setup SDE problem
+sol = solve(prob, ISSEM(theta=1/2, symplectic=true), p=p, dt=0.001);
