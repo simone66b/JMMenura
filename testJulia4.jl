@@ -79,35 +79,15 @@ function putp!(tree, p1, p2=p1)
     tree;
 end # putp!
 
-    function gen_cov_mat(p) ## Q matrix
-        function drift(du, u, p, t) ## drift function for the SDE
-            A = schur(p[4]).vectors;
-            a = p[5];
-            du .= a .* t .* A;
-        end # drift
-
-        function diffusion(du, u, p, t) ## diffusion function for the SDE
-            B = schur(p[4]).vectors;
-            b = p[6];
-            du = b .* t .* B;
-        end
-
-         time_tot = 1.0;
-        tspan = (0.0, time_tot);
-        u0 = p[4];
-        prob = SDEProblem(drift, diffusion, u0, tspan, p=p); ## setup SDE problem
+    ####################################################################33
+    ######################################################################3
+    function gen_cov_mat(p) 
+        lowertri = LowerTriangular(p)
+        uppertri = - UpperTriangular(p)
+        skewsymm = lowertri + uppertri
         
-        sol = solve(prob, EM(), p=p, dt=0.001); ## Solve using E-M scheme
-        
-        Omega1 = last(sol.u); ## get the final matrix
-        Omega2 = last(sol.u); ## get another copy
-        
-        First = exponential!(Omega1); ## matrix exponential
-        Second = exponential!(-Omega2); ## matrix exponential
-        
-        result = First * p[4] * Second #
-    end #gen_cov_mat   
-    
+        ######################################################################3
+        ##################################################################3
     tree = putp!(tree, p)
     tree2  = menura!(tree, x0)
    (tree2, predictTraitTree(tree2))
