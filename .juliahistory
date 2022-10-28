@@ -1,16 +1,3 @@
-      q₀ = [1., 1.]
-      λ  = 2.
-      μ  = 1.
-      p = (λ=λ, μ=μ)
-  
-      sde = SDE(v, B, t₀, q₀; parameters=p)
-using GeometricIntegrators
-p
-sde
-ode = ODE((t, x, ẋ) -> ẋ[1] = x[1], [1.0]);
-int = Integrator(ode, TableauExplicitEuler(), 0.1);
-sol = integrate(ode, int, 10);
-exit()
 exit()
 eigen(P0)
 eigen(P0)
@@ -497,4 +484,17 @@ iris
 trian + lowrtri
 triang + lowrtri
 p = iris
+exit()
+ls()
+size(iris)
+size(iris)[1]
+p = iris
+u0
+p
+dt = 0.001
+eigen(p).values
+p
+eigen(iris).values
+result
+iris
 exit()

@@ -9,7 +9,7 @@ function simulation(p1, tree)
             du .= alpha .* (mu .- u) ## OU-like
         end # drift
 
-        function diff(du, u, p, t)
+        function diffusion(du, u, p, t)
             sigma = p[3]
             du .= sigma ## would be OU
             ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
@@ -21,7 +21,7 @@ function simulation(p1, tree)
                                         zeros(dim(cor1)),
                                         zeros(dim(cor1)))
       
-    prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=noise)       
+    prob = SDEProblem(drift, diffusion, x0, tspan, p=p, noise=noise)       
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
@@ -72,20 +72,39 @@ function predictTraitTree(tree)
     collect(Iterators.flatten(res));
 end # predictTraitTree
 
-function putp!(tree, p1, p2=p1)
-    for i in 1:length(tree.nodes) ## 'other' means branches
+    function putp!(tree, p1, p2=p1)
+        for i in 1:length(tree.nodes) ## 'other' means branches
         tree.nodes[i].data["2"] = (p1, p2);
-    end
-    tree;
-end # putp!
+        end
+        tree;
+    end # putp!
 
     ####################################################################33
     ######################################################################3
-    function gen_cov_mat(p) 
+    function gen_cov_mat(p, tspan, dt = 0.001)
+         function drift(du, u, p, t) ## drift function for the SDE
+            du .= 1.0 * t .* p.A ## a = 1.0 for example
+        end # drift
+
+        function diffusion(du, u, p, t) ## diffusion function for the SDE
+            du .= 1.0 * t .* p.B ## diffusion function b= 1.0 for example
+        end # diffusion
+        
         lowertri = LowerTriangular(p)
         uppertri = - UpperTriangular(p)
         skewsymm = lowertri + uppertri
-        
+        u0 = zeros(size(p))
+        p=(A=skewsymm, B=skewsymm) ## skew symmetric matrices not necessarily the same.
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=p); ## setup SDE proble
+        sol = solve(prob, ISSEM(theta=1/2, symplectic=true), p=p, dt=dt);
+        Omega1 = last(sol.u); ## get the final matrix
+        Omega2 = -last(sol.u); ## get another copy NB negative
+        First = exponential!(Omega1); ## matrix exponential
+        Second = exponential!(Omega2); ## matrix exponential
+        result = First * p * Second; ## reconstruct P_1
+        result
+    end # gen_cov_mat
+    
         ######################################################################3
         ##################################################################3
     tree = putp!(tree, p)
