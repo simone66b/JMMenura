@@ -72,16 +72,16 @@ function predictTraitTree(tree)
     collect(Iterators.flatten(res));
 end # predictTraitTree
 
-    function putp!(tree, p1, p2=p1)
+    function putp!(tree, p1, p2=p1, key)
         for i in 1:length(tree.nodes) ## 'other' means branches
-        tree.nodes[i].data["2"] = (p1, p2);
+        tree.nodes[i].data[key] = (p1, p2);
         end
         tree;
     end # putp!
 
     ####################################################################33
     ######################################################################3
-    function gen_cov_mat(p, tspan, dt = 0.001)
+    function gen_cov_mat(p, tspan, u0=zeros(size(p.mat)), dt = 0.001)
          function drift(du, u, p, t) ## drift function for the SDE
             du .= 1.0 * t .* p.A ## a = 1.0 for example
         end # drift
@@ -89,25 +89,28 @@ end # predictTraitTree
         function diffusion(du, u, p, t) ## diffusion function for the SDE
             du .= 1.0 * t .* p.B ## diffusion function b= 1.0 for example
         end # diffusion
-        
-        lowertri = LowerTriangular(p)
-        uppertri = - UpperTriangular(p)
+
+        if tspan[1] == 0.0
+            u0 = zeros(size(p.mat))
+        end; # if
+        lowertri = LowerTriangular(p.mat)
+        uppertri = - UpperTriangular(p.mat)
         skewsymm = lowertri + uppertri
-        u0 = zeros(size(p))
-        p=(A=skewsymm, B=skewsymm) ## skew symmetric matrices not necessarily the same.
-        prob = SDEProblem(drift, diffusion, u0, tspan, p=p); ## setup SDE proble
-        sol = solve(prob, ISSEM(theta=1/2, symplectic=true), p=p, dt=dt);
+        pp = (A=skewsymm, B=skewsymm) ## skew symmetric matrices not necessarily the same.
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE proble
+        sol = solve(prob, ImplicitEM(theta=1/2, symplectic=true), p=pp, dt=dt);
         Omega1 = last(sol.u); ## get the final matrix
         Omega2 = -last(sol.u); ## get another copy NB negative
         First = exponential!(Omega1); ## matrix exponential
         Second = exponential!(Omega2); ## matrix exponential
-        result = First * p * Second; ## reconstruct P_1
+        result = First * p.mat * Second; ## reconstruct P_1
         result
     end # gen_cov_mat
     
         ######################################################################3
         ##################################################################3
-    tree = putp!(tree, p)
+    tree = putp!(tree, p, "2")
+    
     tree2  = menura!(tree, x0)
    (tree2, predictTraitTree(tree2))
     ## tree2
@@ -131,7 +134,7 @@ b1=2.0;
 alpha1 = (3.0, 3.0, 3.0, 3.0)
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
-p = (alpha1, mu1, sigma1, P0, a1, b1)
+p = (alpha1, mu1, sigma1, mat=P0)
 npar = 3 ## alpha mu, sigma of the SDE
 ndims = length(alpha1)
 exampledat = simulation(p, tree)
