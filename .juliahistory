@@ -1,27 +1,3 @@
-Omega1
-Omega2
-First
-Second
-Omega2
-Omega1
-eigen(result)
-eigen(iris)
-schur(iris)
-eigen(result)
-exit()
-using Statistics
-?correlation
-using Statistics
-cor(result)
-cor(results)
-cor(result)
-cor(iris)
-iris
-cor(iris)
-cor(result)
-iris
-cor(result)
-cor(iris)
 cor(iris)
 cor(iris)
 exit()
@@ -497,4 +473,28 @@ Second
 P0
 result
 eigen(result)
+exit()
+gen_cov_mat(p, tspan)
+p
+p.a1
+u0 = zeros(4,4)
+dt = 0.001
+gen_cov_mat(p, tspan)
+gen_cov_mat(p, tspan)
+gen_cov_mat(p, tspan)
+gen_cov_mat(p, tspan)
+p.mat
+First
+Second
+pp.A
+pp.B
+pp.a1
+pp.b1
+gen_cov_mat(p, tspan)
+gen_cov_mat(p, tspan)
+gen_cov_mat(p, tspan)
+tst = gen_cov_mat(p, tspan)
+eigen(tst)
+eigen(iris)
+p.mat
 exit()
