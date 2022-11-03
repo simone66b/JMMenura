@@ -1,281 +1,3 @@
-cor(iris)
-cor(iris)
-exit()
-  C-c C-cERROR: 
-exit()
-res
-exampledat
-plot(res)
-typeof(res)
-res
-prsample=[rand(prior) for i in 1:5000] 
-prsample=[rand(priors) for i in 1:5000] 
-plot(prsample)
-prsample
-priors
-exampledat
-y
-gen_cov_mat(p)
-gen_cov_mat(p)
-sol.u
-p
-p
-cor(p[2])
-cor(p[4])
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-eigen(gen_cov_mat(p))
-p
-eigen(gen_cov_mat(p))
-p
-eigen(p[4])
-cor(p[4])
-p[4]
-p[4]
-cor(p[4])
-cor(p[4]) 
-cor(gen_cov_mat(p))
-gen_cov_mat(p)
-p
-gen_cov_mat(p[4])
-p
-p[4]
-P0
-gen_cov_mat(p[4])
-using ExponentialUtilities
-gen_cov_mat(p[4])
-p[4]
-cor(p[4])
-gen_cov_mat(p[4])
-schur(p[4])
-schur(p[4]).vector
-schur(p[4]).vectors
-gen_cov_mat(p[4])
-schur(p[4])
-schur(p[4]).vectors
-gen_cov_mat(p)
-cor(p[4])
-gen_cov_mat(P0)
-gen_cov_mat(p[4])
-p
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-p[4]
-result
-sol
-p[4]
-last(sol.u)
-result
-sol
-A
-B
-P0
-gen_cov_mat(p)
-P0
-gen_cov_mat(p)
-gen_cov_mat(p)
-gen_cov_mat(p)
-eigen(gen_cov_mat(p))
-A
-B
-Omega1
-p[4]
-sol
-a
-p
-prob
-P0
-u0
-last(sol.u)
-sol.u[1001]
-exit()
-eigen(A * iris * A')
-eigen(iris)
-sol
-det. sol.u
-?det
-.det(sol.u)
-det.(sol.u)
-plot(det.(sol.u))
-using Plots; pyplot();
-plot(det.(sol.u))
-schur(iris)
--A
-A'
-sol = solve(prob,EM(), p=p, dt=0.001); ## Solve using E-M scheme
-p
-t=1
- 2.0 * t .* B 
-plot(det.(sol.u))
-?schur
-A * schur(iris).F * A'
-A * schur(iris).Schur * A'
-iris
--A
-A'
-A * schur(iris).Schur * A'
-iris
-mat = [0, -1, -1, -1;
-A'
--A
-exit()
--A
-A'
--A
-A'
-T
-A
-iris
-1/2*(iris - iris')
-1/2*(iris + iris')
-iris
-iris
-iris
--A
-A'
--A'
-A
-A
-iris
--iris
-iris'
-iris
-iris
-diag(iris)
-diag!(iris) = 0
-diag(iris)
-Diagonal(iris)
-iris
--iris
-iris'
-p
--A == A'
-iris == result
-result
-iris
-eigen(result)
-eigen(iris)
-eigen(result).vectors == eigen(iris).vectors
--A == A'
-u0 = zeros(4)
-  C-c C-c  C-c C-c
-eigen(iris)
-First
-Second
-last(sol.u)
-sol.u
-sol.u
-sol.u
-sol.u
-sol.u
-sol.u
-sol.u
-sol.u
-sol.u
-using SimpleDiff
-import Pkg; Pkg.add("SimpleDiff")
-using SimpleDiffEq
-using SimpleDiffEq
-sol.u
-sol.u
-sol.u
-sol
-prob
-p
-last(sol.u)
-sol
-sol
-sol
-sol.u
-p
-sol
-result
-iris
-last(sol.u)
-sol.u
-sol.u
-drift
-diffusion
-exit()
-sol.u
-p
-sol.u
-u0
-drift
-p.A
-p.B
-typeof(p.B)
-p
-u0
-prob
-prob
-u0
-prob
-prob
-p
-A, B = p
-A
-B
-sol
-sol.u
-sol.u
-sol.u
-prob
-u0
-sol.u
-sol
-sol
-exit()
-inverse(mm)
-inv(mm)
-p
-u0
-drift
-diffusion
-sol = solve(prob, EM(), p=p, dt=0.001); ## Solve using E-M scheme NOT WORKING!
-sol.u
-sol.u
-solve(prob)
-mm
-mm
-ones(4)
-sol.u
-sol.u
- [0.0 0.8599378479858834; -0.7310670615049639 0.0]'
-- [0.0 0.8599378479858834; -0.7310670615049639 0.0]
- [0.0 0.8599378479858834; -0.7310670615049639 0.0]
-- [0.0 0.8599378479858834; -0.7310670615049639 0.0]
-zz =  [0.0 0.8599378479858834; -0.7310670615049639 0.0]
--zz == zz'
-zz
-zz'
--zz
-zz'== zz
-inv(mm)
 sol.u
 tst = last(sol.u)
 -tst == tst'
@@ -497,4 +219,282 @@ tst = gen_cov_mat(p, tspan)
 eigen(tst)
 eigen(iris)
 p.mat
+exit()
+tst = gen_cov_mat(p, tspan)
+eigen(tst)
+eigen(P0)
+tst = gen_cov_mat(p, tspan)
+tst = gen_cov_mat(p, (0, 10))
+eigen(tst)
+cor(tst)
+cor(P0)
+tst = gen_cov_mat(p, (0, 2)
+)
+cor(tst)
+cor(P0)
+det(P0)
+det(tst)
+tst = gen_cov_mat(p, (2, 3))
+cor(tst)
+cor(P0)
+tst = menuramat(tr, P0)
+tree.other
+tree
+methods(typeof(tree))
+tree.inbound
+ismissing(node)
+tree
+tree.nodes
+t0=0.0
+tree
+tree.node
+tree.nodes
+tree.branches
+tst = menuramat(tr, P0)
+tree
+getroot(tree)
+get_cov_mat
+tst = menuramat(tr, P0)
+P0
+tst = menuramat(tr, p.P0)
+p
+tst = menuramat(tr, p.mat)
+menuramat(tree, p)
+menuramat(tree, p)
+Recurse!(tree, p.mat)
+p
+p
+fields(p)
+methods(p)
+field(p)
+fieldnames(typeof(p))
+typeof(p)
+typeof(p.mat)
+menuramat(tree, p)
+menuramat(tree, P0)
+P0
+p.mat
+menuramat(tree, P0)
+p
+p.mat
+iris
+P0
+node
+node
+node = getroot(tree)
+i = 1
+P0
+t0
+P0
+tree
+fieldnames(tree)
+fieldnames(typeof(tree))
+tree.data
+tree.name
+tree.tipdata
+tree.branches
+tree.data
+p
+putp!(tree, p, "2")
+tree.data
+tree.node.data
+tree.node
+fieldnames(typeof(tree))
+tree.data
+tree.nodes[1].data["2"]
+node.other[i].data["2"].mat
+tree.node
+tree.nodes
+tree.nodes[i]
+tree.nodes[i].data
+tree.nodes[i].data["2"]
+tree.other
+tree.nodes[i].other
+tree.nodes[i].other.data
+tree.nodes[i].data
+node[i].data["2"].mat
+node
+node.other
+node.other[1]
+node.other[1].data
+tree.other[1].data
+node.other = tree.nodes[1]
+tree.nodes
+tree.nodes[1]
+node = tree.nodes[1]
+node.other
+node.other[1]
+node.other.mat
+p
+putp!(tree, p, "2")
+tree
+tree.nodes[1].data["2"]
+fieldnames(typeof(tree.nodes))
+tree.nodes
+tree.nodes[1]
+node
+plot(tree)
+tree.nodes[1].data["2"]
+tree.inbound
+tree.nodes[1].inbound
+node = getroot(tree)
+node.inbound
+node.other
+node.data["2"].mat
+node.data
+node.data[2].mat
+node.data.mat
+node
+node.other
+node.other[1]
+node.other[1].data
+node.data
+node.data[2]
+node.data["2"]
+node.data["2"].mat
+node.data["2"]
+node.data["2"].mat
+node.data["2"].mat
+mat = node.data["2"].mat
+mat
+gen_cov_mat(p, (0,1.0))
+node.other
+node.other[1]
+node.other[1].data
+node.data
+node.data["2"].mat
+node = getroot(tree)
+node.data
+node.data
+tree
+node = getroot(tree)
+node
+node.data
+node.other
+node.other[1]
+tree.nodes
+tree.branches
+putp!(tree, p, "2")
+putp!(tree, p)
+putp!(tree, p)
+putp!(tree, p, "2")
+node.data
+node.data
+ node.other[i].data["3"] 
+node.other[i].data["2"]
+node.other[1].data
+node.other[i].data["3"]
+node.data["2"]
+putp!(tree, p)
+putp!(tree, p, "2")
+tree
+tree.nodes[1].data
+tree.nodes.other[1].data
+tree.other[1].data
+tree.nodes[1].other
+tree.nodes[1].other.data
+tree.nodes[1].other.data["matrix"]
+tree.nodes[1].other.data
+tree.nodes[1]
+tree.nodes[1].other
+tree.nodes[1].other.data
+fieldnames(tree.nodes[1].other)
+fieldnames(typeof(tree.nodes[1].other))
+fieldnames(tree.branches[1])
+node.branches
+menuramat!(tree)
+tree.other
+fieldnames(typeof(tree))
+tree.data
+tree.branches[1].data
+tree.other
+fieldnames(typeof(tree))
+tree.branches[1]
+tree.branches
+fieldnames(typeof(tree))
+tree.nodes
+tree.nodes[1].data
+daughters(tree)
+node.data
+menuramat!(tree)
+node = getroot(tree)
+node.data
+node.other
+)
+node.data
+node.data
+node.data["2"]
+node.data
+node.data["2"]
+getheight(tree, node)
+node.other[1].length
+node = getroot(tree)
+node.data
+node.data["matrix"].left
+node.data["matrix"].right
+plot(tree)
+node.other
+node.other[1].data["matrix"]
+node.data["matrix"].right
+node.data["matrix"].left
+node.data
+node.data["matrix"].left
+node.data["matrix"].right
+tree
+fieldnames(typeof(tree))
+tree.nodes
+tree.nodes[3]
+tree.nodes[3].data["matrix"].left
+tree.nodes[3].data
+menuramat!(tree)
+tree.nodes[3].data
+tree
+node = getroot(tree)
+node.data
+getnodes(tree)
+tst = getnodes(tree)
+tst[1].data
+tst[2].data
+tst[2].data["matrix"].left
+tst[2].data["matrix"].right
+tst[3].data["matrix"]
+tst
+tst[3]
+tst[4]
+tst[4].data
+menuramat!(tree)
+tst = getnodes(tree)
+tst[4].data
+tst[3]
+tst[3].data
+tst[2].data
+tst[1].data
+plot(tree)
+length(tst)
+for i in 1:9 tst[i].data
+end
+for i in 1:9 print(tst[i].data) end
+fieldnames(typeof(tree))
+tree.data
+tree.nodes[1].data
+tree.nodes[2].data
+tree.nodes[3].data
+tree.nodes[4].data
+tree.nodes[5].data
+tree.nodes[6].data
+tree.nodes[7].data
+tree.nodes[8].data
+tree.nodes[9].data
+tree.nodes[10].data
+tree.nodes[7].data["matrix"].left
+tree.nodes[7].data["matrix"].right
+tree.nodes[1].data["matrix"].right
+tree.nodes[2].data["matrix"].right
+tree.nodes[6].data["matrix"].right
+tree.nodes[6].data["matrix"].left
+tree.nodes[7].data["matrix"].left
+tree.nodes[7].data["matrix"].right
+eigen(tree.nodes[7].data["matrix"].right)
+tree.nodes[6].data["matrix"].right
+tree.nodes[6].data["matrix"].left
 exit()
