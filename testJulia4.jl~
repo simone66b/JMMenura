@@ -1,4 +1,4 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra, ExponentialUtilities; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
 
 function simulation(p1, tree)
     function diffusion(x0, tspan, p, dt=0.001)
@@ -53,6 +53,28 @@ function menura!(tree, x0, t0 = 0.0, dt=0.001)
     tree
 end # menura!
 
+function menuramat!(tree, t0 = 0.0, dt=0.001) ## Only call after putp! 
+    function Recurse!(tree, node)
+            left = gen_cov_mat(node.data["parameters"], ## p
+                               (getheight(tree, node), getheight(tree, node) +
+                                   node.other[1].length))
+            
+            right = gen_cov_mat(node.data["parameters"], ## p
+                                (getheight(tree, node), getheight(tree, node) +
+                                    node.other[2].length))
+            node.data["matrix"] = (left=left, right=right)
+        for i in 1:length(node.other)
+            if !isleaf(tree, node.other[i].inout[2])
+                Recurse!(tree, node.other[i].inout[2]);
+            end #if
+        end # for
+    end# Recurse!
+
+    nodeInit = getroot(tree)
+    Recurse!(tree, nodeInit) # do the recursive simulations
+    tree
+end # menuramat!
+
 function predictTraitTree(tree)
 
     #### get the last multivariate trait value in a branch
@@ -72,9 +94,9 @@ function predictTraitTree(tree)
     collect(Iterators.flatten(res));
 end # predictTraitTree
 
-    function putp!(tree, p1, p2=p1, key)
+    function putp!(tree, p1, key)
         for i in 1:length(tree.nodes) ## 'other' means branches
-        tree.nodes[i].data[key] = (p1, p2);
+        tree.nodes[i].data[key] = p1;
         end
         tree;
     end # putp!
@@ -98,17 +120,17 @@ end # predictTraitTree
         sol = solve(prob, ISSEM(theta=1/2, symplectic=true),
                     p=pp, dt=dt);
         Omega1 = last(sol.u); ## get the final matrix
-        Omega2 = .- last(sol.u); ## get another copy NB negative
-        exponential!(Omega1); ## matrix exponential
-        exponential!(Omega2); ## matrix exponential
-        Omega1 * p.mat * Omega2 ## reconstruct P_1
+       
+        exp(Omega1) * p.mat * exp(-Omega1) ## reconstruct P_1
     end # gen_cov_mat
     
         ######################################################################3
         ##################################################################3
-    tree = putp!(tree, p, "2")
+    putp!(tree, p, "parameters")
+    menuramat!(tree)
     
-    tree2  = menura!(tree, x0)
+tree2 = menura!(tree,     
+    tree3  = menura!(tree2, x0)
    (tree2, predictTraitTree(tree2))
     ## tree2
 end # simulation
@@ -122,7 +144,7 @@ P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
        0.5162707  -0.1216394    1.2956094   0.5810063];
 
 
-tr = Ultrametric(100)
+tr = Ultrametric(5)
 tree = rand(tr)
  ## Q matrix
 a1=1.0;

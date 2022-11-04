@@ -1,120 +1,3 @@
-sol.u
-tst = last(sol.u)
--tst == tst'
-sol.u
-zz = last(sol.u)
-zz' == -zz
-zz = [0 1; -1 0]
--zz == zz'
-zz = last(sol.u)
--zz == z'
--zz == zz'
-tspan
-sol.u
-zz = last(sol.u)
-- zz == zz'
-sol.u
-zz = last(sol.u)
-- zz == zz'
-sol.u
-zz = last(sol.u)
-- zz == zz'
-zz = last(sol.u)
-- zz == zz'
-sol.u
-identity(4)
-id(5)
-sol.u
-sol.u
-zz = last(sol.u)
--zz=zz'
--zz==zz'
-zz
-sol.u
-zz = last(sol.u)
--zz==zz'
-zz = exponential!(last(sol.u))
--zz = zz'
-zz = last(sol.u)
--zz == zz'
-sol.u
-sol.u
-zz = last(sol.u)
--zz = zz'
--zz == zz'
-zz
--zz
-zz'
-zeros(2,2)
-MM
-MM
--MM == MM'
-round(zz)
-zz
-zz[1,1] = zz[4,4] = 0.0
-zz[1,1] = 0.0
-zz[4,4] = 0.0
-zz[2,2] = 0.0
-zz
-zz'
--zz
-MM' == -MM
-sol
-exponential!(zz)
-zz
--zz = zz'
--zz == zz'
-sol.u
-G =  [0  0.0424340    -1.2743154   -0.5162707;
-         -0.0424340   0   0.3296564  0.1216394;
-         1.2743154  -0.3296564    0   -1.2956094;
-         0.5162707  -0.1216394    1.2956094   0];
-  C-c C-c  C-c C-c
-G =  [0  0.0424340    -1.2743154   -0.5162707;
-         -0.0424340   0   0.3296564  0.1216394;
-         1.2743154  -0.3296564    0   -1.2956094;
-         0.5162707  -0.1216394    1.2956094   0];
--G == G'
-last(sol.u)
-zz = last(sol.u)
--zz == zz'
-result
-eigen(result)
-Omega1
-p
--p.A == p.A'
--p.B == p.B'
-Omega1
-Omega1
-Omega1
-last(sol.u)
-Omega1
-Omega2
-Omega1
-Omega2
-Omega1
-Omega1
-Omega2
-First
-Second
-Omega1
-Omega2
-last(sol.u)
-Omega1
-Omega2
-eigen(result).values
-result
-eigen(result)
-eigen(iris)
-Omega1
-Omega1
-Omega2neg
-First
-Second
-result
-result
-iris
-cor(iris)
 cor(result)
 result
 iris
@@ -497,4 +380,121 @@ tree.nodes[7].data["matrix"].right
 eigen(tree.nodes[7].data["matrix"].right)
 tree.nodes[6].data["matrix"].right
 tree.nodes[6].data["matrix"].left
+exit()
+node = nodeInit
+t0 = 0
+node.data
+node = getroot(tree)
+node.data
+getnodes(tree)
+getnodes(tree)[3].data
+node
+node.data
+x0
+t0
+getheight(tree, node.other[1].inout[2])
+getheight(tree, node.other[1].inout[2])
+getheight(tree, node.other[1].inout[1])
+getheight(tree, node.other[1].inout[2])
+getheight(tree, node.other[2].inout[2])
+plot(tree)
+node.data
+fieldnames(node.data)["parameters")
+fieldnames(node.data)["parameters"]
+fieldnames(node.data["parameters"])
+node.data
+node.data["parameters"]
+x0
+t0
+node.data["parameters"]
+node.data["parameters"].mat
+node.data["parameters"].mu
+node.data["parameters"].mu
+node.other[1]
+node.other[2]
+node.other
+node.nodes
+tree.nodes
+node.other[1]
+node.other[1].inout[2]
+node.other[1].length
+node
+node.other
+node.other[1]
+node.other[1].data
+node.data
+end
+end
+fieldnames(typeof(node))
+node.inbound
+node.other
+node.data
+node.other
+node.other[1]
+fieldnames(typeof(node.other[1]))
+ismissing(node.inbound)
+node.data
+x0
+dt
+dt = 0.001
+diffusion(x0, (0, 1), p)
+tspan
+diffusion(x0, tspan)
+diffusion(x0, tspan, node.data["parameters"])
+diffusion(x0, tspan, node.data["parameters"])
+t0
+t0=0.0
+node.data["trace"].left
+node.data["trace"].left.u[end]
+menura(tree)
+menura!(tree)
+getroot(tree)
+getroot(tree).data
+getroot(tree).data["trace"]
+getroot(tree).data["trace"].u
+getroot(tree).data["trace"].left.u
+menura!(tree)
+node.inbound
+node.outbound
+node.data
+node.inbound
+menura!(tree)
+node
+node.data
+menura!(tree)
+node.data
+node.inbound
+node = getnodes(tree)[4]
+node.inbound
+node
+node.inbound
+fieldnames(typeof(node.inbound))
+node.inbound.inout
+node
+node.inout[1]
+node
+getnodes(tree)
+node.inbound
+fieldnames(typeof(node.inbound))
+node.inbound.inout[1]
+node.inbound.inout[2]
+end
+getnodes(tree)
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+node = getnodes(tree)[1]
+node = getnodes(tree)[1]
+p
+node.data
+p.mat
+zeros(p.mat)
+zeros(dim(p.mat))
+zeros(dim(p.mat), dim(p.mat))
+dims(p.mat)
+size(p.mat)
+q()
 exit()
