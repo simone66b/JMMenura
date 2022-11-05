@@ -1,389 +1,3 @@
-field(p)
-fieldnames(typeof(p))
-typeof(p)
-typeof(p.mat)
-menuramat(tree, p)
-menuramat(tree, P0)
-P0
-p.mat
-menuramat(tree, P0)
-p
-p.mat
-iris
-P0
-node
-node
-node = getroot(tree)
-i = 1
-P0
-t0
-P0
-tree
-fieldnames(tree)
-fieldnames(typeof(tree))
-tree.data
-tree.name
-tree.tipdata
-tree.branches
-tree.data
-p
-putp!(tree, p, "2")
-tree.data
-tree.node.data
-tree.node
-fieldnames(typeof(tree))
-tree.data
-tree.nodes[1].data["2"]
-node.other[i].data["2"].mat
-tree.node
-tree.nodes
-tree.nodes[i]
-tree.nodes[i].data
-tree.nodes[i].data["2"]
-tree.other
-tree.nodes[i].other
-tree.nodes[i].other.data
-tree.nodes[i].data
-node[i].data["2"].mat
-node
-node.other
-node.other[1]
-node.other[1].data
-tree.other[1].data
-node.other = tree.nodes[1]
-tree.nodes
-tree.nodes[1]
-node = tree.nodes[1]
-node.other
-node.other[1]
-node.other.mat
-p
-putp!(tree, p, "2")
-tree
-tree.nodes[1].data["2"]
-fieldnames(typeof(tree.nodes))
-tree.nodes
-tree.nodes[1]
-node
-plot(tree)
-tree.nodes[1].data["2"]
-tree.inbound
-tree.nodes[1].inbound
-node = getroot(tree)
-node.inbound
-node.other
-node.data["2"].mat
-node.data
-node.data[2].mat
-node.data.mat
-node
-node.other
-node.other[1]
-node.other[1].data
-node.data
-node.data[2]
-node.data["2"]
-node.data["2"].mat
-node.data["2"]
-node.data["2"].mat
-node.data["2"].mat
-mat = node.data["2"].mat
-mat
-gen_cov_mat(p, (0,1.0))
-node.other
-node.other[1]
-node.other[1].data
-node.data
-node.data["2"].mat
-node = getroot(tree)
-node.data
-node.data
-tree
-node = getroot(tree)
-node
-node.data
-node.other
-node.other[1]
-tree.nodes
-tree.branches
-putp!(tree, p, "2")
-putp!(tree, p)
-putp!(tree, p)
-putp!(tree, p, "2")
-node.data
-node.data
- node.other[i].data["3"] 
-node.other[i].data["2"]
-node.other[1].data
-node.other[i].data["3"]
-node.data["2"]
-putp!(tree, p)
-putp!(tree, p, "2")
-tree
-tree.nodes[1].data
-tree.nodes.other[1].data
-tree.other[1].data
-tree.nodes[1].other
-tree.nodes[1].other.data
-tree.nodes[1].other.data["matrix"]
-tree.nodes[1].other.data
-tree.nodes[1]
-tree.nodes[1].other
-tree.nodes[1].other.data
-fieldnames(tree.nodes[1].other)
-fieldnames(typeof(tree.nodes[1].other))
-fieldnames(tree.branches[1])
-node.branches
-menuramat!(tree)
-tree.other
-fieldnames(typeof(tree))
-tree.data
-tree.branches[1].data
-tree.other
-fieldnames(typeof(tree))
-tree.branches[1]
-tree.branches
-fieldnames(typeof(tree))
-tree.nodes
-tree.nodes[1].data
-daughters(tree)
-node.data
-menuramat!(tree)
-node = getroot(tree)
-node.data
-node.other
-)
-node.data
-node.data
-node.data["2"]
-node.data
-node.data["2"]
-getheight(tree, node)
-node.other[1].length
-node = getroot(tree)
-node.data
-node.data["matrix"].left
-node.data["matrix"].right
-plot(tree)
-node.other
-node.other[1].data["matrix"]
-node.data["matrix"].right
-node.data["matrix"].left
-node.data
-node.data["matrix"].left
-node.data["matrix"].right
-tree
-fieldnames(typeof(tree))
-tree.nodes
-tree.nodes[3]
-tree.nodes[3].data["matrix"].left
-tree.nodes[3].data
-menuramat!(tree)
-tree.nodes[3].data
-tree
-node = getroot(tree)
-node.data
-getnodes(tree)
-tst = getnodes(tree)
-tst[1].data
-tst[2].data
-tst[2].data["matrix"].left
-tst[2].data["matrix"].right
-tst[3].data["matrix"]
-tst
-tst[3]
-tst[4]
-tst[4].data
-menuramat!(tree)
-tst = getnodes(tree)
-tst[4].data
-tst[3]
-tst[3].data
-tst[2].data
-tst[1].data
-plot(tree)
-length(tst)
-for i in 1:9 tst[i].data
-end
-for i in 1:9 print(tst[i].data) end
-fieldnames(typeof(tree))
-tree.data
-tree.nodes[1].data
-tree.nodes[2].data
-tree.nodes[3].data
-tree.nodes[4].data
-tree.nodes[5].data
-tree.nodes[6].data
-tree.nodes[7].data
-tree.nodes[8].data
-tree.nodes[9].data
-tree.nodes[10].data
-tree.nodes[7].data["matrix"].left
-tree.nodes[7].data["matrix"].right
-tree.nodes[1].data["matrix"].right
-tree.nodes[2].data["matrix"].right
-tree.nodes[6].data["matrix"].right
-tree.nodes[6].data["matrix"].left
-tree.nodes[7].data["matrix"].left
-tree.nodes[7].data["matrix"].right
-eigen(tree.nodes[7].data["matrix"].right)
-tree.nodes[6].data["matrix"].right
-tree.nodes[6].data["matrix"].left
-exit()
-node = nodeInit
-t0 = 0
-node.data
-node = getroot(tree)
-node.data
-getnodes(tree)
-getnodes(tree)[3].data
-node
-node.data
-x0
-t0
-getheight(tree, node.other[1].inout[2])
-getheight(tree, node.other[1].inout[2])
-getheight(tree, node.other[1].inout[1])
-getheight(tree, node.other[1].inout[2])
-getheight(tree, node.other[2].inout[2])
-plot(tree)
-node.data
-fieldnames(node.data)["parameters")
-fieldnames(node.data)["parameters"]
-fieldnames(node.data["parameters"])
-node.data
-node.data["parameters"]
-x0
-t0
-node.data["parameters"]
-node.data["parameters"].mat
-node.data["parameters"].mu
-node.data["parameters"].mu
-node.other[1]
-node.other[2]
-node.other
-node.nodes
-tree.nodes
-node.other[1]
-node.other[1].inout[2]
-node.other[1].length
-node
-node.other
-node.other[1]
-node.other[1].data
-node.data
-end
-end
-fieldnames(typeof(node))
-node.inbound
-node.other
-node.data
-node.other
-node.other[1]
-fieldnames(typeof(node.other[1]))
-ismissing(node.inbound)
-node.data
-x0
-dt
-dt = 0.001
-diffusion(x0, (0, 1), p)
-tspan
-diffusion(x0, tspan)
-diffusion(x0, tspan, node.data["parameters"])
-diffusion(x0, tspan, node.data["parameters"])
-t0
-t0=0.0
-node.data["trace"].left
-node.data["trace"].left.u[end]
-menura(tree)
-menura!(tree)
-getroot(tree)
-getroot(tree).data
-getroot(tree).data["trace"]
-getroot(tree).data["trace"].u
-getroot(tree).data["trace"].left.u
-menura!(tree)
-node.inbound
-node.outbound
-node.data
-node.inbound
-menura!(tree)
-node
-node.data
-menura!(tree)
-node.data
-node.inbound
-node = getnodes(tree)[4]
-node.inbound
-node
-node.inbound
-fieldnames(typeof(node.inbound))
-node.inbound.inout
-node
-node.inout[1]
-node
-getnodes(tree)
-node.inbound
-fieldnames(typeof(node.inbound))
-node.inbound.inout[1]
-node.inbound.inout[2]
-end
-getnodes(tree)
-getnodes(tree)[1].data
-getnodes(tree)[2].data
-getnodes(tree)[3].data
-getnodes(tree)[4].data
-getnodes(tree)[5].data
-getnodes(tree)[6].data
-node = getnodes(tree)[1]
-node = getnodes(tree)[1]
-p
-node.data
-p.mat
-zeros(p.mat)
-zeros(dim(p.mat))
-zeros(dim(p.mat), dim(p.mat))
-dims(p.mat)
-size(p.mat)
-q()
-exit()
-gen_cov_mat(P0, p)
-gen_cov_mat(P0, p, tspan)
-gen_cov_mat(P0, p, tspan)
-node
-node = getnodes(tree)[1]
-fieldnames(typeof(node))
-node.inbound
-node.other
-fieldnames(typeof(node.other))
-fieldnames(typeof(node.other[1]))
-node.other[1].inout
-plot(tree)
-getleaves(tree)
-node.inout
-fieldnames(typeof(node0)
-)
-fieldnames(typeof(node))
-node.other[1].length
-node.other[2].length
-node.inout
-node.other
-node.other[1].inout
-tree[1]
-getnode(tree, 1)
-getnode(tree)[1]
-getnodes(tree)[1]
-getnodes(tree)[1].inout
-getnodes(tree)[1]
-node = getnodes(tree)[2]
-node.inout
-fieldnames(typeof(node))
-node.other[1]
-node.other[1].inbound
-node.other[1]
-node.inbound
-node.inbound.inout
-node.inbound.inout[1]
 node
 fieldnames(typeof(node))
 node.inbound
@@ -500,3 +114,387 @@ node2.inbound.inout[2].data["matrix"].right
  gen_cov_mat(node2.inbound.inout[1].data["matrix"].left, node2.data["parameters"], 
                                                       (getheight(tree, node2), getheight(tree, node2) +
                                                           node2.other[1].length))
+node = getroot(tree)
+plot(tr)
+plot(tree)
+getnodes(tree)
+getnodes(tree)[1]
+getbranches(tree)
+node = getnodes(tree)[1]
+node
+node.data
+Recurse!(tree)
+Recurse!(tree)
+Recurse!(tree, node)
+node
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+node.other
+node.other[1].inout
+getnodes(tree)
+ LinkNode tip 4, a tip of the tree with an incoming connection (branch 8).
+node.name
+node.inout
+fieldnames(typeof(node))
+node.other
+getancestor(node)
+getancestors(node)
+getancestors(tree, node)
+getancestors(tree, 2)
+getancestors(tree)
+getancestors(tree, "Node 6")
+node
+getnodes(tree)
+node.inbound
+getnodes(tree)
+node = getnodes(tree)[2]
+node.inbound
+node.inbound.inout
+node.other
+root = getroot(tree)
+root.data
+node = root
+node.data
+root.data
+getnodes(tree)
+node = getnodes(tree)[2]
+node.inbound.inout[2]
+node.inbound.inout
+)
+))
+))))
+"
+"
+)
+node.data
+menuramat!(tree)
+nodes = getnodes(tree)
+nodes[1].data
+nodes[2].data
+nodes[3].data
+nodes[4].data
+nodes[5].data
+nodes[6].data
+node.other
+node.other[1].inout
+node.other
+node
+node.other
+nod.other[1].inout
+node.other[1].inout
+Recurse(tree, getroot(tree))
+Recurse!(tree, getroot(tree))
+Recurse!(tree, getroot(tree))
+Recurse!(tree, getroot(tree))
+tree
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+getnodes(tree)[7].data
+getnodes(tree)[8].data
+getnodes(tree)[7].data
+node.inbound.inout[1].data["matrix"]
+node.inbound.inout[2].data["matrix"]
+node.inbound.inout
+node.name
+node.inbound.inout[1]
+node.inbound.inout[1].name
+node.inbound.inout[1].data["matrix"]
+getheight(tree, node)
+node.other
+getheight(tree, node)
+node.name
+ancestor(tree, node)
+ancestors(tree, node)
+getancestors(tree, node)
+ancestor
+ancestor.data
+ancestor[1].data
+node.data
+ancestor.data
+getdaughters(tree, node)
+daughters(tree, node)
+Recurse!(tree, root)
+getnodes(tree)[8].data
+getnodes(tree)[6].data
+getnodes(tree)[5].data
+getnodes(tree)[2].data
+getnodes(tree)[1].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+node = getnodes(tree)[2]
+node.data
+end
+node = getnodes(tree)[3]
+node = getnodes(tree)[5]
+node.data
+Recurse!(tree, root)
+node.data
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+getnodes(tree)[6]
+Recurse!(tree, root)
+node
+isleaf(node)
+?istip
+?isleaf
+Recurse!(tree, root)
+nodes = getnodes(tree)
+nodes[1].data
+nodes[2].data
+nodes[3].data
+nodes[4].data
+nodes[5].data
+nodes[6].data
+nodes[7].data
+nodes[8].data
+Recurse!(tree, root)
+nodes[1].data
+nodes[1].data
+2
+nodes[2].data
+nodes
+nodes..data
+for i in 1:length nodes
+nodes[i
+].data
+end
+for i in 1:length(nodes)
+nodes[i].data end
+for i in 1:length(nodes)
+print(nodes[i].data) end
+print(nodes[i].data["matrix"]) end
+for i in 1:length(nodes)
+print(nodes[i].data["matrix"]) end
+menuramat!(tree)
+nodes = getnodes(tree)
+for i in 1:length(nodes)
+print(nodes[i].data["matrix"]) end
+nodes
+nodes[4].data["matrix"]
+nodes[6].data["matrix"]
+eigen(nodes[6].data["matrix"])
+nodes = getnodes(tree)
+for i in 1:length(nodes)
+print(nodes[i].data["matrix"]) end
+menuramat!(tree)
+nodes = getnodes(tree)
+for i in 1:length(nodes)
+print(nodes[i].data["matrix"]) end
+menuramat!(tree)
+getnodes(tree)
+node = getnodes(tree)[17]
+node.data["matrix"]
+eigne(node.data["matrix"])
+eigen(node.data["matrix"])
+p.mat
+menuramat!(tree)
+node = getnodes(tree)[17]
+node.data["matrix"]
+eigen(node.data["matrix"])
+menura!(tree)
+menura!(tree)
+menura!(tree)
+node = getnodes(tree)[17]
+node.data
+menura!(tree)
+node = getnodes(tree)[17]
+node.data
+menuramat!(tree)
+node = getnodes(tree)[17]
+node.data
+node = getnodes(tree)[17]
+node.data
+menuramat!(tree)
+node = getnodes(tree)[17]
+node.data
+menuramat!(tree)
+node = getnodes(tree)[17]
+node.data
+node = getnodes(tree)[18]
+node.data
+eigen(node.data["matrix"])
+menuramat!(tree)
+node = getnodes(tree)[18]
+eigen(node.data["matrix"])
+node.data
+menuramat!(tree)
+node = getnodes(tree)[18]
+node.data
+menuramat!(tree)
+node = getnodes(tree)[18]
+node.data
+eigen(node.data["matrix"])
+node
+menuramat!(tree)
+node = getnodes(tree)[18]
+node.data
+menuramat!(tree)
+node = getnodes(tree)[18]
+node.data
+eigen(node.data["matrix"])
+menuramat!(tree)
+node = getnodes(tree)[18]
+node.data
+eigen(node.data["matrix"])
+node
+node.other
+node=getroot(tree)
+node.data
+menuramat!(tree)
+putp!(tree, p)
+tree
+getnodes(tree)[6].data
+gen_cov_mat(root.data["matrix"])
+gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
+gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
+gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
+eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
+eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
+eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
+menuramat!(tree)
+node
+node.other
+node.other[1]
+node.other[1].inout
+x0
+t0 = 0
+node=root
+t0 = 0.0
+plot(tree)
+root.data
+node = getnodes(tree)[3]
+putp!(tree, p)
+p
+node = getroot(tree)
+node = getnodes(tree)[3]
+root
+node = getnodes(tree)[4]
+node = getnodes(tree)[2]
+node.inbound
+plot(tree)
+node = getnodes(tree)[getnodes(tree).name == "Node 6"]
+getnodes(tree)
+node = getnodes(tree)[2]
+getancestors(node)
+getancestors(tree, node)
+ancestor["trace"].left[end]
+ancest)
+menura(tree, root)
+menura!(tree)
+node = getnodes(tree)[2]
+node.data
+menura!(tree)
+menura!(tree)
+getnodes(tree)
+node = getnodes(tree)[4]
+node.data
+)
+getnodes(tree)
+node = getnodes(tree)[2]
+node.data
+getleaves(tree)
+node
+node.data
+i = 1
+res[i]
+tiptimes
+p
+mat = p.mat
+u0=zeros(size(mat))
+dt = 0.001
+gen_cov_mat(mat, p)
+gen_cov_mat(mat, p, tspan)
+gen_cov_mat(mat, p, tspan)
+p
+p
+p.A
+last
+previous
+root
+tree
+pp
+exit()
+gen_cov_mat(mat, p1, (0.0, 1.0))
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+gen_cov_mat(P0, p1, tspan)
+eigen(gen_cov_mat(P0, p1, tspan))
+p1
+p = p1
+mat = P0
+exit()
+simulation
+p1
+tree
+simulated[2]
+exampledat[2]
+simulated[2]
+exampledat
+node = getnodes(tree)[3]
+node.other
+node.other[1].inout[2]
+node.other[2].inout[2]
+cor(P0)
+node.data["matrix"]
+cor(node.data["matrix"]
+)
+cor(P0)
+node = getroot(tree)
+t0 = 0.0
+node = getnodes(tree)[3]
+ancestor
+ancestor.data
+ancestor.data["trace"]
+node.data["trace"]
+node.data["trace"][end]
+(getheight(tree, ancestor), getheight(tree, node))
+ (getheight(tree, ancestor), getheight(tree, node))
+node
+ancestor.data["matrix"]
+node
+ancestor.data["matrix"]
+menuramat!(tree)
+node = getnodes(tree)[3]
+ancestor=getancestors(tree)[1]
+ancestor=getancestor(tree, node)[1]
+ancestor=getancestors(tree, node)[1]
+ancestor.data["matrix"]
+menuramat!(tree)
+node = getnodes(tree)[3]
+ancestor=getancestors(tree, node)[1]
+ancestor.data["matrix"]
+node.data["matrix"]
+node .= ancestor
+node =. ancestor
+node
+ancestor
+node = getroot(tree)
+node = getnodes(tree)[3]
+ancestor=getancestors(tree, node)[1]
+evol.u
+evol.t
+menura!(tree)
+Sampling   0%|                      |  ETA: N/ASampling   0%|▏                     |  ETA: 0:08:06Sampling   1%|▎                     |  ETA: 0:08:38Sampling   1%|▍                     |  ETA: 0:08:21Sampling   2%|▍                     |  ETA: 0:08:49Sampling   2%|▌                     |  ETA: 0:08:49Sampling   3%|▋                     |  ETA: 0:08:48Sampling   3%|▊                     |  ETA: 0:08:49Sampling   4%|▉                     |  ETA: 0:08:53Sampling   4%|█                     |  ETA: 0:09:01Sampling   5%|█                     |  ETA: 0:09:02Sampling   5%|█▏                    |  ETA: 0:09:02Sampling   6%|█▎                    |  ETA: 0:09:01Sampling   6%|█▍                    |  ETA: 0:09:12
+i = testbranches[1]
+length(u1)
+u1
+source("testJulia4.jl")
+import("testJulia4.jl")
+exit()
