@@ -7,14 +7,14 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
 
         function diffusion(x0, tspan, p, mat, dt=0.001)
             function drift(du, u, p, t)
-                alpha = p.alpha1;
-                mu = p.mu1;
+                alpha = p.alpha;
+                mu = p.mu;
                 ## du .= alpha .* u would be BM with drift
                 du .= alpha .* (mu .- u); ## OU-like
             end # drift
             
             function diff(du, u, p, t)
-                sigma = p.sigma1;
+                sigma = p.sigma;
                 du .= sigma; ## would be OU
                 ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
                 ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
@@ -39,7 +39,7 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
                 ancestor = getancestors(tree, node)[1]
                 evol = diffusion(ancestor.data["trace"][end],
                                  (getheight(tree, ancestor), getheight(tree, node)),
-                                 node.data["parameters"], node.data["matrix"]);
+                                 ancestor.data["parameters"], ancestor.data["matrix"]);
                node.data["trace"] = evol.u
                 node.data["timebase"] = evol.t
                 
@@ -135,39 +135,39 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
     ######################################################################3
     ##################################################################3n
 
-function simulate(alpha, mu, sigma)
-time_tot = 1.0
-tspan = (0.0, time_tot)
-x0 = [5.843333, 3.057333, 3.758000, 1.199333] ## starting values
-P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
+
+    tr = Ultrametric(100);
+    a1=1.0;
+    b1=0.1;
+    x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
+    tree = rand(tr); 
+       time_tot = 1.0
+    tspan = (0.0, time_tot)
+    P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
        -0.0424340   0.1899794   -0.3296564  -0.1216394;
        1.2743154  -0.3296564    3.1162779   1.2956094;
        0.5162707  -0.1216394    1.2956094   0.5810063];
-a1=1.0;
-b1=0.1;
-
 alpha1 = (3.0, 3.0, 3.0, 3.0);
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
-p1 = (alpha1, mu1, sigma1, mat=P0, a = a1, b = b1);
 
-    tr = Ultrametric(4);
-    tree = rand(tr);
+function simulate((alpha, mu, sigma))
+    p1 = (alpha, mu, sigma, mat=P0, a=a1, b=b1)
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
 (tree, predictTraitTree(tree))
 end
 
-exampledat = simulate(alpha1, mu1, sigma1);
+exampledat = simulate((alpha1, mu1, sigma1));
 
 priordists = [Truncated(Normal(0,3), 0, Inf)]
 priors = Factored(repeat(priordists, 12)...,)
 
 
 
-function cost((alpha1, mu1, sigma1))
-    x=simulate(alpha1, mu1, sigma1)[2]
+function cost((alpha, mu, sigma))
+    x=simulate((alpha, mu, sigma))[2]
     y=exampledat[2]
     euclidean(x, y)
 end #cost
