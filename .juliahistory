@@ -1,154 +1,3 @@
-cor(result)
-result
-iris
-exit()
-exit()
-result
-First
-import Pkg; Pkg.add("ExponentialUtilities")
-iris
-UpperTriangular(iris)
--UpperTriangular(iris)
-triang = -UpperTriangular(iris)
-lowrtri = LowerTriangular(iris)
-iris
-trian + lowrtri
-triang + lowrtri
-p = iris
-exit()
-ls()
-size(iris)
-size(iris)[1]
-p = iris
-u0
-p
-dt = 0.001
-eigen(p).values
-p
-eigen(iris).values
-result
-iris
-exit()
-p.alpha1
-p.mu1
-p.mat
-end
-iris
-P0
-gen_cov_mat(P0, (0.0, 1.0))
-p
-gen_cov_mat(p, (0.0, 1.0))
-eigen(p0)
-eigen(P0)
-eigen(gen_cov_mat(p, (0.0, 1.0)))
-gen_cov_mat(p, tspan, u0 = 1)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-iris
-P0
-dt = 0.001
-eigen(result)
-eigen(P0)
-result
-iris = P0
-P0 = result
-p.mat
-sol.u
-last(sol.u)
-last(sol.u)
-last(sol.u)
-First
-Second
-last(sol.u)
-sol.u[1]
-[1000]
-sol.u[1000]
-sol.u[10]
-eigen(result)
-u0
-dt
-dt = 0.0001
-p.mat = result
-sol.u
-dt
-First
-Second
-P0
-result
-eigen(result)
-exit()
-gen_cov_mat(p, tspan)
-p
-p.a1
-u0 = zeros(4,4)
-dt = 0.001
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-p.mat
-First
-Second
-pp.A
-pp.B
-pp.a1
-pp.b1
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-gen_cov_mat(p, tspan)
-tst = gen_cov_mat(p, tspan)
-eigen(tst)
-eigen(iris)
-p.mat
-exit()
-tst = gen_cov_mat(p, tspan)
-eigen(tst)
-eigen(P0)
-tst = gen_cov_mat(p, tspan)
-tst = gen_cov_mat(p, (0, 10))
-eigen(tst)
-cor(tst)
-cor(P0)
-tst = gen_cov_mat(p, (0, 2)
-)
-cor(tst)
-cor(P0)
-det(P0)
-det(tst)
-tst = gen_cov_mat(p, (2, 3))
-cor(tst)
-cor(P0)
-tst = menuramat(tr, P0)
-tree.other
-tree
-methods(typeof(tree))
-tree.inbound
-ismissing(node)
-tree
-tree.nodes
-t0=0.0
-tree
-tree.node
-tree.nodes
-tree.branches
-tst = menuramat(tr, P0)
-tree
-getroot(tree)
-get_cov_mat
-tst = menuramat(tr, P0)
-P0
-tst = menuramat(tr, p.P0)
-p
-tst = menuramat(tr, p.mat)
-menuramat(tree, p)
-menuramat(tree, p)
-Recurse!(tree, p.mat)
-p
-p
-fields(p)
-methods(p)
 field(p)
 fieldnames(typeof(p))
 typeof(p)
@@ -498,3 +347,156 @@ dims(p.mat)
 size(p.mat)
 q()
 exit()
+gen_cov_mat(P0, p)
+gen_cov_mat(P0, p, tspan)
+gen_cov_mat(P0, p, tspan)
+node
+node = getnodes(tree)[1]
+fieldnames(typeof(node))
+node.inbound
+node.other
+fieldnames(typeof(node.other))
+fieldnames(typeof(node.other[1]))
+node.other[1].inout
+plot(tree)
+getleaves(tree)
+node.inout
+fieldnames(typeof(node0)
+)
+fieldnames(typeof(node))
+node.other[1].length
+node.other[2].length
+node.inout
+node.other
+node.other[1].inout
+tree[1]
+getnode(tree, 1)
+getnode(tree)[1]
+getnodes(tree)[1]
+getnodes(tree)[1].inout
+getnodes(tree)[1]
+node = getnodes(tree)[2]
+node.inout
+fieldnames(typeof(node))
+node.other[1]
+node.other[1].inbound
+node.other[1]
+node.inbound
+node.inbound.inout
+node.inbound.inout[1]
+node
+fieldnames(typeof(node))
+node.inbound
+node.inbound.inout[1]
+node.inbound.inout
+node
+node = getroot(tree)
+putp!(tree)
+putp!(tree)
+putp!(tree, p, "parameters")
+getnodes(tree)[1].data["parameters"]
+getnodes(tree)[1].data["matrix"]
+ismissing(node.inbound)
+node.data["matrix"]
+node.inbound
+plot(tree)
+node = getnodes(tree)[2]
+node = getnodes(tree)[3]
+node = getnodes(tree)[2]
+node.other[2].length
+))
+node.data
+node.data
+node.data["matrix"].left
+node.data["matrix"].right
+end
+menuramat!(tree)
+getnodes(tree)
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+getnodes(tree)[7].data
+getnodes(tree)[8].data
+getnodes(tree)[9].data
+getnodes(tree)[10].data
+getnodes(tree)[9].inout
+menuramat!(tree)
+isleaf(node)
+isleaf(tree, node)
+menuramat!(tree)
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+node.other[1].inout
+tree = rand(tr)
+node = getnodes(tree)[1]
+node.data
+node = getnodes(tree)[2]
+node.data
+menuramat!(tree)
+node.other
+node.other[1]
+node.other[1].inout
+node = getnodes(tree)[8]
+isleaf(tree, node.other[i].inout[2])
+isleaf(tree, node.other[1].inout[2])
+node.other
+node.other.inout
+node.other.inout
+node.other
+fieldnames(typeof(node.other))
+node.other
+i=1
+node.other
+node.other
+node.data
+node
+menuramat!(tree)
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+menuramat!(tree)
+node = getroot(tree)
+end
+Recurse!(tree, node)
+getnodes(tree)[2].data
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+getnodes(tree)[3].data
+getnodes(tree)[4].data
+getnodes(tree)[5].data
+getnodes(tree)[6].data
+getnodes(tree)[7].data
+getnodes(tree)[8].data
+getnodes(tree)[9].data
+node
+menuramat!(tree)
+getnodes(tree)[1].data
+getnodes(tree)[2].data
+node
+node.data
+node.outbound
+node.inout
+fieldnames(typeof(node))
+node.other
+node.other.data
+fieldnames(typeof(node.other))
+node.other.length
+node.length
+node
+node.outbound
+fieldnames(typeof(node))
+node.other[1].length
+node.inbound
+ node2 = getnodes(tree)[2]
+node2.data
+(node2.inbound.inout[1].data["matrix"].left
+)
+node2.inbound.inout[1].data["matrix"].left
+node2.inbound.inout[1].data["matrix"].right
+node2.inbound.inout[2].data["matrix"].right
+ gen_cov_mat(node2.inbound.inout[1].data["matrix"].left, node2.data["parameters"], 
+                                                      (getheight(tree, node2), getheight(tree, node2) +
+                                                          node2.other[1].length))

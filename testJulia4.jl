@@ -25,10 +25,10 @@ function simulation(p1, tree)
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
-function menura!(tree, t0 = 0.0, dt=0.001) 
+function menura!(tree) 
     function Recurse!(tree, node)
         if ismissing(node.inbound) ## the root node, to get started
-            left  = diffusion(x0, (t0, getheight(tree, node.other[1].inout[2])), node.data["parameters"])
+            left  = diffusion(x0, (getheight(tree, node), getheight(tree, node.other[1].inout[2])), node.data["parameters"])
             right = diffusion(x0, (t0, getheight(tree, node.other[2].inout[2])), node.data["parameters"])
             node.data["trace"] = (left = left.u, right = right.u)
             node.data["timebase"] = (left = left.t, right = right.t)
@@ -52,37 +52,35 @@ function menura!(tree, t0 = 0.0, dt=0.001)
         end
     end# Recurse!
     
-    nodeInit = getroot(tree)
-    Recurse!(tree, nodeInit) # do the recursive simulations
+    root = getroot(tree)
+    Recurse!(tree, root) # do the recursive simulations
     tree
 end # menura!
 
 
-function menuramat!(tree, t0 = 0.0, dt=0.001) ## Only call after putp! 
+function menuramat!(tree) ## Only call after putp! 
     function Recurse!(tree, node)
 
         if ismissing(node.inbound) ## if root
-            node.data["matrix"] = zeros(size(node.data["parameters"].mat)) ## set the starting matrix  
+            node.data["matrix"] = node.data["parameters"].mat ## starting matrix
         else
+            ancestor = getancestors(tree, node)[1]
+            node.data["matrix"] =
+                gen_cov_mat(ancestor.data["matrix"],
+                            ancestor.data["parameters"], 
+                            (getheight(tree, ancestor),
+                             getheight(tree, node)));
+        end
+        if !isleaf(tree, node)
+            Recurse!(tree, node.other[1].inout[2]);
+            Recurse!(tree, node.other[2].inout[2]);
+        end
+    end
 
-
-            
-             node.data["matrix"] = gen_cov_mat(node.data["parameters"], 
-                                              (getheight(tree, node), getheight(tree, node) +
-                                                  node.other[1].length), 
-
-            
-            for i in 1:length(node.other)
-                if !isleaf(tree, node.other[i].inout[2])
-                    Recurse!(tree, node.other[i].inout[2]);
-                end #if
-            end # for
-        end# Recurse!
-
-        nodeInit = getroot(tree)
-        Recurse!(tree, nodeInit) # do the recursive simulations
-        tree
-    end # menuramat!
+    root = getroot(tree)
+    Recurse!(tree, root) # do the recursive simulations
+    tree
+end # menuramat!
 
 function predictTraitTree(tree)
 
@@ -112,7 +110,7 @@ end # predictTraitTree
 
     ####################################################################33
     ######################################################################3
-    function gen_cov_mat(p, tspan, u0=zeros(size(p.mat)), dt = 0.001)
+    function gen_cov_mat(mat, p, tspan, u0=zeros(size(mat)), dt = 0.001)
          function drift(du, u, p, t) ## drift function for the SDE
             du .= p.a * t .* p.A
         end # drift
@@ -121,20 +119,22 @@ end # predictTraitTree
             du .= p.b * t .* p.B 
         end # diffusion
         
-        lowertri = LowerTriangular(p.mat)
-        uppertri = - UpperTriangular(p.mat)
+        lowertri = LowerTriangular(mat)
+        uppertri = - UpperTriangular(mat)
         skewsymm = lowertri + uppertri
         pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b) ## skew symmetric matrices not necessarily the same.
         prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE proble
-        sol = solve(prob, ISSEM(theta=1/2, symplectic=true),
-                    p=pp, dt=dt);
+        sol = solve(prob, EM(), p=pp, dt=dt);
         Omega1 = last(sol.u); ## get the final matrix
        
-        exp(Omega1) * p.mat * exp(-Omega1) ## reconstruct P_1
+        exp(Omega1) * mat * exp(-Omega1); ## reconstruct P_1
     end # gen_cov_mat
     
         ######################################################################3
-        ##################################################################3
+    ##################################################################3
+
+    tr = Ultrametric(10)
+    tree = rand(tr)
     putp!(tree, p, "parameters")
     menuramat!(tree)
     menura!(tree),     
@@ -152,8 +152,9 @@ P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
        0.5162707  -0.1216394    1.2956094   0.5810063];
 
 
-tr = Ultrametric(5)
-tree = rand(tr)
+
+plot(tree)
+            
  ## Q matrix
 a1=1.0;
 b1=2.0;

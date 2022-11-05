@@ -3,77 +3,86 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
 function simulation(p1, tree)
     function diffusion(x0, tspan, p, dt=0.001)
         function drift(du, u, p, t)
-            alpha = p[1];
-            mu = p[2];
+            alpha = p.alpha1;
+            mu = p.mu1;
             ## du .= alpha .* u would be BM with drift
             du .= alpha .* (mu .- u) ## OU-like
         end # drift
 
-        function diffusion(du, u, p, t)
-            sigma = p[3]
+        function diff(du, u, p, t)
+            sigma = p.sigma1
             du .= sigma ## would be OU
             ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
             ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
         end # diff
-        cov1=p[4]
-        cor1 = cor(p[4])
+        
+        cor1 = cor(p.mat)
         noise = CorrelatedWienerProcess(cor1, tspan[1],
                                         zeros(dim(cor1)),
                                         zeros(dim(cor1)))
       
-    prob = SDEProblem(drift, diffusion, x0, tspan, p=p, noise=noise)       
+    prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=noise)       
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
-function menura!(tree, x0, t0 = 0.0, dt=0.001) 
+function menura!(tree, t0 = 0.0, dt=0.001) 
     function Recurse!(tree, node)
         if ismissing(node.inbound) ## the root node, to get started
-            for i in 1:length(node.other) ## 'other' means branches
-                node.other[i].data["1"]  = ## "1" is a placeholder for the Dict
-                diffusion(x0, (t0, getheight(tree, node.other[i].inout[2])),
-                          node.data["2"][i]);
-            end
+            left  = diffusion(x0, (t0, getheight(tree, node.other[1].inout[2])), node.data["parameters"])
+            right = diffusion(x0, (t0, getheight(tree, node.other[2].inout[2])), node.data["parameters"])
+            node.data["trace"] = (left = left.u, right = right.u)
+            node.data["timebase"] = (left = left.t, right = right.t)
         else
-            for i in 1:length(node.other) ## NB 'other' are branches here!
-                node.other[i].data["1"] =
-                    diffusion(node.inbound.data["1"].u[end],
-                       (getheight(tree, node), getheight(tree, node) +
-                        node.other[i].length),  node.data["2"][i]);
-            end # for
-        end
+            left = diffusion(node.inbound.inout[1].data["trace"].left[end],
+                             (getheight(tree, node), getheight(tree, node) +
+                                 node.other[1].length),node.data["parameters"]);
+        
+            right = diffusion(node.inbound.inout[1].data["trace"].right[end],
+                              (getheight(tree, node), getheight(tree, node) +
+                                  node.other[2].length),node.data["parameters"]);
+            
+            node.data["trace"] = (left = left.u, right=right.u)
+            node.data["timebase"] = (left = left.t, right = right.t)
+
+        end # for
         for i in 1:length(node.other)
             if !isleaf(tree, node.other[i].inout[2])
                 Recurse!(tree, node.other[i].inout[2]);
             end
         end
     end# Recurse!
-
+    
     nodeInit = getroot(tree)
     Recurse!(tree, nodeInit) # do the recursive simulations
     tree
 end # menura!
 
+
 function menuramat!(tree, t0 = 0.0, dt=0.001) ## Only call after putp! 
     function Recurse!(tree, node)
-            left = gen_cov_mat(node.data["parameters"], ## p
-                               (getheight(tree, node), getheight(tree, node) +
-                                   node.other[1].length))
-            
-            right = gen_cov_mat(node.data["parameters"], ## p
-                                (getheight(tree, node), getheight(tree, node) +
-                                    node.other[2].length))
-            node.data["matrix"] = (left=left, right=right)
-        for i in 1:length(node.other)
-            if !isleaf(tree, node.other[i].inout[2])
-                Recurse!(tree, node.other[i].inout[2]);
-            end #if
-        end # for
-    end# Recurse!
 
-    nodeInit = getroot(tree)
-    Recurse!(tree, nodeInit) # do the recursive simulations
-    tree
-end # menuramat!
+        if ismissing(node.inbound) ## if root
+            node.data["matrix"] = zeros(size(node.data["parameters"].mat)) ## set the starting matrix  
+        else
+
+
+            
+             node.data["matrix"] = gen_cov_mat(node.data["parameters"], 
+                                              (getheight(tree, node), getheight(tree, node) +
+                                                  node.other[1].length), 
+
+            
+            for i in 1:length(node.other)
+                if !isleaf(tree, node.other[i].inout[2])
+                    Recurse!(tree, node.other[i].inout[2]);
+                end #if
+            end # for
+        end# Recurse!
+
+        nodeInit = getroot(tree)
+        Recurse!(tree, nodeInit) # do the recursive simulations
+        tree
+    end # menuramat!
 
 function predictTraitTree(tree)
 
@@ -128,10 +137,9 @@ end # predictTraitTree
         ##################################################################3
     putp!(tree, p, "parameters")
     menuramat!(tree)
-    
-tree2 = menura!(tree,     
+    menura!(tree),     
     tree3  = menura!(tree2, x0)
-   (tree2, predictTraitTree(tree2))
+##   (tree2, predictTraitTree(tree2))
     ## tree2
 end # simulation
 
@@ -154,13 +162,6 @@ alpha1 = (3.0, 3.0, 3.0, 3.0)
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
 p = (alpha1, mu1, sigma1, mat=P0, a = a1, b = b1)
-npar = 3 ## alpha mu, sigma of the SDE
-ndims = length(alpha1)
-exampledat = simulation(p, tree)
-
-gen_cov_mat(p, tspan)
-
-
 
 
 ################################ ABC #################################################3
