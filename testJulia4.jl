@@ -1,7 +1,10 @@
 using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JLD2, LinearAlgebra; pyplot();
 
 function simulation(p1, tree)
-    function diffusion(x0, tspan, p, dt=0.001)
+
+    #####################################################################################
+    #####################################################################################
+    function diffusion(x0, tspan, p, mat, dt=0.001)
         function drift(du, u, p, t)
             alpha = p.alpha1;
             mu = p.mu1;
@@ -16,7 +19,7 @@ function simulation(p1, tree)
             ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
         end # diff
         
-        cor1 = cor(p.mat)
+        cor1 = cor(mat)
         noise = CorrelatedWienerProcess(cor1, tspan[1],
                                         zeros(dim(cor1)),
                                         zeros(dim(cor1)))
@@ -25,39 +28,45 @@ function simulation(p1, tree)
     solve(prob, dt=dt, p=p, adaptive=false)
 end # diffusion
 
+    ###############################################################################
+    ################################################################################
+    
 function menura!(tree) 
-    function Recurse!(tree, node)
+    function Recurse!(tree, node, t0 = 0.0)
         if ismissing(node.inbound) ## the root node, to get started
-            left  = diffusion(x0, (getheight(tree, node), getheight(tree, node.other[1].inout[2])), node.data["parameters"])
-            right = diffusion(x0, (t0, getheight(tree, node.other[2].inout[2])), node.data["parameters"])
+            left  = diffusion(x0, (t0, getheight(tree, node.other[1].inout[2])),
+                              node.data["parameters"], node.data["matrix"])
+            right = diffusion(x0, (t0, getheight(tree, node.other[2].inout[2])),
+                              node.data["parameters"], node.data["matrix"])
             node.data["trace"] = (left = left.u, right = right.u)
             node.data["timebase"] = (left = left.t, right = right.t)
         else
-            left = diffusion(node.inbound.inout[1].data["trace"].left[end],
-                             (getheight(tree, node), getheight(tree, node) +
-                                 node.other[1].length),node.data["parameters"]);
+          ancestor = getancestors(tree, node)[1]
+            left = diffusion(ancestor.data["trace"].left[end],
+                             (getheight(tree, ancestor), getheight(tree, node)),
+                             node.data["parameters"], node.data["matrix"]);
         
-            right = diffusion(node.inbound.inout[1].data["trace"].right[end],
-                              (getheight(tree, node), getheight(tree, node) +
-                                  node.other[2].length),node.data["parameters"]);
+            right = diffusion(ancestor.data["trace"].right[end],
+                              (getheight(tree, ancestor), getheight(tree, node)),
+                              node.data["parameters"], node.data["matrix"]);
             
             node.data["trace"] = (left = left.u, right=right.u)
             node.data["timebase"] = (left = left.t, right = right.t)
 
-        end # for
-        for i in 1:length(node.other)
-            if !isleaf(tree, node.other[i].inout[2])
-                Recurse!(tree, node.other[i].inout[2]);
-            end
+        end # else
+        if !isleaf(tree, node)
+            Recurse!(tree, node.other[1].inout[2]);
+            Recurse!(tree, node.other[2].inout[2]);
         end
-    end# Recurse!
-    
+    end # Recurse!  
     root = getroot(tree)
     Recurse!(tree, root) # do the recursive simulations
     tree
 end # menura!
 
-
+    ###############################################################################
+    ################################################################################
+    
 function menuramat!(tree) ## Only call after putp! 
     function Recurse!(tree, node)
 
@@ -82,10 +91,12 @@ function menuramat!(tree) ## Only call after putp!
     tree
 end # menuramat!
 
+    ############################################################################33
+    #############################################################################
+    
 function predictTraitTree(tree)
-
     #### get the last multivariate trait value in a branch
-    testtips = collect(nodefilter(isleaf, tree));
+    testtips = getleaves(tree);
     res = Array{Vector{Float64}}(undef, length(testtips)); 
     tipnames = Array{String}(undef, length(testtips));
     tiptimes = Vector{Float64}();
@@ -93,14 +104,16 @@ function predictTraitTree(tree)
     ## tiptimesdict = Dict();
     
     for i in 1:length(testtips) ## could maybe use heightstoroot() for this computation
-        res[i] = testtips[i].inbound.data["1"].u[end];
+        res[i] = testtips[i].data["trace"].left[begin];
         tipnames[i] = testtips[i].name;
-        push!(tiptimes, testtips[i].inbound.data["1"].t[end]);
+        push!(tiptimes, getheight(tree, testtips[i]));
     end
-
-    collect(Iterators.flatten(res));
+    collect(Iterators.flatten(res))
 end # predictTraitTree
 
+    ##########################################################################33
+    ###########################################################################3
+    
     function putp!(tree, p1, key)
         for i in 1:length(tree.nodes) ## 'other' means branches
         tree.nodes[i].data[key] = p1;
@@ -133,13 +146,12 @@ end # predictTraitTree
         ######################################################################3
     ##################################################################3
 
-    tr = Ultrametric(10)
+    tr = Ultrametric(4)
     tree = rand(tr)
     putp!(tree, p, "parameters")
     menuramat!(tree)
-    menura!(tree),     
-    tree3  = menura!(tree2, x0)
-##   (tree2, predictTraitTree(tree2))
+    menura!(tree)    
+    (tree2, predictTraitTree(tree2))
     ## tree2
 end # simulation
 
@@ -164,6 +176,7 @@ mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
 p = (alpha1, mu1, sigma1, mat=P0, a = a1, b = b1)
 
+tst = simulation(p, tree)
 
 ################################ ABC #################################################3
 # priors = Factored(
