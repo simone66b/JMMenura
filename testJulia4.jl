@@ -113,30 +113,31 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
     
     ####################################################################33
     ######################################################################3
-    function gen_cov_mat(mat, p, tspan, u0=zeros(size(mat)), dt = 0.001)
-        function drift(du, u, p, t) ## drift function for the SDE
-            du .= p.a * t .* p.A
-        end # drift
-        
-        function diffusion(du, u, p, t) ## diffusion function for the SDE
-            du .= p.b * t .* p.B 
-        end # diffusion
-        
-        lowertri = LowerTriangular(mat);
-        uppertri = - UpperTriangular(mat);
-        skewsymm = lowertri + uppertri;
-        pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
-        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE problem
-        sol = solve(prob, EM(), p=pp, dt=dt);
-        Omega1 = last(sol.u); ## get the final matrix
-        
-        exp(Omega1) * mat * exp(-Omega1) ## reconstruct P_1
-    end # gen_cov_mat
+function gen_cov_mat(mat, p, tspan, dt = 0.001)
+    function drift(du, u, p, t) ## drift function for the SDE
+        du .= p.a * t .* p.A
+    end # drift
+    
+    function diffusion(du, u, p, t) ## diffusion function for the SDE
+        du .= p.b * t .* p.B 
+    end # diffusion
+    
+    u0=zeros(size(mat));
+    lowertri = LowerTriangular(mat);
+    uppertri = - UpperTriangular(mat);
+    skewsymm = lowertri + uppertri;
+    pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
+    prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE problem
+    sol = solve(prob, ISSEM(symplectic=true, theta=1/2), p=pp, dt=dt);
+    Omega1 = last(sol.u); ## get the final matrix
+    
+    exp(Omega1) * mat * exp(-Omega1) ## reconstruct P_1
+end # gen_cov_mat
     ######################################################################3
     ##################################################################3n
 
 
-    tr = Ultrametric(100);
+    tr = Ultrametric(5);
     a1=1.0;
     b1=0.1;
     x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
@@ -152,19 +153,23 @@ mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
 
 function simulate((alpha, mu, sigma))
-    p1 = (alpha, mu, sigma, mat=P0, a=a1, b=b1)
+    p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a1, b=b1)
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
 (tree, predictTraitTree(tree))
 end
 
+ p1 = (alpha=alpha1, mu=mu1, sigma=sigma1, mat=P0, a=a1, b=b1)
+    putp!(tree, p1, "parameters");
+    menuramat!(tree);
+    menura!(tree);
+
+
 exampledat = simulate((alpha1, mu1, sigma1));
 
 priordists = [Truncated(Normal(0,3), 0, Inf)]
 priors = Factored(repeat(priordists, 12)...,)
-
-
 
 function cost((alpha, mu, sigma))
     x=simulate((alpha, mu, sigma))[2]
@@ -173,35 +178,39 @@ function cost((alpha, mu, sigma))
 end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 10000, ntransitions=100, discard_initial = 250)   
+res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 1)   
 
 save_object("ABCResults.jld2", res)
 
-#  plot(tree,
-#     size = (400, 800),
-#     markersize = 20, 
-#     series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
+
+########################################################################
+#########################################################################
+
+ plot(tree,
+    size = (400, 800),
+    markersize = 20, 
+    series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
 
 
-# testnodes = getnodes(exampledat[1]);
-#     plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
-#      reuse=false)
-# for i in testnodes
-#     u1= i.data["trace"]
-#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-#     myt = i.data["timebase"]
-#     plot!(myt, uu1[:, 1], uu1[:,2])
-# end
-# current()
+testnodes = getnodes(exampledat[1]);
+    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
+     reuse=false)
+for i in testnodes
+    u1= i.data["trace"]
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    myt = i.data["timebase"]
+    plot!(myt, uu1[:, 1], uu1[:,2])
+end
+current()
 
-# plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
-# for i in testnodes
-#     u1= i.data["trace"]
-#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
-#     myt = i.data["timebase"]
-#     plot!(myt, uu1[:, 3])
-# end
-# current()
+plot(xlim=(0.0,1.0), ylim= (2.0, 6.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"]
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 4, length(u1)))
+    myt = i.data["timebase"]
+    plot!(myt, uu1[:, 3])
+end
+current()
 
 plot(xlim=(2.0,6.0), ylim= (4.0, 8.0), legend=nothing, reuse=false)
 for i in testnodes

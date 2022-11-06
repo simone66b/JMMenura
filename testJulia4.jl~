@@ -135,13 +135,7 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
     ######################################################################3
     ##################################################################3n
 
-function simulate((alpha, mu, sigma))
-    p1 = (alpha, mu, sigma, mat=P0, a=a1, b=b1)
-    putp!(tree, p1, "parameters");
-    menuramat!(tree);
-    menura!(tree);
-(tree, predictTraitTree(tree))
-end
+
     tr = Ultrametric(100);
     a1=1.0;
     b1=0.1;
@@ -156,6 +150,15 @@ end
 alpha1 = (3.0, 3.0, 3.0, 3.0);
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
+
+function simulate((alpha, mu, sigma))
+    p1 = (alpha, mu, sigma, mat=P0, a=a1, b=b1)
+    putp!(tree, p1, "parameters");
+    menuramat!(tree);
+    menura!(tree);
+(tree, predictTraitTree(tree))
+end
+
 exampledat = simulate((alpha1, mu1, sigma1));
 
 priordists = [Truncated(Normal(0,3), 0, Inf)]
