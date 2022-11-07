@@ -113,22 +113,22 @@ using DifferentialEquations, Phylo, Plots, Distributions, Distances, KissABC, JL
     
     ####################################################################33
     ######################################################################3
-function gen_cov_mat(mat, p, tspan, dt = 0.001)
+function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
     function drift(du, u, p, t) ## drift function for the SDE
-        du .= p.a * t .* p.A
+        du .= p.a .* t .* p.A
     end # drift
     
     function diffusion(du, u, p, t) ## diffusion function for the SDE
-        du .= p.b * t .* p.B 
+        du .= p.b .* t .* p.B 
     end # diffusion
     
-    u0=zeros(size(mat));
     lowertri = LowerTriangular(mat);
     uppertri = - UpperTriangular(mat);
     skewsymm = lowertri + uppertri;
+    
     pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
     prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE problem
-    sol = solve(prob, ISSEM(symplectic=true, theta=1/2), p=pp, dt=dt);
+    sol = solve(prob, ISSEM(), p=pp, dt=dt);
     Omega1 = last(sol.u); ## get the final matrix
     
     exp(Omega1) * mat * exp(-Omega1) ## reconstruct P_1
@@ -139,7 +139,7 @@ end # gen_cov_mat
 
     tr = Ultrametric(5);
     a1=1.0;
-    b1=0.1;
+    b1= 1.0;
     x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
     tree = rand(tr); 
        time_tot = 1.0
@@ -160,7 +160,7 @@ function simulate((alpha, mu, sigma))
 (tree, predictTraitTree(tree))
 end
 
- p1 = (alpha=alpha1, mu=mu1, sigma=sigma1, mat=P0, a=a1, b=b1)
+ p1 = (alpha=alpha1, mu=mu1, sigma=sigma1, mat=P0, a=a1, b=b1);
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
@@ -230,3 +230,12 @@ for i in testnodes
 end
 current()
 
+
+
+######################################################################333
+#########################################################################
+##########################################################################
+
+function bracket(X,Y)
+    X*Y - Y * X
+end
