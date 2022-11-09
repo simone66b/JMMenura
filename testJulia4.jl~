@@ -128,20 +128,23 @@ function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
     
     pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
     prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE problem
-    sol = solve(prob, ISSEM(), p=pp, dt=dt);
+    sol = solve(prob, EM(), p=pp, dt=dt);
     Omega1 = last(sol.u); ## get the final matrix
-    
-    exp(Omega1) * mat * exp(-Omega1) ## reconstruct P_1
+
+    lt = LowerTriangular(Omega1) ## TERRIBLE KLUGE
+    matomega = lt + -lt'
+
+    exp(matomega) * mat * exp(-matomega) ## reconstruct P_1
 end # gen_cov_mat
     ######################################################################3
     ##################################################################3n
 
 
-    tr = Ultrametric(5);
+    tree1 = Ultrametric(10);
     a1=1.0;
-    b1= 1.0;
+    b1= 0.1;
     x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
-    tree = rand(tr); 
+    tree = rand(tree1); 
        time_tot = 1.0
     tspan = (0.0, time_tot)
     P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
@@ -160,12 +163,6 @@ function simulate((alpha, mu, sigma))
 (tree, predictTraitTree(tree))
 end
 
- p1 = (alpha=alpha1, mu=mu1, sigma=sigma1, mat=P0, a=a1, b=b1);
-    putp!(tree, p1, "parameters");
-    menuramat!(tree);
-    menura!(tree);
-
-
 exampledat = simulate((alpha1, mu1, sigma1));
 
 priordists = [Truncated(Normal(0,3), 0, Inf)]
@@ -178,9 +175,9 @@ function cost((alpha, mu, sigma))
 end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 1)   
+res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
 
-save_object("ABCResults.jld2", res)
+## save_object("ABCResults.jld2", res)
 
 
 ########################################################################
@@ -190,7 +187,7 @@ save_object("ABCResults.jld2", res)
     size = (400, 800),
     markersize = 20, 
     series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
-
+current()
 
 testnodes = getnodes(exampledat[1]);
     plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
@@ -235,7 +232,3 @@ current()
 ######################################################################333
 #########################################################################
 ##########################################################################
-
-function bracket(X,Y)
-    X*Y - Y * X
-end

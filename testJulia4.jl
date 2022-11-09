@@ -125,21 +125,20 @@ function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
     lowertri = LowerTriangular(mat);
     uppertri = - UpperTriangular(mat);
     skewsymm = lowertri + uppertri;
+    W = WienerProcess(0.0, 0.0, 0.0)
     
     pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
-    prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## setup SDE problem
+    prob = SDEProblem(drift, diffusion, u0, tspan, p=pp, noise=W,
+                      noise_rate_prototype=zeros(size(mat))); ## setup SDE problem
     sol = solve(prob, EM(), p=pp, dt=dt);
-    Omega1 = last(sol.u); ## get the final matrix
+    Omega1 = exp(last(sol.u)) ## get the final matrix
 
-    lt = LowerTriangular(Omega1) ## TERRIBLE KLUGE
-    matomega = lt + -lt'
-
-    exp(matomega) * mat * exp(-matomega) ## reconstruct P_1
+    Omega1 * mat * Omega1' ## reconstruct P_1
 end # gen_cov_mat
     ######################################################################3
     ##################################################################3n
 
-
+u0=zeros(size(mat))
     tree1 = Ultrametric(10);
     a1=1.0;
     b1= 0.1;
