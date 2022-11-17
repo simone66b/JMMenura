@@ -138,18 +138,32 @@ end # gen_cov_mat
     ######################################################################3
     ##################################################################3n
 
-u0=zeros(size(mat))
-    tree1 = Ultrametric(10);
     a1=1.0;
-    b1= 0.1;
-    x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
+    b1= 1.0;
+x0 =  [5.843333, 3.057333, 3.758000, 1.199333]
+tree1 = Ultrametric(100);
     tree = rand(tree1); 
        time_tot = 1.0
     tspan = (0.0, time_tot)
-    P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
-       -0.0424340   0.1899794   -0.3296564  -0.1216394;
-       1.2743154  -0.3296564    3.1162779   1.2956094;
-       0.5162707  -0.1216394    1.2956094   0.5810063];
+    # P0 =  [0.6856935  -0.0424340    1.2743154   0.5162707;
+    #    -0.0424340   0.1899794   -0.3296564  -0.1216394;
+    #    1.2743154  -0.3296564    3.1162779   1.2956094;
+    #        0.5162707  -0.1216394    1.2956094   0.5810063];
+
+P0 = Diagonal([1, 1, 1, 1])
+mat = P0
+u0=zeros(size(mat))
+
+
+
+# P0 = [1.54 0.26 1.14 0.26;
+#       0.26 0.46 0.26 0.06;
+#       1.14 0.26 1.54 0.26;
+#       0.26 0.06 0.26 0.46]
+
+
+
+
 alpha1 = (3.0, 3.0, 3.0, 3.0);
 mu1 = (5.843333, 3.057333, 3.758000, 1.199333); ## Start at the trait means
 sigma1 = (1.0, 1.0, 1.0, 1.0);
@@ -174,7 +188,7 @@ function cost((alpha, mu, sigma))
 end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
+## res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
 
 ## save_object("ABCResults.jld2", res)
 
@@ -189,7 +203,7 @@ res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 
 current()
 
 testnodes = getnodes(exampledat[1]);
-    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 5.0), legend=nothing,
+    plot(xlim = (0.0,1.0), ylim = (4.0, 8.0), zlim=(0.0, 4.0), legend=nothing,
      reuse=false)
 for i in testnodes
     u1= i.data["trace"]
