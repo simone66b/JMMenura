@@ -1,10 +1,3 @@
-getheight(tree, node)
-node.other
-getheight(tree, node)
-node.name
-ancestor(tree, node)
-ancestors(tree, node)
-getancestors(tree, node)
 ancestor
 ancestor.data
 ancestor[1].data
@@ -497,4 +490,11 @@ Diagonal(4,4)
 cor(P0)
 exit()
 exit()
+exit()
+exit()
+exit()
+randn(4)
+rep(1.0, 3)
+eigen(P0)
+exampledat
 exit()
