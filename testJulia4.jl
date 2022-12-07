@@ -140,7 +140,7 @@ end # gen_cov_mat
 
     a1=1.0;
     b1= 1.0;
-x0 =  randn(8)
+x0 =  repeat([0.0], 8);
 tree1 = Ultrametric(20);
     tree = rand(tree1); 
        time_tot = 1.0
@@ -170,31 +170,40 @@ P0 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
 mat = P0
 u0=zeros(size(mat))
 
-alpha1 = repeat([3.0], inner=8);
-mu1 = randn(8); ## Start at the trait means
-sigma1 = repeat([1.0], inner=8)
+alpha1 = repeat([1.0], 8);
+mu1 = repeat([0.0], 8) ## randn(8); ## Start at the trait means
+sigma1 = repeat([1.0], 8)
 
-function simulate((alpha, mu, sigma))
-    p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a1, b=b1)
+# function simulate((alpha, mu, sigma))
+#     p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a1, b=b1)
+#     putp!(tree, p1, "parameters");
+#     menuramat!(tree);
+#     menura!(tree);
+# (tree, predictTraitTree(tree))
+# end
+
+
+function simulate(tree, alpha=alpha1, sigma=sigma1, mu=mu1, mat=P0, a=a1, b=b1)
+    p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a, b=b)
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
 (tree, predictTraitTree(tree))
 end
 
-exampledat = simulate((alpha1, mu1, sigma1));
+exampledat = simulate(tree, alpha1, sigma1, mu1);
 
-priordists = [Truncated(Normal(0,3), 0, Inf)]
-priors = Factored(repeat(priordists, 12)...,)
+# priordists = [Truncated(Normal(0,3), 0, Inf)]
+# priors = Factored(repeat(priordists, 12)...,)
 
-function cost((alpha, mu, sigma))
-    x=simulate((alpha, mu, sigma))[2]
-    y=exampledat[2]
-    euclidean(x, y)
-end #cost
+# function cost((alpha, mu, sigma))
+#     x=simulate((alpha, mu, sigma))[2]
+#     y=exampledat[2]
+#     euclidean(x, y)
+# end #cost
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-## res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
+# approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+# ## res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
 
 ## save_object("ABCResults.jld2", res)
 
@@ -209,7 +218,8 @@ approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
 # current()
 
 testnodes = getnodes(exampledat[1]);
-    plot(xlim = (0.0,1.0), ylim = (-3.5, 0.0), zlim=(-1.5, 2.0), legend=nothing,
+
+    plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing,
      reuse=false)
 for i in testnodes
     u1= i.data["trace"]
@@ -228,7 +238,7 @@ current()
 # end
 # current()
 
-plot(ylim=(-3.5, 0.0), xlim= (-1.5, 2.0), legend=nothing, reuse=false)
+plot(ylim=(-2.0, 2.0), xlim= (-2.0, 2.0), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"]
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)))
