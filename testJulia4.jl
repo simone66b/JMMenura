@@ -1,4 +1,4 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra; pyplot();
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra, GpABC; pyplot();
 
     #####################################################################################
     #####################################################################################
