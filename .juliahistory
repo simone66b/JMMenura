@@ -1,6 +1,3 @@
-getnodes(tree)[1].data
-getnodes(tree)[3].data
-getnodes(tree)[4].data
 getnodes(tree)[5].data
 node = getnodes(tree)[2]
 node.data
@@ -497,4 +494,7 @@ x0
 exit()
 exit()
 exit()
+exit()
+exampledat
+using PyPlots
 exit()

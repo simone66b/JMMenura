@@ -211,21 +211,23 @@ exampledat = simulate(tree, alpha1, sigma1, mu1);
 ########################################################################
 #########################################################################
 
-#  plot(tree,
-#     size = (400, 800),
-#     markersize = 20, 
-#     series_annotations = text.(1:nnodes(tree), 15, :center, :center, :white))
-# current()
+ plot(tree,
+    size = (400, 800),
+    ## markersize = 20, 
+      series_annotations = text.(1:nnodes(tree), 15, :center, :center,
+                                 :white),  linewidth=5, showtips=false)
+current()
 
 testnodes = getnodes(exampledat[1]);
 
-    plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing,
+plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0),
+     legend=nothing,
      reuse=false)
 for i in testnodes
     u1= i.data["trace"]
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)))
     myt = i.data["timebase"]
-    plot!(myt, uu1[:, 1], uu1[:,2])
+    plot!(myt, uu1[:, 1], uu1[:,3])
 end
 current()
 
@@ -242,7 +244,7 @@ plot(ylim=(-2.0, 2.0), xlim= (-2.0, 2.0), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"]
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)))
-    plot!(uu1[:,3], uu1[:, 1])
+    plot!(uu1[:,1], uu1[:, 3])
 end
 current()
 
