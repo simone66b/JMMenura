@@ -1,4 +1,3 @@
-getnodes(tree)[1].data
 getnodes(tree)[3].data
 getnodes(tree)[4].data
 getnodes(tree)[5].data
@@ -494,6 +493,7 @@ mu = mu1
 mu1
 uu1
 x0
+exit()
 exit()
 exit()
 exit()
