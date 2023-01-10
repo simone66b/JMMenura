@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-getnodes(tree)[3].data
-getnodes(tree)[4].data
-=======
->>>>>>> main
-getnodes(tree)[5].data
-node = getnodes(tree)[2]
-node.data
-end
-node = getnodes(tree)[3]
-node = getnodes(tree)[5]
-node.data
-Recurse!(tree, root)
-node.data
-getnodes(tree)[1].data
-getnodes(tree)[2].data
-getnodes(tree)[3].data
-getnodes(tree)[4].data
-getnodes(tree)[5].data
-getnodes(tree)[6].data
-getnodes(tree)[6]
 Recurse!(tree, root)
 node
 isleaf(node)
@@ -505,4 +484,17 @@ exit()
 exampledat
 using PyPlots
 >>>>>>> main
+exit()
+import Pkg; Pkg.add("DifferentialEquations")
+import Pkg; Pkg.add("Phylo")
+import Pkg; Pkg.add("Plots")
+import Pkg; Pkg.add("Distributions")
+import Pkg; Pkg.add("Distances")
+import Pkg; Pkg.add("JDL2")
+import Pkg; Pkg.add("JLD2")
+import Pkg; Pkg.add("LinearAlgebra")
+import Pkg; Pkg.add("GpABC")
+import Pkg; Pkg.add("PyPlot")
+end
+current()
 exit()
