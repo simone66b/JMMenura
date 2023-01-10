@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 getnodes(tree)[3].data
 getnodes(tree)[4].data
+=======
+>>>>>>> main
 getnodes(tree)[5].data
 node = getnodes(tree)[2]
 node.data
@@ -497,4 +500,9 @@ exit()
 exit()
 exit()
 exit()
+<<<<<<< HEAD
+=======
+exampledat
+using PyPlots
+>>>>>>> main
 exit()
