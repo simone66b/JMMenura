@@ -1,232 +1,3 @@
-Recurse!(tree, root)
-node
-isleaf(node)
-?istip
-?isleaf
-Recurse!(tree, root)
-nodes = getnodes(tree)
-nodes[1].data
-nodes[2].data
-nodes[3].data
-nodes[4].data
-nodes[5].data
-nodes[6].data
-nodes[7].data
-nodes[8].data
-Recurse!(tree, root)
-nodes[1].data
-nodes[1].data
-2
-nodes[2].data
-nodes
-nodes..data
-for i in 1:length nodes
-nodes[i
-].data
-end
-for i in 1:length(nodes)
-nodes[i].data end
-for i in 1:length(nodes)
-print(nodes[i].data) end
-print(nodes[i].data["matrix"]) end
-for i in 1:length(nodes)
-print(nodes[i].data["matrix"]) end
-menuramat!(tree)
-nodes = getnodes(tree)
-for i in 1:length(nodes)
-print(nodes[i].data["matrix"]) end
-nodes
-nodes[4].data["matrix"]
-nodes[6].data["matrix"]
-eigen(nodes[6].data["matrix"])
-nodes = getnodes(tree)
-for i in 1:length(nodes)
-print(nodes[i].data["matrix"]) end
-menuramat!(tree)
-nodes = getnodes(tree)
-for i in 1:length(nodes)
-print(nodes[i].data["matrix"]) end
-menuramat!(tree)
-getnodes(tree)
-node = getnodes(tree)[17]
-node.data["matrix"]
-eigne(node.data["matrix"])
-eigen(node.data["matrix"])
-p.mat
-menuramat!(tree)
-node = getnodes(tree)[17]
-node.data["matrix"]
-eigen(node.data["matrix"])
-menura!(tree)
-menura!(tree)
-menura!(tree)
-node = getnodes(tree)[17]
-node.data
-menura!(tree)
-node = getnodes(tree)[17]
-node.data
-menuramat!(tree)
-node = getnodes(tree)[17]
-node.data
-node = getnodes(tree)[17]
-node.data
-menuramat!(tree)
-node = getnodes(tree)[17]
-node.data
-menuramat!(tree)
-node = getnodes(tree)[17]
-node.data
-node = getnodes(tree)[18]
-node.data
-eigen(node.data["matrix"])
-menuramat!(tree)
-node = getnodes(tree)[18]
-eigen(node.data["matrix"])
-node.data
-menuramat!(tree)
-node = getnodes(tree)[18]
-node.data
-menuramat!(tree)
-node = getnodes(tree)[18]
-node.data
-eigen(node.data["matrix"])
-node
-menuramat!(tree)
-node = getnodes(tree)[18]
-node.data
-menuramat!(tree)
-node = getnodes(tree)[18]
-node.data
-eigen(node.data["matrix"])
-menuramat!(tree)
-node = getnodes(tree)[18]
-node.data
-eigen(node.data["matrix"])
-node
-node.other
-node=getroot(tree)
-node.data
-menuramat!(tree)
-putp!(tree, p)
-tree
-getnodes(tree)[6].data
-gen_cov_mat(root.data["matrix"])
-gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
-gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
-gen_cov_mat(root.data["matrix"], p, (0.0, 1.0))
-eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
-eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
-eigen(gen_cov_mat(root.data["matrix"], p, (0.0, 1.0)))
-menuramat!(tree)
-node
-node.other
-node.other[1]
-node.other[1].inout
-x0
-t0 = 0
-node=root
-t0 = 0.0
-plot(tree)
-root.data
-node = getnodes(tree)[3]
-putp!(tree, p)
-p
-node = getroot(tree)
-node = getnodes(tree)[3]
-root
-node = getnodes(tree)[4]
-node = getnodes(tree)[2]
-node.inbound
-plot(tree)
-node = getnodes(tree)[getnodes(tree).name == "Node 6"]
-getnodes(tree)
-node = getnodes(tree)[2]
-getancestors(node)
-getancestors(tree, node)
-ancestor["trace"].left[end]
-ancest)
-menura(tree, root)
-menura!(tree)
-node = getnodes(tree)[2]
-node.data
-menura!(tree)
-menura!(tree)
-getnodes(tree)
-node = getnodes(tree)[4]
-node.data
-)
-getnodes(tree)
-node = getnodes(tree)[2]
-node.data
-getleaves(tree)
-node
-node.data
-i = 1
-res[i]
-tiptimes
-p
-mat = p.mat
-u0=zeros(size(mat))
-dt = 0.001
-gen_cov_mat(mat, p)
-gen_cov_mat(mat, p, tspan)
-gen_cov_mat(mat, p, tspan)
-p
-p
-p.A
-last
-previous
-root
-tree
-pp
-exit()
-gen_cov_mat(mat, p1, (0.0, 1.0))
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-gen_cov_mat(P0, p1, tspan)
-eigen(gen_cov_mat(P0, p1, tspan))
-p1
-p = p1
-mat = P0
-exit()
-simulation
-p1
-tree
-simulated[2]
-exampledat[2]
-simulated[2]
-exampledat
-node = getnodes(tree)[3]
-node.other
-node.other[1].inout[2]
-node.other[2].inout[2]
-cor(P0)
-node.data["matrix"]
-cor(node.data["matrix"]
-)
-cor(P0)
-node = getroot(tree)
-t0 = 0.0
-node = getnodes(tree)[3]
-ancestor
-ancestor.data
-ancestor.data["trace"]
-node.data["trace"]
-node.data["trace"][end]
-(getheight(tree, ancestor), getheight(tree, node))
- (getheight(tree, ancestor), getheight(tree, node))
-node
-ancestor.data["matrix"]
-node
-ancestor.data["matrix"]
-menuramat!(tree)
-node = getnodes(tree)[3]
-ancestor=getancestors(tree)[1]
-ancestor=getancestor(tree, node)[1]
 ancestor=getancestors(tree, node)[1]
 ancestor.data["matrix"]
 menuramat!(tree)
@@ -498,3 +269,233 @@ import Pkg; Pkg.add("PyPlot")
 end
 current()
 exit()
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra, GpABC;
+pyplot();
+
+    #####################################################################################
+    #####################################################################################
+    
+    function menura!(tree)
+
+        function diffusion(x0, tspan, p, mat, dt=0.001)
+            function drift(du, u, p, t)
+                alpha = p.alpha;
+                mu = p.mu;
+                ## du .= alpha .* u would be BM with drift
+                du .= alpha .* (mu .- u); ## OU-like
+            end; # drift
+            
+            function diff(du, u, p, t)
+                sigma = p.sigma;
+                du .= sigma; ## would be OU
+                ## du .= sqrt.(u) .* sigma ## Cox-Ingersoll-Ross Gamma model
+                ## du .= sqrt.(abs.(u .* (ones(length(sigma)) .- u))) .* sigma ## Beta model
+            end; # diff
+            
+            cor1 = cor(mat);
+            noise = CorrelatedWienerProcess(cor1, tspan[1],
+                                            zeros(dim(cor1)),
+                                            zeros(dim(cor1)));
+            
+            prob = SDEProblem(drift, diff, x0, tspan, p=p, noise=noise);       
+            solve(prob, EM(), dt=dt, p=p, adaptive=false);
+        end; # diffusion
+
+        ################################################################################
+        
+        function Recurse!(tree, node, t0 = 0.0)
+            if ismissing(node.inbound) ## the root node, to get started
+                node.data["trace"]= [x0];
+                node.data["timebase"] = [t0];
+            else
+                ancestor = getancestors(tree, node)[1];
+                evol = diffusion(ancestor.data["trace"][end],
+                                 (getheight(tree, ancestor), getheight(tree, node)),
+                                 ancestor.data["parameters"], ancestor.data["matrix"]);
+               node.data["trace"] = evol.u;
+                node.data["timebase"] = evol.t;
+                
+            end # else
+            if !isleaf(tree, node)
+                Recurse!(tree, node.other[1].inout[2]);
+                Recurse!(tree, node.other[2].inout[2]);
+            end
+        end # Recurse!  
+        root = getroot(tree);
+        Recurse!(tree, root); # do the recursive simulations
+        tree;
+    end # menura!
+    
+    ###############################################################################
+    ################################################################################
+    
+    function menuramat!(tree) ## Only call after putp! 
+        function Recurse!(tree, node)
+            
+            if ismissing(node.inbound) ## if root
+                node.data["matrix"] = node.data["parameters"].mat; ## starting matrix
+            else
+                ancestor = getancestors(tree, node)[1];
+                node.data["matrix"] =
+                    gen_cov_mat(ancestor.data["matrix"],
+                                ancestor.data["parameters"], 
+                                (getheight(tree, ancestor),
+                                 getheight(tree, node)));
+            end;
+            if !isleaf(tree, node)
+                Recurse!(tree, node.other[1].inout[2]);
+                Recurse!(tree, node.other[2].inout[2]);
+            end;
+        end; # Recurse!
+        
+        root = getroot(tree);
+        Recurse!(tree, root); # do the recursive simulations
+        tree;
+    end; # menuramat!
+    
+    ############################################################################33
+    #############################################################################
+    
+    function predictTraitTree(tree)
+        #### get the last multivariate trait value in a branch
+        testtips = getleaves(tree);
+        res = Array{Vector{Float64}}(undef, length(testtips)); 
+        tipnames = Array{String}(undef, length(testtips));
+        tiptimes = Vector{Float64}();
+        ##  finaltraitvals = Dict();
+        ## tiptimesdict = Dict();
+        
+        for i in 1:length(testtips) ## could maybe use heightstoroot() for this computation
+            res[i] = testtips[i].data["trace"][end];
+            tipnames[i] = testtips[i].name;
+            push!(tiptimes, getheight(tree, testtips[i]));
+        end;
+        collect(Iterators.flatten(res))
+    end # predictTraitTree
+    
+    ##########################################################################33
+    ###########################################################################3
+    
+    function putp!(tree, p1, key)
+        for i in 1:length(tree.nodes)
+            tree.nodes[i].data[key] = p1;
+        end
+        tree;
+    end # putp!
+    
+    ####################################################################33
+    ######################################################################3
+function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
+    function drift(du, u, p, t) ## drift function for the SDE
+        du .= p.a .* t .* p.A;
+    end # drift
+    
+    function diffusion(du, u, p, t) ## diffusion function for the SDE
+        du .= p.b .* t .* p.B ;
+    end # diffusion
+    
+    lowertri = LowerTriangular(mat);
+    uppertri = - UpperTriangular(mat);
+    skewsymm = lowertri + uppertri;
+    W = WienerProcess(0.0, 0.0, 0.0);
+    
+    pp = (A=skewsymm, B=skewsymm, a=p.a, b=p.b); ## skew symmetric matrices not necessarily the same.
+    prob = SDEProblem(drift, diffusion, u0, tspan, p=pp, noise=W,
+                      noise_rate_prototype=zeros(size(mat))); ## setup SDE problem
+    sol = solve(prob, EM(), p=pp, dt=dt);
+    Omega1 = exp(last(sol.u)); ## get the final matrix
+
+    Omega1 * mat * Omega1'; ## reconstruct P_1
+end # gen_cov_mat
+    ######################################################################3
+    ##################################################################3n
+
+    a1=1.0;
+    b1= 1.0;
+x0 =  repeat([0.0], 8);
+tree1 = Ultrametric(20);
+    tree = rand(tree1); 
+       time_tot = 1.0;
+    tspan = (0.0, time_tot);
+
+P0 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
+0.094 0.449 0.349 0.24 0.071 0.075 0.03 0.009;
+-0.083 0.349 1.426 0.487 -0.371 -0.098 -0.053 -0.172;
+-0.089 0.24 0.487 0.546 -0.168 0.017 -0.051 -0.081;
+0.293 0.071 -0.371 -0.168 1.441 1.008 0.904 0.945;
+0.079 0.075 -0.098 0.017 1.008 1.087 0.731 0.78;
+0.208 0.03 -0.053 -0.051 0.904 0.731 0.809 0.783;
+0.268 0.009 -0.172 -0.081 0.945 0.78 0.783 0.949];
+
+alpha1 = repeat([1.0], 8);
+mu1 = repeat([0.0], 8); ## randn(8); ## Start at the trait means
+sigma1 = repeat([1.0], 8);
+
+function simulate(tree, alpha=alpha1, sigma=sigma1, mu=mu1, mat=P0, a=a1, b=b1)
+    p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a, b=b);
+    putp!(tree, p1, "parameters");
+    menuramat!(tree);
+    menura!(tree);
+(tree, predictTraitTree(tree));
+end; # simulate
+
+exampledat = simulate(tree, alpha1, sigma1, mu1);
+
+
+
+
+
+
+
+ plot(tree,
+    size = (400, 800),
+    ## markersize = 20, 
+      series_annotations = text.(1:nnodes(tree), 15, :center, :center,
+                                 :white),  linewidth=5, showtips=false)
+current()
+
+testnodes = getnodes(exampledat[1]);
+
+plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0),
+     legend=nothing,
+     reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(myt, uu1[:, 1], uu1[:,3]);
+end; # for
+current()
+
+plot(xlim=(0.0,1.0), ylim= (-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(myt, uu1[:, 3]);
+end; # for
+current()
+
+plot(ylim=(-2.0, 2.0), xlim= (-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    plot!(uu1[:,1], uu1[:, 3]);
+end;
+current()
+
+plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing,
+     reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(uu1[:,3], uu1[:, 1], uu1[:,2]);
+end;
+current()
+
+
+
+
+using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra, GpABC;
+pyplot();
