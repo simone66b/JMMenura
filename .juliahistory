@@ -1,7 +1,3 @@
-node =. ancestor
-node
-ancestor
-node = getroot(tree)
 node = getnodes(tree)[3]
 ancestor=getancestors(tree, node)[1]
 evol.u
@@ -497,4 +493,8 @@ pyplot();
 >>>>>>> main
 + )
 )
+exit()
+exit()
+exit()
+exit()
 exit()
