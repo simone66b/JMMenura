@@ -1,4 +1,3 @@
-Recurse!(tree, root)
 node
 isleaf(node)
 ?istip
@@ -497,4 +496,5 @@ import Pkg; Pkg.add("GpABC")
 import Pkg; Pkg.add("PyPlot")
 end
 current()
+exit()
 exit()
