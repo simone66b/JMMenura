@@ -1,6 +1,14 @@
-using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra, GpABC;
+using DifferentialEquations
+using Distances
+using Distributions
+using GpABC
+using JLD2
+using LinearAlgebra
+using Phylo
+using PyCall
+using Plots;
 pyplot();
-
+pygui(true);
     #####################################################################################
     #####################################################################################
     
@@ -94,7 +102,7 @@ pyplot();
         ##  finaltraitvals = Dict();
         ## tiptimesdict = Dict();
         
-        for i in 1:length(testtips) ## could maybe use heightstoroot() for this computation
+        for i in eachindex(testtips) ## could maybe use heightstoroot() for this computation
             res[i] = testtips[i].data["trace"][end];
             tipnames[i] = testtips[i].name;
             push!(tiptimes, getheight(tree, testtips[i]));
@@ -106,7 +114,7 @@ pyplot();
     ###########################################################################3
     
     function putp!(tree, p1, key)
-        for i in 1:length(tree.nodes)
+        for i in eachindex(tree.nodes)
             tree.nodes[i].data[key] = p1;
         end
         tree;
@@ -187,7 +195,6 @@ exampledat = simulate(tree, alpha1, sigma1, mu1);
 
 ########################################################################
 #########################################################################
-
  plot(tree,
     size = (400, 800),
     ## markersize = 20, 
