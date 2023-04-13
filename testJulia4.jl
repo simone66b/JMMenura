@@ -200,13 +200,11 @@ exampledat = simulate(tree, alpha1, sigma1, mu1);
     ## markersize = 20, 
       series_annotations = text.(1:nnodes(tree), 15, :center, :center,
                                  :white),  linewidth=5, showtips=false)
-current()
+ current()
 
 testnodes = getnodes(exampledat[1]);
 
-plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0),
-     legend=nothing,
-     reuse=false)
+plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
@@ -232,8 +230,7 @@ for i in testnodes
 end;
 current()
 
-plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing,
-     reuse=false)
+plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
