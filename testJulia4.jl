@@ -1,6 +1,7 @@
 using DifferentialEquations
 using Distances
 using Distributions
+using KissABC
 using GpABC
 using JLD2
 using LinearAlgebra
@@ -168,19 +169,31 @@ alpha1 = repeat([1.0], 8);
 mu1 = repeat([0.0], 8); ## randn(8); ## Start at the trait means
 sigma1 = repeat([1.0], 8);
 
-function simulate(tree, alpha=alpha1, sigma=sigma1, mu=mu1, mat=P0, a=a1, b=b1)
+
+######################### STILL WORKING ON THIS ###########################
+function simulate(alpha=alpha1, sigma=sigma1, mu=mu1, mat=P0, a=a1, b=b1, tree=tree)
     p1 = (alpha=alpha, mu=mu, sigma=sigma, mat=P0, a=a, b=b);
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
-(tree, predictTraitTree(tree));
+ predictTraitTree(tree);
 end; # simulate
 
-exampledat = simulate(tree, alpha1, sigma1, mu1);
+true_params = simulate(tree, alpha1, sigma1, mu1);
 
-# priordists = [Truncated(Normal(0,3), 0, Inf)]
-# priors = Factored(repeat(priordists, 12)...,)
+##priordists = [Truncated(Normal(0,3), 0, Inf)]
+## priors = Factored(repeat(priordists, 12)...,)
+priors = [Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
+Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
+Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf)]
 
+
+function simulator_function(var_params)
+    params = copy(true_params)
+    params .= var_params
+    simulate(params, tree)
+end
+#################################3 END WORK REGION ##############################
 # function cost((alpha, mu, sigma))
 #     x=simulate((alpha, mu, sigma))[2]
 #     y=exampledat[2]
