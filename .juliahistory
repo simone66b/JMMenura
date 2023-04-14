@@ -1,3 +1,16 @@
+<<<<<<< Updated upstream
+=======
+node.data["matrix"]
+node .= ancestor
+node =. ancestor
+node
+ancestor
+node = getroot(tree)
+node = getnodes(tree)[3]
+ancestor=getancestors(tree, node)[1]
+evol.u
+evol.t
+>>>>>>> Stashed changes
 menura!(tree)
 Sampling   0%|                      |  ETA: N/ASampling   0%|▏                     |  ETA: 0:08:06Sampling   1%|▎                     |  ETA: 0:08:38Sampling   1%|▍                     |  ETA: 0:08:21Sampling   2%|▍                     |  ETA: 0:08:49Sampling   2%|▌                     |  ETA: 0:08:49Sampling   3%|▋                     |  ETA: 0:08:48Sampling   3%|▊                     |  ETA: 0:08:49Sampling   4%|▉                     |  ETA: 0:08:53Sampling   4%|█                     |  ETA: 0:09:01Sampling   5%|█                     |  ETA: 0:09:02Sampling   5%|█▏                    |  ETA: 0:09:02Sampling   6%|█▎                    |  ETA: 0:09:01Sampling   6%|█▍                    |  ETA: 0:09:12
 i = testbranches[1]
@@ -486,6 +499,7 @@ current()
 
 using DifferentialEquations, Phylo, Plots, Distributions, Distances, JLD2, LinearAlgebra, GpABC;
 pyplot();
+<<<<<<< Updated upstream
 >>>>>>> main
 + )
 )
@@ -497,4 +511,10 @@ exit()
 include("testJulia4.jl")
 list()
 list.files()
+=======
+?import
+getwd()
+include("testjulia4.jl")
+include("testJulia4.jl")
+>>>>>>> Stashed changes
 exit()
