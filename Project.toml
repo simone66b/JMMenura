@@ -1,6 +1,0 @@
-[deps]
-Debugger = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
-Phylo = "aea672f4-3940-5932-aa44-993d1c3ff149"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
-PythonPlot = "274fc56d-3b97-40fa-a1cd-1b4a50311bf9"
