@@ -1,14 +1,14 @@
+## using ApproxBayes
 using DifferentialEquations
 using Distances
 using Distributions
-using JLD2
+## using JLD2
 using LinearAlgebra
 using Phylo
-## using PyCall
+using PyCall
 using Plots;
-using PyPlot
-# #using ApproxBayes
-using KissABC
+## using PyPlot
+
 pyplot();
 pygui(true);
     #####################################################################################
@@ -101,6 +101,8 @@ pygui(true);
         res = Array{Vector{Float64}}(undef, length(testtips)); 
         tipnames = Array{String}(undef, length(testtips));
         tiptimes = Vector{Float64}();
+        ##  finaltraitvals = Dict();
+        ## tiptimesdict = Dict();
         
         for i in eachindex(testtips) ## could maybe use heightstoroot() for this computation
             res[i] = testtips[i].data["trace"][end];
@@ -130,7 +132,7 @@ function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
     function diffusion(du, u, p, t) ## diffusion function for the SDE
         du .= p.b .* t .* p.B ;
     end # diffusion
-
+    
     lowertri = LowerTriangular(mat);
     uppertri = - UpperTriangular(mat);
     skewsymm = lowertri + uppertri;
@@ -167,55 +169,63 @@ P0 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
 alpha1 = repeat([1.0], 8);
 mu1 = repeat([0.0], 8); ## randn(8); ## Start at the trait means
 sigma1 = repeat([1.0], 8);
-parms= (alpha=alpha1, sigma=sigma1)
 
-####################################################
 
-function simulate(parms = parms, mu=mu1, mat=P0, a=a1, b=b1, tree=tree)
+function simulate(parms = (alpha1, sigma1), mu=mu1, mat=P0, a=a1, b=b1, tree=tree)
     alpha, sigma = parms
-    p1 = (alpha=alpha, sigma = sigma, mu=mu, mat = mat, a=a, b=b)
+    p1 = (alpha, sigma, mu=mu, mat = mat, a=a, b=b)
     putp!(tree, p1, "parameters");
     menuramat!(tree);
     menura!(tree);
- (tree, predictTraitTree(tree))[2];
+ (tree, predictTraitTree(tree));
 end; # simulate
 
-true_data = simulate(parms, mu1, P0, a1, b1, tree);
-
-priordists = [Truncated(Normal(0,3), 0, Inf)]
-priors = Factored(repeat(priordists, 16)...,)
-
-#= priors = [Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
- Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), 
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf), 
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf),
-Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf)] =#
+exampledat = simulate((alpha1, sigma1), mu1, P0, a1, b1, tree);
 
 
-# setup = ABCRejection(simulate, #simulation function
-#   16, # number of parameters
-#   1.0, #target ϵ
-#   Prior(priors); # Prior for each of the parameters
-#   maxiterations = 10^6, #Maximum number of iterations before the algorithm terminates
-#   )
+ p1 = plot(tree, size = (400, 800),
+    ## markersize = 20, 
+      series_annotations = text.(1:nnodes(tree), 15, :center, :center,
+                                 :white),  linewidth=5, showtips=false)
+ current()
+display(p1)
 
-# # run ABC inference
-# rejection = runabc(setup, true_data)
+testnodes = getnodes(exampledat[1]);
 
-#################################3 END WORK REGION ##############################
-function cost((alpha, sigma))
-    x=simulate((alpha=alpha, sigma=sigma))
-    y=true_data
-    euclidean(x, y)
-end #cost
+p2 = plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(myt, uu1[:, 1], uu1[:,3]);
+end; # for
+current()
+display(p2)
+p3 = plot(xlim=(0.0,1.0), ylim= (-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(myt, uu1[:, 3]);
+end; # for
+current()
+display(p3)
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
+p4 = plot(ylim=(-2.0, 2.0), xlim= (-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    plot!(uu1[:,1], uu1[:, 3]);
+end;
+current()
+display(p4)
 
-save_object("ABCResults.jld2", res)
-
-
-
+p5 = plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+for i in testnodes
+    u1= i.data["trace"];
+    uu1 = transpose(reshape(collect(Iterators.flatten(u1)), 8, length(u1)));
+    myt = i.data["timebase"];
+    plot!(uu1[:,3], uu1[:, 1], uu1[:,2]);
+end;
+current()
+display(p5)
