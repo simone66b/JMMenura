@@ -7,7 +7,6 @@ using LinearAlgebra
 using Phylo
 using Plots
 ## using PyCall
-## using Plots;
 ## using PyPlot
 # #using ApproxBayes
 ## using KissABC
@@ -202,7 +201,7 @@ true_data = simulate(parms);
 priordists = [Uniform(0.0,10.0)]## 
 priors = repeat(priordists, 24)
 n_particles = 2000
-threshold = 8.0
+threshold = 100.0
 
  test = sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
  max_iter=convert(Int, 2e6),
