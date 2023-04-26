@@ -203,32 +203,15 @@ priors = repeat(priordists, 24)
 n_particles = 2000
 threshold = 100.0
 
- test = sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
+ sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
  max_iter=convert(Int, 2e6),
  write_progress=true)
 
  plt = plot(test)
 
  plot(plt.subplots[4])
-# setup = ABCRejection(simulate, #simulation function
-#   16, # number of parameters
-#   1.0, #target ϵ
-#   Prior(priors); # Prior for each of the parameters
-#   maxiterations = 10^6, #Maximum number of iterations before the algorithm terminates
-#   )
 
-
-#################################3 END WORK REGION ##############################
-#= function cost((alpha, sigma))
-    x=simulate((alpha=alpha, sigma=sigma))
-    y=true_data
-    euclidean(x, y)
-end #cost
-
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 500, ntransitions=100, discard_initial = 50) =#
-
-## save_object("ABCResults2.jld2", res)
+save_object("ABCResults2.jld2", test)
 
 
 
