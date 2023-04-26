@@ -1,15 +1,13 @@
 using DifferentialEquations
-## using Distances
+using Distances
 using Distributions
 using GpABC
-## using JLD2
+using JLD2
 using LinearAlgebra
 using Phylo
 using Plots
-## using PyCall
-## using PyPlot
-# #using ApproxBayes
-## using KissABC
+using PyCall
+using PyPlot
 pyplot();
 ## pygui(true);
     #####################################################################################
@@ -211,7 +209,7 @@ threshold = 100.0
 
  plot(plt.subplots[4])
 
-save_object("ABCResults2.jld2", test)
+save_object("ABCResults2.jld2", sim_result)
 
 
 
