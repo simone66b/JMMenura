@@ -7,8 +7,8 @@ using LinearAlgebra
 using Phylo
 using Plots
 using PyCall
-using PyPlot
-pyplot();
+## using PyPlot
+## pyplot();
 ## pygui(true);
     #####################################################################################
     #####################################################################################
@@ -205,9 +205,9 @@ threshold = 100.0
  max_iter=convert(Int, 2e6),
  write_progress=true)
 
- plt = plot(test)
+## plt = plot(test)
 
- plot(plt.subplots[4])
+ ## plot(plt.subplots[4])
 
 save_object("ABCResults2.jld2", sim_result)
 
