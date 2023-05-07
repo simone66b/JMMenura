@@ -3,15 +3,24 @@ using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phyl
 include("Diffusion_Functions.jl")
 
 
+
 #######################
 # Recursive Functions #
 #######################
 function recurse_menura!(tree, node, t0 , x0)
     if ismissing(node.inbound) ## the root node, to get started
+        node.data["matrix"] = node.data["parameters"].mat; ## starting matrix
+
         node.data["trace"]= [x0];
         node.data["timebase"] = [t0];
     else
         ancestor = getancestors(tree, node)[1];
+        node.data["matrix"] =
+            gen_cov_mat(ancestor.data["matrix"],
+                        ancestor.data["parameters"], 
+                        (getheight(tree, ancestor),
+                         getheight(tree, node)));
+
         evol = diffusion_menura(ancestor.data["trace"][end],
                          (getheight(tree, ancestor), getheight(tree, node)),
                          ancestor.data["parameters"], ancestor.data["matrix"]);
@@ -25,23 +34,6 @@ function recurse_menura!(tree, node, t0 , x0)
     end
 end # Recurse! 
 
-function recurse_mat!(tree, node)
-        
-    if ismissing(node.inbound) ## if root
-        node.data["matrix"] = node.data["parameters"].mat; ## starting matrix
-    else
-        ancestor = getancestors(tree, node)[1];
-        node.data["matrix"] =
-            gen_cov_mat(ancestor.data["matrix"],
-                        ancestor.data["parameters"], 
-                        (getheight(tree, ancestor),
-                         getheight(tree, node)));
-    end;
-    if !isleaf(tree, node)
-        recurse_mat!(tree, node.other[1].inout[2]);
-        recurse_mat!(tree, node.other[2].inout[2]);
-    end;
-end; # Recurse!
 
 ##############################
 # Matrix and trait evolution #
@@ -78,7 +70,7 @@ end
 
 function predict_trait_tree(tree)
     """
-    get the last multivariate trait value in a branch
+    Get the last multivariate trait value from all branches
     """
     testtips = getleaves(tree);
     res = Array{Vector{Float64}}(undef, length(testtips)); 
@@ -97,19 +89,11 @@ end # predictTraitTree
 # Simulation Handling Functions #
 #################################
 
-function menura!(tree, para_len)
-    # println("length = $para_len")
-    x0 = repeat([0.0], para_len)
+function menura!(tree, para_len, x0)
     root = getroot(tree);
     recurse_menura!(tree, root, 0.0, x0); # do the recursive simulations
     return tree
 end # menura!
-
-function menuramat!(tree) ## Only call after putp! 
-    root = getroot(tree);
-    recurse_mat!(tree, root); # do the recursive simulations
-    return tree
-end; # menuramat!
 
 function putp!(tree, p1, key)
     for i in eachindex(tree.nodes)
@@ -138,17 +122,19 @@ function menura_errors(alpha, sigma, mu, mat)
     end
 end
 
-function menura_sim(alpha, sigma, mu, mat, a, b, tree)
+function menura_sim_exper(alpha, sigma, mu, mat, a, b, tree; x0 = nothing)
     """
     Hello
     """
     #menura_errors(alpha, sigma, mu, mat)
 
     para_len = length(alpha)
+    if isnothing(x0)
+        x0 = repeat([0.0], para_len)
+    end
 
     p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=mat, a=a, b=b)
     putp!(tree, p1, "parameters");
-    menuramat!(tree);
-    menura!(tree, para_len);
- (tree, predict_trait_tree(tree))[2];
+    menura!(tree, para_len, x0);
+    (tree, predict_trait_tree(tree))[2];
 end
