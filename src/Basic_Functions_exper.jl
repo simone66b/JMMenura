@@ -2,6 +2,7 @@ using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phyl
 
 include("Diffusion_Functions.jl")
 include("Evolution_functions.jl")
+include("Tree_Modifying_Functions.jl")
 
 
 #######################
@@ -64,13 +65,6 @@ function menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
     root = getroot(tree)
     recurse_menura!(tree, root, 0.0, x0, trait_drift, trait_diff, matrix_drift)
 end # menura!
-
-function putp!(tree, p1, key)
-    for i in eachindex(tree.nodes)
-        tree.nodes[i].data[key] = p1
-    end
-    tree;
-end # putp!
 
 function menura_errors(alpha, sigma, mu, mat)
     if size(mat)[1] != size(mat)[2]

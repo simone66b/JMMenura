@@ -1,5 +1,7 @@
 using .JMMenura
-using Phylo, Distributions, Random, Plots
+using Phylo, Distributions, Random, Plots, LinearAlgebra
+
+pyplot()
 
 Random.seed!(1)
 
@@ -12,7 +14,7 @@ tree1 = Ultrametric(20);
        time_tot = 1.0;
     tspan = (0.0, time_tot);
 
-P0 = rand(Uniform(-1,1), n,n)
+P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distribution
 
 alpha1 = repeat([1.0], n);
 mu1 = repeat([0.0], n); ## randn(8); ## Start at the trait means
