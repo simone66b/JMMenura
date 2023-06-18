@@ -34,6 +34,13 @@ function length_order!(array, tree)
     return a    
 end
 
+"""
+    plot_labelled(tree)
+
+Plots a phylogenetic tree numbering the nodes according to the indexing system used.
+
+Useful for indexing into a tree.
+"""
 function plot_labelled(tree)
     a = round.(nodeheights(tree), sigdigits = 10)
     b = length_order!(a, tree)

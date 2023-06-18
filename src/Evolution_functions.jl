@@ -4,6 +4,11 @@ using DifferentialEquations
 # Matrix and trait evolution #
 ##############################
 
+"""
+    trait_diffusion(x0, tspan, p, mat, trait_drift, trait_diff, dt=0.001) 
+
+Handles evolving a trait for a node
+"""
 function trait_diffusion(x0, tspan, p, mat, trait_drift, trait_diff, dt=0.001)
     cor1 = cor(mat)
     noise = CorrelatedWienerProcess(cor1, tspan[1],
@@ -14,6 +19,11 @@ function trait_diffusion(x0, tspan, p, mat, trait_drift, trait_diff, dt=0.001)
     solve(prob, EM(), dt=dt, p=p, adaptive=false)
 end
 
+"""
+    gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.001) 
+
+Handles evolving the covariance matrix of a node
+"""
 function gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.001)
     lowertri = LowerTriangular(mat)
     uppertri = - UpperTriangular(mat)

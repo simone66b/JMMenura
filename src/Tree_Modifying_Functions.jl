@@ -15,6 +15,7 @@ function apply_trait(tree, trait, node::Int, key)
     tree.nodes[node].data[key] = trait
 end
 
+
 function apply_trait(tree, trait, node::Array{Int}, key)
     for n in node
         tree.nodes[n].data[key] = trait

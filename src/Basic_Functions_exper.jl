@@ -1,13 +1,17 @@
 using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, PyPlot, KissABC
 
-include("Diffusion_Functions.jl")
-include("Evolution_functions.jl")
-include("Tree_Modifying_Functions.jl")
+# include("Diffusion_Functions.jl")
+# include("Evolution_functions.jl")
+# include("Tree_Modifying_Functions.jl")
 
 
 #######################
 # Recursive Functions #
 #######################
+
+"""
+Recursively iterates over the tree and evolves each node.
+"""
 function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_drift)
     if ismissing(node.inbound) ## the root node, to get started
         node.data["matrix"] = node.data["parameters"].mat ## starting matrix
@@ -40,10 +44,12 @@ end # Recurse!
 # Trait Prediction Functions #
 ##############################
 
+"""
+    predict_trait_tree(tree)
+
+Returns the last multivariate trait value from all branches
+"""
 function predict_trait_tree(tree)
-    """
-    Get the last multivariate trait value from all branches
-    """
     testtips = getleaves(tree);
     res = Array{Vector{Float64}}(undef, length(testtips))
     tipnames = Array{String}(undef, length(testtips))
@@ -61,11 +67,17 @@ end # predictTraitTree
 # Simulation Handling Functions #
 #################################
 
+"""
+Now that i think about it this function is possibly redundant.
+"""
 function menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
     root = getroot(tree)
     recurse_menura!(tree, root, 0.0, x0, trait_drift, trait_diff, matrix_drift)
 end # menura!
 
+"""
+Makes sure input parameters are acceptable (Might need to refine more).
+"""
 function menura_errors(alpha, sigma, mu, mat)
     if size(mat)[1] != size(mat)[2]
         error("Covariance matrix must be square matrix")
@@ -86,11 +98,19 @@ function menura_errors(alpha, sigma, mu, mat)
     end
 end
 
+"""
+    menura_sim(alpha, sigma, mu, mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+                        matrix_drift = covariance_mat_drift)
+
+Handles simulating evolution over a phylogenetic tree.
+
+Returns the tree, along with the trait values on each of the leaves of the tree.
+
+# Arguments 
+- 
+"""
 function menura_sim_exper(alpha, sigma, mu, mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
                             matrix_drift = covariance_mat_drift)
-    """
-    Hello
-    """
     menura_errors(alpha, sigma, mu, mat)
 
     para_len = length(alpha)
