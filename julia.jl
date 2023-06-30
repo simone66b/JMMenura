@@ -8,7 +8,7 @@ using Phylo
 using Plots
 using PyCall
 ## using PyPlot
-## pyplot();
+pyplot();
 ## pygui(true);
     #####################################################################################
     #####################################################################################
@@ -118,7 +118,49 @@ using PyCall
         end
         tree;
     end # putp!
+    ######################################################3
+    ######################################################3
+using PosDefManifold, LinearAlgebra, DifferentialEquations;
+    ###function matrixOU(mat, p, tspan, dt = 0.001)
+
+        function drift(du, u, p, t)
+            du .= p.alpha .* distance(Fisher, Hermitian(u), p.mu)
+        end ## drift
+
+        function diffusion(du, u, p, t)
+            du .= p.sigma
+        end # diffusion
+
+        mu = Hermitian([4.0 2.0; 2.0 5.0])
+        u0 = [5.0 3.0; 3.0 6.0]
+
+       W = WienerProcess(0.0, 0.0, 0.0)
+       A = zeros(size(u0))
+       A[1,2] = 1.0
+
+        pp = (mu = mu, alpha = 1.0, sigma = 1.0)
+        
+        tspan = (0, 1)
+        dt = 0.001
+
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## noise=W,
+        ## noise_rate_prototype=[0 0; 0 0]);
+    sol = solve(prob, EM(), p = pp, dt=dt)
     
+    ## end;
+
+    ## p = (mu = logMap(Fisher, Hermitian([0.6 0.4; 0.4 0.6]), Hermitian(float(I(2)))), alpha = 1.0, sigma = 1.0)
+    ## mat = logMap(Fisher, Hermitian([0.8 0.2; 0.2 0.8]), Hermitian([1.0 0; 0 1.0]))
+    plot(sol)
+    
+    
+   
+    plu0 = p.mu
+    tst = matrixOU(mat, p, tspan, dt)
+
+
+
+
     ####################################################################33
     ######################################################################3
 function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
@@ -205,9 +247,9 @@ threshold = 100.0
  max_iter=convert(Int, 2e6),
  write_progress=true)
 
-## plt = plot(test)
+ plt = plot(test)
 
- ## plot(plt.subplots[4])
+ plot(plt.subplots[4])
 
 save_object("ABCResults2.jld2", sim_result)
 
