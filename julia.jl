@@ -120,7 +120,7 @@ pyplot();
     end # putp!
     ######################################################3
     ######################################################3
-using PosDefManifold, LinearAlgebra, DifferentialEquations;
+using PosDefManifold, LinearAlgebra, DifferentialEquations, NaNMath, Plots;
     ###function matrixOU(mat, p, tspan, dt = 0.001)
 
         function drift(du, u, p, t)
@@ -131,31 +131,31 @@ using PosDefManifold, LinearAlgebra, DifferentialEquations;
             du .= p.sigma
         end # diffusion
 
-        mu = Hermitian([4.0 2.0; 2.0 5.0])
-        u0 = [5.0 3.0; 3.0 6.0]
+mu1 = Hermitian([4.0 2.0; 2.0 5.0])
+HermId = Hermitian(1.0I(2))
+uu0 = [5.0 3.0; 3.0 6.0]
 
-       W = WienerProcess(0.0, 0.0, 0.0)
-       A = zeros(size(u0))
-       A[1,2] = 1.0
+        # mu = logMap(Fisher, mu1, HermId)
+        # u0 = convert(Matrix{Float64}, logMap(Fisher, uu0, HermId))
 
+        mu = Hermitian(log(mu1))
+        u0 = log(uu0)
         pp = (mu = mu, alpha = 1.0, sigma = 1.0)
         
-        tspan = (0, 1)
+        tspan = (0.0, 1.0)
         dt = 0.001
 
-        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp); ## noise=W,
-        ## noise_rate_prototype=[0 0; 0 0]);
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp);
     sol = solve(prob, EM(), p = pp, dt=dt)
-    
-    ## end;
-
-    ## p = (mu = logMap(Fisher, Hermitian([0.6 0.4; 0.4 0.6]), Hermitian(float(I(2)))), alpha = 1.0, sigma = 1.0)
-    ## mat = logMap(Fisher, Hermitian([0.8 0.2; 0.2 0.8]), Hermitian([1.0 0; 0 1.0]))
-    plot(sol)
-    
+plot(sol)
+sol1 = sol
+    # temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol)
+    temp = exp.(sol.u)
+sol1.u .= temp
+plot(sol)
     
    
-    plu0 = p.mu
+u0 = p.mu
     tst = matrixOU(mat, p, tspan, dt)
 
 
