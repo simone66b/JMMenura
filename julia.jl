@@ -202,7 +202,7 @@ true_data = simulate(parms);
 priordists = [Uniform(0.0,10.0)]## 
 priors = repeat(priordists, 24)
 n_particles = 2000
-threshold = 8.0
+threshold = 15.0
 
  test = sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
  max_iter=convert(Int, 2e6),
@@ -210,7 +210,7 @@ threshold = 8.0
 
  plt = plot(test)
 
- plot(plt.subplots[4])
+ plot(plt.subplots[1])
 # setup = ABCRejection(simulate, #simulation function
 #   16, # number of parameters
 #   1.0, #target ϵ
