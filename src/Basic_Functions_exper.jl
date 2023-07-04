@@ -109,16 +109,16 @@ Returns the tree, along with the trait values on each of the leaves of the tree.
 # Arguments 
 - 
 """
-function menura_sim_exper(alpha, sigma, mu, mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+function menura_sim_exper(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
                             matrix_drift = covariance_mat_drift)
-    menura_errors(alpha, sigma, mu, mat)
+    menura_errors(alpha, sigma, mu, cov_mat)
 
     para_len = length(alpha)
     if isnothing(x0)
         x0 = repeat([0.0], para_len)
     end
 
-    p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=mat, a=a, b=b)
+    p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b)
     putp!(tree, p1, "parameters")
     menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
     (tree, predict_trait_tree(tree))
