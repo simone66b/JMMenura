@@ -10,82 +10,72 @@ end  ## drift function
 function diffusion(du, u, p, t)
     du .= p.sigma
 end
+
+function vec2Hermitian(vec, size)
+    Hermitian([ i <= j ? vec[Integer(j * (j - 1)/ 2 + i)] : 0 for i = 1:size, j = 1:size ])
+   end
+
+alphavec = alpha[tril!(trues(size(alpha)))]
+sigmavec = sigma[tril!(trues(size(sigma)))]
+
 mu1 = Hermitian(mu1) ## mean matrix
 uu0 = Hermitian(uu0) ## start matrix
 HermId = Hermitian(1.0I(size(uu0, 1))) ## Identity matrix
 
-u0 = convert(Matrix{Float64}, logMap(Fisher, uu0, HermId))# map starting matrix onto
+u0 = logMap(Fisher, uu0, HermId)# map starting matrix onto
                                                        # tangent space (Lie algebra). 
                                                         # must not be Hermitian so we 
                                                         # can mutate the off-diagonals
-
-mu = Hermitian(logMap(Fisher, mu1, HermId)) ## map mean matrix onto tangent space
-pp = (mu = mu, alpha =  alpha, sigma = sigma) ## tuple of parameters
+u1 = u0[tril!(trues(size(u0)))]
+mu2 = logMap(Fisher, mu1, HermId) 
+mu3 = mu2[tril!(trues(size(mu2)))]
+## map mean matrix onto tangent space
+pp = (mu = mu3, alpha =  alphavec, sigma = sigmavec) ## tuple of parameters
         
 tspan = (0.0, 10.0)
 dt = 0.0001
 
-prob = SDEProblem(drift, diffusion, u0, tspan, p=pp) # noise_rate_prototype = zeros(2,2)) # set up sde problem
-sol = solve(prob, EM(), p = pp, dt=dt) ## solve using Euler-Maruyama
+prob = SDEProblem(drift, diffusion, u1, tspan, p = pp) # noise_rate_prototype = zeros(2,2)) # set up sde problem
+sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
 
-##temp1 = reshape.(sol.u, 2,2)
-temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
-sol.u .= temp # replace trace with transformed version.
-sol  ## can now plot, print this, etc.
+
+
+herms = vec2Hermitian.(sol.u, size(uu0,1))
+herms = convert(Vector{Hermitian{Float64, Matrix{Float64}}}, herms)
+temp = map(x -> expMap(Fisher, x, HermId), herms) # back transfer trace onto manifold
+
+# replace trace with transformed version.
+temp  ## can now plot, print this, etc.
 end # OUmatrix function
 
 
-P0 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
-0.094 0.449 0.349 0.24 0.071 0.075 0.03 0.009;
--0.083 0.349 1.426 0.487 -0.371 -0.098 -0.053 -0.172;
--0.089 0.24 0.487 0.546 -0.168 0.017 -0.051 -0.081;
-0.293 0.071 -0.371 -0.168 1.441 1.008 0.904 0.945;
-0.079 0.075 -0.098 0.017 1.008 1.087 0.731 0.78;
-0.208 0.03 -0.053 -0.051 0.904 0.731 0.809 0.783;
-0.268 0.009 -0.172 -0.081 0.945 0.78 0.783 0.949];
 
-alpha = ones(8,8).*5.0
-sigma = ones(8,8)./sqrt(2).*0.25
-sigma[diagind(sigma)].=0.25
+###################################################################################################3
 
+mu1 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
+      0.094 0.449 0.349 0.24 0.071 0.075 0.03 0.009;
+     -0.083 0.349 1.426 0.487 -0.371 -0.098 -0.053 -0.172;
+     -0.089 0.24 0.487 0.546 -0.168 0.017 -0.051 -0.081;
+      0.293 0.071 -0.371 -0.168 1.441 1.008 0.904 0.945;
+      0.079 0.075 -0.098 0.017 1.008 1.087 0.731 0.78;
+      0.208 0.03 -0.053 -0.051 0.904 0.731 0.809 0.783;
+      0.268 0.009 -0.172 -0.081 0.945 0.78 0.783 0.949];
+      
+
+alpha = fill(5.0, size(mu1, 1), size(mu1, 1))
+sigma = fill(1/sqrt(2) * 0.25, size(mu1,1), size(mu1,1))
+sigma[diagind(sigma)] .= 0.25
 uu0 = randPosDefMat(8)
 
-@time test = OUmatrix(uu0, P0, alpha, sigma)
-# alpha1 = repeat([5.0], 8);
-# mu1 = randPosDefMat(8)
-# sigma1 = repeat([1.0], 8);
+@time test = OUmatrix(uu0, mu1, alpha, sigma);
+# Extract the elements from the matrices
 
-
-
-# mu1 = Hermitian([5.0 2.0; 2.0 4.0])
-# uu0 =randPosDefMat(2)
-
-# sig = [0.5 0.5/sqrt(2); 0.5/sqrt(2) 0.5]
-
-## test = OUmatrix(uu0, mu1, 5.0, sig);
-
-
-display(plot(test, legend=false))
-
-test2 = cov2cor.(test.u)
-plot(0.0:0001:1.0, test2)
-vec1 = map(x -> LowerTriangular(x), test2)
-## detvecs = det.(test.u)
-
-display(plot(vec1, reuse=false))
-
-#= function multOffDiag(matrix, multiplier)
-    if (ishermitian(matrix))
-        matrix = parent(matrix)
+test2 = convert(Vector{Matrix{Float64}}, test)
+test3 = cov2cor.(test2)
+for i in 1:8, j in 1:8
+    if i <= j
+vals = map(x -> x[i,j], test3)
+plot!(vals, legend=false)
     end
-    sizeMat = size(matrix, 1)
-    result = copy(matrix)
-    for i in 1:sizeMat
-        for j in 1:sizeMat
-            if i != j
-                result[i, j] *= multiplier  # Multiply off-diagonal elements by 2
-            end
-        end     
-    end 
-    return result
-end# multOffDiag  =# 
+end
+current()
