@@ -32,8 +32,8 @@ mu3 = mu2[tril!(trues(size(mu2)))]
 ## map mean matrix onto tangent space
 pp = (mu = mu3, alpha =  alphavec, sigma = sigmavec) ## tuple of parameters
         
-tspan = (0.0, 10.0)
-dt = 0.0001
+tspan = (0.0, 1.0)
+dt = 0.001
 
 prob = SDEProblem(drift, diffusion, u1, tspan, p = pp) # noise_rate_prototype = zeros(2,2)) # set up sde problem
 sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
@@ -62,8 +62,8 @@ mu1 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
       0.268 0.009 -0.172 -0.081 0.945 0.78 0.783 0.949];
       
 
-alpha = fill(5.0, size(mu1, 1), size(mu1, 1))
-sigma = fill(1/sqrt(2) * 0.25, size(mu1,1), size(mu1,1))
+alpha = fill(0.5, size(mu1, 1), size(mu1, 1))
+sigma = fill(1/sqrt(2) .* 0.25, size(mu1,1), size(mu1,1))
 sigma[diagind(sigma)] .= 0.25
 uu0 = randPosDefMat(8)
 
@@ -72,6 +72,8 @@ uu0 = randPosDefMat(8)
 
 test2 = convert(Vector{Matrix{Float64}}, test)
 test3 = cov2cor.(test2)
+
+plot()
 for i in 1:8, j in 1:8
     if i <= j
 vals = map(x -> x[i,j], test3)
