@@ -40,3 +40,7 @@ end
 function apply_prior_descend(tree, prior, node)
     apply_trait_descend(tree, prior, node, "Prior")
 end
+
+function get_trait(tree, key, node)
+    tree.nodes[node].data[key]
+end

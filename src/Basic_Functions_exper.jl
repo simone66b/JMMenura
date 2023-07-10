@@ -121,5 +121,6 @@ function menura_sim_exper(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, t
     p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b)
     putp!(tree, p1, "parameters")
     menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
-    (tree, predict_trait_tree(tree))
+    # (tree, predict_trait_tree(tree))
+    (tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
 end
