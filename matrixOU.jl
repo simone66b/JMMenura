@@ -76,7 +76,7 @@ test3 = cov2cor.(test2)
 plot()
 for i in 1:8, j in 1:8
     if i <= j
-vals = map(x -> x[i,j], test3)
+vals = map(x -> x[i,j], test2)
 plot!(vals, legend=false)
     end
 end
