@@ -87,10 +87,13 @@ current()
 
 ############# Data entry ############################3####
 
-using CSV, Tables
+using CSV, Tables, DataFrames, XLSX
+
 cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
 nms = ["cris.txt", "smar.txt", "ever.txt", "grah.txt",
-"line.txt", "pulc.txt", "sagr.txt", "smar.txt"]
+"line.txt", "pulc.txt", "sagr.txt", "smar.txt"];
 matmatrix = CSV.File(nms, header=0) |> Tables.matrix
 Garray = reshape(matmatrix, 8, 8, 8)
 Gvec = [Garray[:,i,:] for i in 1:size(Garray,2)]
+
+xf = XLSX.readxlsx("Adult measurements for divergence.xlsx")
