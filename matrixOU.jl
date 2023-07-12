@@ -76,8 +76,21 @@ test3 = cov2cor.(test2)
 plot()
 for i in 1:8, j in 1:8
     if i <= j
-vals = map(x -> x[i,j], test2)
+vals = map(x -> x[i,j], test3)
 plot!(vals, legend=false)
     end
 end
 current()
+
+
+##################################################3########
+
+############# Data entry ############################3####
+
+using CSV, Tables
+
+nms = ["cris.txt", "smar.txt", "ever.txt", "grah.txt",
+"line.txt", "pulc.txt", "sagr.txt", "smar.txt"]
+matmatrix = CSV.File(nms, header=0) |> Tables.matrix
+Garray = reshape(matmatrix, 8, 8, 8)
+Gvec = [Garray[:,i,:] for i in 1:size(Garray,3)]
