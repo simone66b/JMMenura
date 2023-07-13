@@ -87,7 +87,7 @@ current()
 
 ############# Data entry ############################3####
 
-using CSV, Tables, DataFrames, XLSX
+using CSV, Tables, DataFrames, XLSX, Statistics, Pipe
 
 cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
 nms = ["cris.txt", "smar.txt", "ever.txt", "grah.txt",
@@ -96,4 +96,20 @@ matmatrix = CSV.File(nms, header=0) |> Tables.matrix
 Garray = reshape(matmatrix, 8, 8, 8)
 Gvec = [Garray[:,i,:] for i in 1:size(Garray,2)]
 
-xf = XLSX.readxlsx("Adult measurements for divergence.xlsx")
+xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", "Pmatrix Measurements with outli"))
+
+@pipe xf |>
+
+select(_, 2:11) |>
+
+
+
+
+
+
+df2 = select(xf, 2:11)
+
+
+tst = transform(df2, 2:10 .=> (x -> mean(skipmissing(x))))
+
+@pipe tst |> groupby(tst, :Species)) |> combine(_, 2:10 => (x -> mean(skipmissing(x)
