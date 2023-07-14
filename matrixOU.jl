@@ -87,29 +87,27 @@ current()
 
 ############# Data entry ############################3####
 
-using CSV, Tables, DataFrames, XLSX, Statistics, Pipe
+using CSV, Tables, DataFrames, XLSX, Statistics
 
+
+#####################################################################################################3
 cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
-nms = ["cris.txt", "smar.txt", "ever.txt", "grah.txt",
+nms = ["cris.txt", "ever.txt", "grah.txt",
 "line.txt", "pulc.txt", "sagr.txt", "smar.txt"];
 matmatrix = CSV.File(nms, header=0) |> Tables.matrix
-Garray = reshape(matmatrix, 8, 8, 8)
-Gvec = [Garray[:,i,:] for i in 1:size(Garray,2)]
+Garray = reshape(matmatrix', 8,8,7)
+Gvec = [Garray[1:8, 1:8, i] for i in 1:7] ## Species Gmatrices
 
 xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", "Pmatrix Measurements with outli"))
-
-@pipe xf |>
-
-select(_, 2:11) |>
-
-
-
-
-
-
-df2 = select(xf, 2:11)
-
-
-tst = transform(df2, 2:10 .=> (x -> mean(skipmissing(x))))
-
-@pipe tst |> groupby(tst, :Species)) |> combine(_, 2:10 => (x -> mean(skipmissing(x)
+Anoles =  filter(row -> row.Species .== "A. cristatellus" || 
+row.Species .== "A. evermanni" ||
+row.Species .== "A. grahami" ||
+row.Species .== "A. lineatopus" ||
+row.Species .== "A. pulchellus" ||
+row.Species .== "A. sagrei" ||
+row.Species .== "A. smaragdinus", xf[:,2:11]);
+AnolesGrouped = groupby(Anoles, :Species);
+AnolesData1 = combine(AnolesGrouped, 2:10 .=> (x -> mean(skipmissing(x))), renamecols=false); ## species means
+AnolesData2 = transform!(AnolesData, 2:10 .=> (x -> log.(x)))
+AnolesData = select(AnolesData2, Not(2:10))
+AnolesData = rename(AnolesData, names(AnolesData2)[1:10])
