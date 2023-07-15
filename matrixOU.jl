@@ -1,5 +1,34 @@
-using PosDefManifold, LinearAlgebra, DifferentialEquations, StatsBase, Plots;
+using PosDefManifold, LinearAlgebra, DifferentialEquations, StatsBase, Plots
+using CSV, Tables, DataFrames, XLSX, Statistics, Pipe
 pyplot();
+
+cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
+nms = ["cris.txt", "ever.txt", "grah.txt",
+"line.txt", "pulc.txt", "sagr.txt", "smar.txt"];
+matmatrix = CSV.File(nms, header=0) |> Tables.matrix
+Garray = reshape(matmatrix', 8,8,7)
+Gvec = [Garray[1:8, 1:8, i] for i in 1:7] ## Species Gmatrices
+DFmats = DataFrame(Gmatrix=Gvec)
+
+xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", 
+"Pmatrix Measurements with outli"))
+
+vecnames = append!([2], 4:11) # columns to keep
+AnolesData = @pipe xf[:,vecnames] |> 
+filter(row -> row.Species .== "A. cristatellus" || 
+row.Species .== "A. evermanni" ||
+row.Species .== "A. grahami" ||
+row.Species .== "A. lineatopus" ||
+row.Species .== "A. pulchellus" ||
+row.Species .== "A. sagrei" ||
+row.Species .== "A. smaragdinus", _) |>
+groupby(_, :Species) |>
+combine(_, 2:9 .=> (x -> mean(skipmissing(x)))) |> ## species means
+transform(_, 2:9 .=> (x -> log.(x))) |>
+select(_, Not(2:9)) |>
+rename(_, names(xf)[vecnames])
+
+FullData = hcat(AnolesData, DFmats)
 
 function OUmatrix(uu0, mu1, alpha, sigma)
      ## starting matrix and mean matrix
@@ -51,68 +80,25 @@ end # OUmatrix function
 
 
 ###################################################################################################3
+### FIX THIS 
+mu1 = 1000 .* FullData[1,:Gmatrix]
 
-mu1 = [0.329 0.094 -0.083 -0.089 0.293 0.079 0.208 0.268;
-      0.094 0.449 0.349 0.24 0.071 0.075 0.03 0.009;
-     -0.083 0.349 1.426 0.487 -0.371 -0.098 -0.053 -0.172;
-     -0.089 0.24 0.487 0.546 -0.168 0.017 -0.051 -0.081;
-      0.293 0.071 -0.371 -0.168 1.441 1.008 0.904 0.945;
-      0.079 0.075 -0.098 0.017 1.008 1.087 0.731 0.78;
-      0.208 0.03 -0.053 -0.051 0.904 0.731 0.809 0.783;
-      0.268 0.009 -0.172 -0.081 0.945 0.78 0.783 0.949];
-      
-
-alpha = fill(0.5, size(mu1, 1), size(mu1, 1))
-sigma = fill(1/sqrt(2) .* 0.25, size(mu1,1), size(mu1,1))
-sigma[diagind(sigma)] .= 0.25
+alpha = fill(4.0, size(mu1, 1), size(mu1, 1))
+sigma = fill(1/sqrt(2) .* 0.2, size(mu1,1), size(mu1,1))
+sigma[diagind(sigma)] .= 0.2
 uu0 = randPosDefMat(8)
 
-@time test = OUmatrix(uu0, mu1, alpha, sigma);
+@time test = OUmatrix(mu1, mu1, alpha, sigma); ## NB using mu1 as starting matrix as well.
 # Extract the elements from the matrices
 
 test2 = convert(Vector{Matrix{Float64}}, test)
-test3 = cov2cor.(test2)
+## test3 = cov2cor.(test2)
 
 plot()
 for i in 1:8, j in 1:8
     if i <= j
-vals = map(x -> x[i,j], test3)
+vals = map(x -> x[i,j], test2)
 plot!(vals, legend=false)
     end
 end
 current()
-
-
-##################################################3########
-
-############# Data entry ############################3####
-
-using CSV, Tables, DataFrames, XLSX, Statistics, Pipe
-
-cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
-nms = ["cris.txt", "ever.txt", "grah.txt",
-"line.txt", "pulc.txt", "sagr.txt", "smar.txt"];
-matmatrix = CSV.File(nms, header=0) |> Tables.matrix
-Garray = reshape(matmatrix', 8,8,7)
-Gvec = [Garray[1:8, 1:8, i] for i in 1:7] ## Species Gmatrices
-DFmats = DataFrame(Gmatrix=Gvec)
-
-xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", 
-"Pmatrix Measurements with outli"))
-
-vecnames = append!([2], 4:11) # columns to keep
-AnolesData = @pipe xf[:,vecnames] |> 
-filter(row -> row.Species .== "A. cristatellus" || 
-row.Species .== "A. evermanni" ||
-row.Species .== "A. grahami" ||
-row.Species .== "A. lineatopus" ||
-row.Species .== "A. pulchellus" ||
-row.Species .== "A. sagrei" ||
-row.Species .== "A. smaragdinus", _) |>
-groupby(_, :Species) |>
-combine(_, 2:9 .=> (x -> mean(skipmissing(x)))) |> ## species means
-transform(_, 2:9 .=> (x -> log.(x))) |>
-select(_, Not(2:9)) |>
-rename(_, names(xf)[vecnames])
-
-FullData = hcat(AnolesData, DFmats)
