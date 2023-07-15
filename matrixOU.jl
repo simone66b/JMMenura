@@ -95,9 +95,12 @@ nms = ["cris.txt", "ever.txt", "grah.txt",
 matmatrix = CSV.File(nms, header=0) |> Tables.matrix
 Garray = reshape(matmatrix', 8,8,7)
 Gvec = [Garray[1:8, 1:8, i] for i in 1:7] ## Species Gmatrices
+DFmats = DataFrame(Gmatrix=Gvec)
 
-xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", "Pmatrix Measurements with outli"))
-vecnames = append!([2], 4:11)
+xf = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", 
+"Pmatrix Measurements with outli"))
+
+vecnames = append!([2], 4:11) # columns to keep
 AnolesData = @pipe xf[:,vecnames] |> 
 filter(row -> row.Species .== "A. cristatellus" || 
 row.Species .== "A. evermanni" ||
@@ -112,3 +115,4 @@ transform(_, 2:9 .=> (x -> log.(x))) |>
 select(_, Not(2:9)) |>
 rename(_, names(xf)[vecnames])
 
+FullData = hcat(AnolesData, DFmats)
