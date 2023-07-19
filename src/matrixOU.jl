@@ -1,8 +1,11 @@
+using Pkg
 using PosDefManifold, LinearAlgebra, DifferentialEquations, StatsBase, Plots
 using CSV, Tables, DataFrames, XLSX, Statistics, Pipe, Phylo
 pyplot();
+Pkg.activate(".")
+pwd()
 
-cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
+# cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
 
 #############################################################################
 function drift(du, u, p, t)
