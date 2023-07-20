@@ -10,10 +10,10 @@ function drift(du, u, p, t)
 end  ## drift function
 
 function diffusion(du, u, p, t)
-    du .= p.sigma ## scaled BM
+    du .= p.sigma  ## scaled BM
 end
 
-function OUmatrix(uu0, mu1, alpha, sigma, tspan, dt)
+function OUmatrix(drift, diffusion, uu0, mu1, alpha, sigma, tspan, dt)
 
 # function vec2Hermitian(vec, size)
 #     Hermitian([ i <= j ? vec[Integer(j * (j - 1)/ 2 + i)] : 0 for i = 1:size, j = 1:size ])
@@ -87,7 +87,7 @@ sigma = fill(1 / sqrt(2) .* 0.10, size(Ganc, 1), size(Ganc, 1));
 sigma[diagind(sigma)] .= 0.10;
 tspan = (0.0, 1.0)
 dt = 0.001
-@time test = OUmatrix(uu0, uu0, alpha, sigma, tspan, dt); ## using Ganc as mu and uu0
+@time test = OUmatrix(drift, diffusion, uu0, uu0, alpha, sigma, tspan, dt); ## using Ganc as mu and uu0
 # Extract the elements from the matrices
 test2 = convert(Vector{Matrix{Float64}}, test);
 ## test2 .= cov2cor.(test2)  ## uncomment to see correlation matrix plots
