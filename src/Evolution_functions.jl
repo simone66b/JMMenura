@@ -1,4 +1,4 @@
-using DifferentialEquations
+using DifferentialEquations, PosDefManifold
 
 ##############################
 # Matrix and trait evolution #
@@ -12,8 +12,8 @@ Handles evolving a trait for a node
 function trait_diffusion(x0, tspan, p, mat, trait_drift, trait_diff, dt=0.001)
     cor1 = cor(mat)
     noise = CorrelatedWienerProcess(cor1, tspan[1],
-                                    zeros(dim(cor1)),
-                                    zeros(dim(cor1)))
+                                    zeros(size(cor1)[1]),
+                                    zeros(size(cor1)[1]))
     
     prob = SDEProblem(trait_drift, trait_diff, x0, tspan, p=p, noise=noise);       
     solve(prob, EM(), dt=dt, p=p, adaptive=false)
@@ -41,15 +41,21 @@ function gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.00
 end
 
 
-function OUmatrix(mat, p, matrix_drift, tspan, dt = 0.001)  
-    HermId = Hermitian(1.0I(size(uu0, 1))) ## Identity matrix
+function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
+    println("a")  
+    HermId = Hermitian(1.0I(size(mat, 1))) ## Identity matrix
     
     ## map mean matrix onto tangent space
     uu0 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mat), HermId))
-    mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(p.mat_mu), HermId))
+    mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(para.mat_mu), HermId))
     
-    pp = (mu = mu2, alpha = p.mat_alpha, sigma = p.mat_sigma) ## tuple of parameters
+    pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
     
+    # println(matrix_OU_drift)
+    # println(matrix_OU_diffusion)
+    # println(uu0)
+    # println(tspan)
+    # println(pp)
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
     

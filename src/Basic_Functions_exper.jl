@@ -34,8 +34,8 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
         
     end # else
     if !isleaf(tree, node)
-        recurse_menura!(tree, node.other[1].inout[2], t0 , x0, trait_drift, trait_diff, matrix_drift)
-        recurse_menura!(tree, node.other[2].inout[2], t0 , x0, trait_drift, trait_diff, matrix_drift)
+        recurse_menura!(tree, node.other[1].inout[2], t0 , x0, trait_drift, trait_diff, matrix_drift, matrix_func)
+        recurse_menura!(tree, node.other[2].inout[2], t0 , x0, trait_drift, trait_diff, matrix_drift, matrix_func)
     end
 end # Recurse! 
 
@@ -121,7 +121,7 @@ function menura_sim_exper(alpha, sigma, mu, cov_mat, tree, matrix_func; a = noth
 
     p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b, mat_alpha = mat_alpha, mat_sigma = mat_sigma, mat_mu = mat_mu)
     putp!(tree, p1, "parameters")
-    menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
+    menura!(tree, x0, trait_drift, trait_diff, matrix_drift, matrix_func)
     # (tree, predict_trait_tree(tree))
     (tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
 end
@@ -136,5 +136,5 @@ function menura_sim_exper_mat_OU(alpha, sigma, mu, cov_mat, mat_alpha, mat_sigma
     x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
     matrix_drift = covariance_mat_drift)
     menura_sim_exper(alpha, sigma, mu, cov_mat, tree, OUmatrix, mat_alpha = mat_alpha, mat_sigma = mat_sigma, mat_mu = mat_mu, x0 = x0, trait_drift = trait_drift, trait_diff = trait_diff, 
-                            matrix_drift = covariance_mat_drift)
+                            matrix_drift = matrix_OU_drift)
 end
