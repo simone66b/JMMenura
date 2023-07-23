@@ -93,3 +93,13 @@ Used in SDE problem.
 function covariance_mat_diffusion(du, u, p, t) ## diffusion function for the SDE
     du .= p.b .* t .* p.B 
 end
+
+
+
+function matrix_OU_drift(du, u, p, t)
+    du .= p.alpha .* (p.mu - u) ## Mean reversion
+end  ## drift function
+
+function matrix_OU_diffusion(du, u, p, t)
+    du .= p.sigma ## scaled BM
+end

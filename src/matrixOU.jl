@@ -68,7 +68,7 @@ rename(_, names(xf)[colNames])
 
 FullData = hcat(AnolesData, DFmats)
 
-tree = open(parsenewick, Phylo.path("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/pruned7.tre"))
+tree = open(parsenewick, Phylo.path("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/JMMenura/pruned7.tre"))
 display(plot(tree, linewidth=5, tipfont=20))
 
 GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
@@ -97,3 +97,10 @@ for i in 1:Integer(dim(test[1], 1) * (dim(test[1], 1) - 1) / 2 + dim(test[1], 1)
 plot!(map(x -> x[i], vals), legend = false)
 end
 current()
+
+
+anim = @animate for (i,m) in enumerate(test2)
+    heatmap(m,title = "t = $(round(i/length(test2),digits = 2))", yflip = true, clims = (0, 1))
+end every 10
+
+gif(anim, "matrix_OU.gif", fps=30)

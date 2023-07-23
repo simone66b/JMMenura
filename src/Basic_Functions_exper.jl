@@ -12,7 +12,7 @@ using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phyl
 """
 Recursively iterates over the tree and evolves each node.
 """
-function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_drift)
+function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_drift, matrix_func)
     if ismissing(node.inbound) ## the root node, to get started
         node.data["matrix"] = node.data["parameters"].mat ## starting matrix
 
@@ -21,7 +21,7 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
     else
         ancestor = getancestors(tree, node)[1]
         node.data["matrix"] =
-            gen_cov_mat(ancestor.data["matrix"],
+            matrix_func(ancestor.data["matrix"],
                         ancestor.data["parameters"], 
                         (getheight(tree, ancestor),
                          getheight(tree, node)), matrix_drift)
@@ -70,9 +70,9 @@ end # predictTraitTree
 """
 Now that i think about it this function is possibly redundant.
 """
-function menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
+function menura!(tree, x0, trait_drift, trait_diff, matrix_drift, matrix_func)
     root = getroot(tree)
-    recurse_menura!(tree, root, 0.0, x0, trait_drift, trait_diff, matrix_drift)
+    recurse_menura!(tree, root, 0.0, x0, trait_drift, trait_diff, matrix_drift, matrix_func)
 end # menura!
 
 """
@@ -109,18 +109,32 @@ Returns the tree, along with the trait values on each of the leaves of the tree.
 # Arguments 
 - 
 """
-function menura_sim_exper(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+function menura_sim_exper(alpha, sigma, mu, cov_mat, tree, matrix_func; a = nothing, b = nothing, x0 = nothing, mat_alpha = nothing
+                            , mat_sigma = nothing, mat_mu = nothing, trait_drift = trait_drift, trait_diff = trait_diff, 
                             matrix_drift = covariance_mat_drift)
-    menura_errors(alpha, sigma, mu, cov_mat)
+    # menura_errors(alpha, sigma, mu, cov_mat)
 
     para_len = length(alpha)
     if isnothing(x0)
         x0 = repeat([0.0], para_len)
     end
 
-    p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b)
+    p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b, mat_alpha = mat_alpha, mat_sigma = mat_sigma, mat_mu = mat_mu)
     putp!(tree, p1, "parameters")
     menura!(tree, x0, trait_drift, trait_diff, matrix_drift)
     # (tree, predict_trait_tree(tree))
     (tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
+end
+
+function menura_sim_exper_mat_wiener_process(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+    matrix_drift = covariance_mat_drift)
+    menura_sim_exper(alpha, sigma, mu, cov_mat, tree, gen_cov_mat, a = a, b = b, x0 = x0, trait_drift = trait_drift, trait_diff = trait_diff, 
+                            matrix_drift = covariance_mat_drift)
+end
+
+function menura_sim_exper_mat_OU(alpha, sigma, mu, cov_mat, mat_alpha, mat_sigma, mat_mu, tree; 
+    x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+    matrix_drift = covariance_mat_drift)
+    menura_sim_exper(alpha, sigma, mu, cov_mat, tree, OUmatrix, mat_alpha = mat_alpha, mat_sigma = mat_sigma, mat_mu = mat_mu, x0 = x0, trait_drift = trait_drift, trait_diff = trait_diff, 
+                            matrix_drift = covariance_mat_drift)
 end
