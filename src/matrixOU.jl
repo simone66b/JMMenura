@@ -1,11 +1,8 @@
-using Pkg
 using PosDefManifold, LinearAlgebra, DifferentialEquations, StatsBase, Plots
 using CSV, Tables, DataFrames, XLSX, Statistics, Pipe, Phylo
 pyplot();
-Pkg.activate(".")
-pwd()
 
-# cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
+cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/JMMenura")
 
 #############################################################################
 function drift(du, u, p, t)
@@ -71,7 +68,7 @@ rename(_, names(xf)[colNames])
 
 FullData = hcat(AnolesData, DFmats)
 
-tree = open(parsenewick, Phylo.path("/home/simoneb/Desktop/JMMenura/pruned7.tre"))
+tree = open(parsenewick, Phylo.path("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/pruned7.tre"))
 display(plot(tree, linewidth=5, tipfont=20))
 
 GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
