@@ -100,7 +100,7 @@ current()
 
 
 anim = @animate for (i,m) in enumerate(test2)
-    heatmap(m,title = "t = $(round(i/length(test2),digits = 2))", yflip = true, clims = (0, 1))
+    heatmap(m,title = "t = $(round(i/length(test2),digits = 2))", yflip = true, clims = (-1, 1))
 end every 10
 
 gif(anim, "matrix_OU.gif", fps=30)

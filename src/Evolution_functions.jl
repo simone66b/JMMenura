@@ -42,7 +42,6 @@ end
 
 
 function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
-    println("a")  
     HermId = Hermitian(1.0I(size(mat, 1))) ## Identity matrix
     
     ## map mean matrix onto tangent space

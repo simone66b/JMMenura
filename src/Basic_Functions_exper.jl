@@ -18,7 +18,16 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
 
         node.data["trace"]= [x0]
         node.data["timebase"] = [t0]
+    elseif haskey(node.data, "matrix") #checks to see if a G matrix has already been added
+        println("$(getnodename(tree, node)): known G")
+        ancestor = getancestors(tree, node)[1]
+        evol = trait_diffusion(ancestor.data["trace"][end],
+                         (getheight(tree, ancestor), getheight(tree, node)),
+                         ancestor.data["parameters"], ancestor.data["matrix"], trait_drift, trait_diff)
+        node.data["trace"] = evol.u
+        node.data["timebase"] = evol.t
     else
+        println("$(getnodename(tree, node)):unknown G")
         ancestor = getancestors(tree, node)[1]
         node.data["matrix"] =
             matrix_func(ancestor.data["matrix"],
