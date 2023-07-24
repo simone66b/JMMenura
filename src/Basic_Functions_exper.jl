@@ -135,7 +135,7 @@ function menura_sim_exper(alpha, sigma, mu, cov_mat, tree, matrix_func; a = noth
     (tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
 end
 
-function menura_sim_exper_mat_wiener_process(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
+function menura_sim_exper_mat_isospectral(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
     matrix_drift = covariance_mat_drift)
     menura_sim_exper(alpha, sigma, mu, cov_mat, tree, gen_cov_mat, a = a, b = b, x0 = x0, trait_drift = trait_drift, trait_diff = trait_diff, 
                             matrix_drift = covariance_mat_drift)
