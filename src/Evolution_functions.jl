@@ -66,7 +66,7 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
 # Functions using each matrix timepoint #
 #########################################
 
-function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff, dt=0.001, small_dt_scale = 10)
+function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff; dt=0.001, small_dt_scale = 10)
     cors1 = cor.(mats)
     u = Vector{Vector{Float64}}()
     t = Vector{Float64}()

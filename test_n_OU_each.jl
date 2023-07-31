@@ -27,7 +27,8 @@ mat_mu = copy(P0)
 
 
 
-@time exampledat = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree)
+@time exampledat = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
+                                             mat_mu, tree, small_dt_scale = 100)
 
 p1 = plot(tree, size = (400, 800),
     ## markersize = 20, 
