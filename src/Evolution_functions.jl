@@ -66,7 +66,7 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
 # Functions using each matrix timepoint #
 #########################################
 
-function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff, dt=0.001, small_dt = dt/10)
+function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff, dt=0.001, small_dt_scale = 10)
     cors1 = cor.(mats)
     u = Vector{Vector{Float64}}()
     t = Vector{Float64}()
@@ -81,7 +81,7 @@ function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff, dt=0.
     
         prob = SDEProblem(trait_drift, trait_diff, u[end], (small_tspan, small_tspan + dt), 
                             p=p, noise=noise);       
-        sol = solve(prob, EM(), dt=small_dt, p=p, adaptive=false)
+        sol = solve(prob, EM(), dt=dt/small_dt_scale, p=p, adaptive=false)
         push!(u, sol.u[end])
         push!(t, sol.t[end])
     end
