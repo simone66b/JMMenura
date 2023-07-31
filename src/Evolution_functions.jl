@@ -61,3 +61,44 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
     temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
     temp[end] 
     end # OUmatrix function
+
+#########################################
+# Functions using each matrix timepoint #
+#########################################
+
+function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff, dt=0.001, small_dt = dt/10)
+    cors1 = cor.(mats)
+    u = Vector{Vector{Float64}}()
+    t = Vector{Float64}()
+    push!(u, x0)
+    push!(t, tspan[1])
+    for i in 1:(length(cors1)-1)
+        cor1 = cors1[i]
+        small_tspan = t[end]
+        noise = CorrelatedWienerProcess(cor1,small_tspan,
+                                    zeros(size(cor1)[1]),
+                                    zeros(size(cor1)[1]))
+    
+        prob = SDEProblem(trait_drift, trait_diff, u[end], (small_tspan, small_tspan + dt), 
+                            p=p, noise=noise);       
+        sol = solve(prob, EM(), dt=small_dt, p=p, adaptive=false)
+        push!(u, sol.u[end])
+        push!(t, sol.t[end])
+    end
+    (u = u, t = t)
+end
+
+function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
+    HermId = Hermitian(1.0I(size(mat, 1))) ## Identity matrix
+    
+    ## map mean matrix onto tangent space
+    uu0 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mat), HermId))
+    mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(para.mat_mu), HermId))
+    
+    pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
+    
+    prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
+    sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
+    
+    temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
+    end

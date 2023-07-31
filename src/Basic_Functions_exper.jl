@@ -18,26 +18,48 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
 
         node.data["trace"]= [x0]
         node.data["timebase"] = [t0]
-    elseif haskey(node.data, "matrix") #checks to see if a G matrix has already been added
-        println("$(getnodename(tree, node)): known G")
-        ancestor = getancestors(tree, node)[1]
-        evol = trait_diffusion(ancestor.data["trace"][end],
-                         (getheight(tree, ancestor), getheight(tree, node)),
-                         ancestor.data["parameters"], ancestor.data["matrix"], trait_drift, trait_diff)
-        node.data["trace"] = evol.u
-        node.data["timebase"] = evol.t
+    # elseif haskey(node.data, "matrix") #checks to see if a G matrix has already been added
+    #     println("$(getnodename(tree, node)): known G")
+    #     ancestor = getancestors(tree, node)[1]
+    #     evol = trait_diffusion(ancestor.data["trace"][end],
+    #                      (getheight(tree, ancestor), getheight(tree, node)),
+    #                      ancestor.data["parameters"], ancestor.data["matrix"], trait_drift, trait_diff)
+    #     node.data["trace"] = evol.u
+    #     node.data["timebase"] = evol.t
     else
-        println("$(getnodename(tree, node)):unknown G")
+        # println("$(getnodename(tree, node)):unknown G")
+        # ancestor = getancestors(tree, node)[1]
+        # node.data["matrix"] =
+        #     matrix_func(ancestor.data["matrix"],
+        #                 ancestor.data["parameters"], 
+        #                 (getheight(tree, ancestor),
+        #                  getheight(tree, node)), matrix_drift)
+
+        # evol = trait_diffusion(ancestor.data["trace"][end],
+        #                  (getheight(tree, ancestor), getheight(tree, node)),
+        #                  ancestor.data["parameters"], ancestor.data["matrix"], trait_drift, trait_diff)
+        # node.data["trace"] = evol.u
+        # node.data["timebase"] = evol.t
+
+    
         ancestor = getancestors(tree, node)[1]
+
+        if haskey(node.data, "known_G_mat")
+            evol_matrix = node.data["known_G_mat"]
+         else 
+             evol_matrix = ancestor.data["matrix"]
+         end
+             
         node.data["matrix"] =
-            matrix_func(ancestor.data["matrix"],
+            matrix_func(evol_matrix,
                         ancestor.data["parameters"], 
                         (getheight(tree, ancestor),
                          getheight(tree, node)), matrix_drift)
 
         evol = trait_diffusion(ancestor.data["trace"][end],
                          (getheight(tree, ancestor), getheight(tree, node)),
-                         ancestor.data["parameters"], ancestor.data["matrix"], trait_drift, trait_diff)
+                         ancestor.data["parameters"], 
+                         evol_matrix, trait_drift, trait_diff)
         node.data["trace"] = evol.u
         node.data["timebase"] = evol.t
         

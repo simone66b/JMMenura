@@ -11,20 +11,10 @@ a1=1.0
 b1= 1.0
 tree1 = Ultrametric(6)
 tree = rand(tree1)
-
-display(plot_labelled(tree))
-
 time_tot = 1.0
 tspan = (0.0, time_tot)
 
 P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distribution
-P1 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distribution
-
-h0 = heatmap(P0, yflip = true, clims = (-1, 1))
-h1 = heatmap(P1, yflip = true, clims = (-1, 1))
-display(plot(h0, h1, layout = (1,2), legend = false))
-
-tree.nodes[8].data["known_G_mat"] = P1
 
 alpha1 = repeat([1.0], n)
 mu1 = repeat([0.0], n) ## randn(8); ## Start at the trait means
@@ -37,7 +27,7 @@ mat_mu = copy(P0)
 
 
 
-@time exampledat = menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree)
+@time exampledat = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree)
 
 p1 = plot(tree, size = (400, 800),
     ## markersize = 20, 
@@ -86,3 +76,9 @@ for i in testnodes
 end;
 current()
 display(p5)
+
+# for node in exampledat[1].nodes
+#     h = heatmap(convert(Matrix,node.data["matrixes"][end]), yflip = true, clims = (-1, 1))
+#     current()
+#     display(h)
+# end
