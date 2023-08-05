@@ -41,12 +41,10 @@ function gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.00
 end
 
 
-function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
-    HermId = Hermitian(1.0I(size(mat, 1))) ## Identity matrix
-    
+function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)    
     ## map mean matrix onto tangent space
-    uu0 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mat), HermId))
-    mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(para.mat_mu), HermId))
+    uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+    mu2 = convert(Matrix{Float64}, log(Hermitian(para.mat_mu)))
     
     pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
     
@@ -58,8 +56,9 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
     
-    temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
-    temp[end] 
+    # temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
+    # temp[end] 
+    exp(Hermitian(sol.u[end]))
     end # OUmatrix function
 
 #########################################
@@ -88,17 +87,15 @@ function trait_diffusion_each(x0, tspan, p, mats, trait_drift, trait_diff; dt=0.
     (u = u, t = t)
 end
 
-function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
-    HermId = Hermitian(1.0I(size(mat, 1))) ## Identity matrix
-    
+function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)    
     ## map mean matrix onto tangent space
-    uu0 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mat), HermId))
-    mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(para.mat_mu), HermId))
+    uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+    mu2 = convert(Matrix{Float64}, log(Hermitian(para.mat_mu)))
     
     pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
     
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
     
-    temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
+    temp = exp.(Hermitian.(sol.u)) # back transfer trace onto manifold
     end

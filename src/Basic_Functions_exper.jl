@@ -49,7 +49,7 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
          else 
              evol_matrix = ancestor.data["matrix"]
          end
-             
+
         node.data["matrix"] =
             matrix_func(evol_matrix,
                         ancestor.data["parameters"], 

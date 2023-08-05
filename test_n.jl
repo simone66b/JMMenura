@@ -25,7 +25,7 @@ parms= (alpha=alpha1, sigma=sigma1)
 # @time menura_sim(alpha1, sigma1, mu1, P0, a1, b1, tree)
 
 
-@time exampledat = menura_sim_exper(alpha1, sigma1, mu1, P0, a1, b1, tree)
+@profview exampledat = menura_sim_exper_mat_isospectral(alpha1, sigma1, mu1, P0, a1, b1, tree)
 
 p1 = plot(tree, size = (400, 800),
     ## markersize = 20, 

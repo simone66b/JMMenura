@@ -8,7 +8,7 @@ include("Evolution_functions.jl")
 include("Tree_Modifying_Functions.jl")
 include("Plotting.jl")
 include("JMM_Bayesian.jl")
-export menura_sim, menura_sim_exper, menura_sim_exper_mat_OU, menura_sim_exper_mat_wiener_process
+export menura_sim, menura_sim_exper_mat_isospectral, menura_sim_exper_mat_OU, menura_sim_exper_mat_wiener_process
 
 export menura_sim_mat_OU_each
 
