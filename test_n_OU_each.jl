@@ -16,7 +16,7 @@ tspan = (0.0, time_tot)
 
 P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distribution
 
-alpha1 = repeat([0.0], n)
+alpha1 = repeat([1.0], n)
 mu1 = repeat([1.0], n) ## randn(8); ## Start at the trait means
 sigma1 = repeat([1.0], n)
 parms= (alpha=alpha1, sigma=sigma1)
@@ -28,7 +28,8 @@ mat_mu = copy(P0)
 
 
 @time exampledat = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
-                                             mat_mu, tree,trait_diff = trait_diff_cox_ingersoll_ross_gamma, small_dt_scale = 1)
+                                             mat_mu, tree, 
+                                             small_dt_scale = 1)
 
 p1 = plot(tree, size = (400, 800),
     ## markersize = 20, 
@@ -39,7 +40,9 @@ display(p1)
 
 testnodes = getnodes(exampledat[1]);
 
-p2 = plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+scale = sigma1[1]
+
+p2 = plot(xlim = (0.0,1.0), ylim = (-2.0*scale, 2.0*scale), zlim=(-2.0*scale, 2.0*scale), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)));
@@ -49,7 +52,7 @@ end; # for
 current()
 display(p2)
 
-p3 = plot(xlim=(0.0,1.0), ylim= (-2.0, 2.0), legend=nothing, reuse=false)
+p3 = plot(xlim=(0.0,1.0), ylim = (-2.0*scale, 2.0*scale), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)));
@@ -59,7 +62,7 @@ end; # for
 current()
 display(p3)
 
-p4 = plot(ylim=(-2.0, 2.0), xlim= (-2.0, 2.0), legend=nothing, reuse=false)
+p4 = plot(ylim = (-2.0*scale, 2.0*scale), xlim= (-2.0*scale, 2.0*scale), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)));
@@ -68,7 +71,7 @@ end;
 current()
 display(p4)
 
-p5 = plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+p5 = plot(xlim=(-2.0*scale,2.0*scale), ylim = (-2.0*scale, 2.0*scale), zlim=(-2.0*scale, 2.0*scale), legend=nothing, reuse=false)
 for i in testnodes
     u1= i.data["trace"];
     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)));
