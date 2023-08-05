@@ -1,16 +1,13 @@
 using DifferentialEquations
-## using Distances
+using Distances
 using Distributions
 using GpABC
-## using JLD2
+using JLD2
 using LinearAlgebra
 using Phylo
 using Plots
-## using PyCall
-## using Plots;
+using PyCall
 ## using PyPlot
-# #using ApproxBayes
-## using KissABC
 pyplot();
 ## pygui(true);
     #####################################################################################
@@ -121,7 +118,49 @@ pyplot();
         end
         tree;
     end # putp!
+    ######################################################3
+    ######################################################3
+using PosDefManifold, LinearAlgebra, DifferentialEquations, NaNMath, Plots;
+    ###function matrixOU(mat, p, tspan, dt = 0.001)
+
+        function drift(du, u, p, t)
+            du .= p.alpha .* distance(Fisher, Hermitian(u), p.mu)
+        end ## drift
+
+        function diffusion(du, u, p, t)
+            du .= p.sigma
+        end # diffusion
+
+mu1 = Hermitian([4.0 2.0; 2.0 5.0])
+HermId = Hermitian(1.0I(2))
+uu0 = [5.0 3.0; 3.0 6.0]
+
+        # mu = logMap(Fisher, mu1, HermId)
+        # u0 = convert(Matrix{Float64}, logMap(Fisher, uu0, HermId))
+
+        mu = Hermitian(log(mu1))
+        u0 = log(uu0)
+        pp = (mu = mu, alpha = 1.0, sigma = 1.0)
+        
+        tspan = (0.0, 1.0)
+        dt = 0.001
+
+        prob = SDEProblem(drift, diffusion, u0, tspan, p=pp);
+    sol = solve(prob, EM(), p = pp, dt=dt)
+plot(sol)
+sol1 = sol
+    # temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol)
+    temp = exp.(sol.u)
+sol1.u .= temp
+plot(sol)
     
+   
+u0 = p.mu
+    tst = matrixOU(mat, p, tspan, dt)
+
+
+
+
     ####################################################################33
     ######################################################################3
 function gen_cov_mat(mat, p, tspan,  u0=zeros(size(mat)), dt = 0.001)
@@ -202,15 +241,20 @@ true_data = simulate(parms);
 priordists = [Uniform(0.0,10.0)]## 
 priors = repeat(priordists, 24)
 n_particles = 2000
-threshold = 8.0
+<<<<<<< HEAD
+threshold = 15.0
+=======
+threshold = 100.0
+>>>>>>> main
 
- test = sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
+ sim_result = SimulatedABCRejection(true_data, simulate, priors, threshold, n_particles;
  max_iter=convert(Int, 2e6),
  write_progress=true)
 
  plt = plot(test)
 
- plot(plt.subplots[4])
+<<<<<<< HEAD
+ plot(plt.subplots[1])
 # setup = ABCRejection(simulate, #simulation function
 #   16, # number of parameters
 #   1.0, #target ϵ
@@ -228,8 +272,11 @@ end #cost
 
 approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
 res = sample(approx_density, AIS(25), 500, ntransitions=100, discard_initial = 50) =#
+=======
+ plot(plt.subplots[4])
+>>>>>>> main
 
-## save_object("ABCResults2.jld2", res)
+save_object("ABCResults2.jld2", sim_result)
 
 
 
