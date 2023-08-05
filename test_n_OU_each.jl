@@ -16,8 +16,8 @@ tspan = (0.0, time_tot)
 
 P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distribution
 
-alpha1 = repeat([1.0], n)
-mu1 = repeat([0.0], n) ## randn(8); ## Start at the trait means
+alpha1 = repeat([0.0], n)
+mu1 = repeat([1.0], n) ## randn(8); ## Start at the trait means
 sigma1 = repeat([1.0], n)
 parms= (alpha=alpha1, sigma=sigma1)
 
@@ -28,7 +28,7 @@ mat_mu = copy(P0)
 
 
 @time exampledat = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
-                                             mat_mu, tree, small_dt_scale = 100)
+                                             mat_mu, tree,trait_diff = trait_diff_cox_ingersoll_ross_gamma, small_dt_scale = 1)
 
 p1 = plot(tree, size = (400, 800),
     ## markersize = 20, 

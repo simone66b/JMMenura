@@ -32,7 +32,7 @@ mat_mu = copy(P0)
 
 @time exampledat1 = menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1)
 @time exampledat2 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
-                                             mat_mu, tree2, small_dt_scale = 100)
+                                             mat_mu, tree2, small_dt_scale = 1)
 @time exampledat3 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
                                              mat_mu, tree3, small_dt_scale = 10000)
 
