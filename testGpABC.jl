@@ -39,7 +39,7 @@ GeneReg = function(params::AbstractArray{Float64,1},
   return hcat(Obs.u...)
 end
 
-  function simulator_function(var_params)
+function simulator_function(var_params)
     params = copy(true_params)
     params[param_indices] .= var_params
     GeneReg(params, Tspan, x0, solver, saveat)
