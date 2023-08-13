@@ -19,6 +19,8 @@ function trait_diffusion(x0, tspan, p, mat, trait_drift, trait_diff, dt=0.001)
     solve(prob, EM(), dt=dt, p=p, adaptive=false)
 end
 
+
+
 """
     gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.001) 
 
@@ -47,19 +49,16 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
     mu2 = convert(Matrix{Float64}, log(Hermitian(para.mat_mu)))
     
     pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
-    
-    # println(matrix_OU_drift)
-    # println(matrix_OU_diffusion)
-    # println(uu0)
-    # println(tspan)
-    # println(pp)
+
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
     
     # temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
     # temp[end] 
-    exp(Hermitian(sol.u[end]))
-    end # OUmatrix function
+    Hermitian(exp(Hermitian(sol.u[end])))
+end # OUmatrix function
+
+
 
 #########################################
 # Functions using each matrix timepoint #
@@ -98,4 +97,60 @@ function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
     
     temp = exp.(Hermitian.(sol.u)) # back transfer trace onto manifold
+end
+
+# function which handles trait evolution 
+function trait_evol(trait_drift = trait_drift::Function , trait_diffusion = trait_diff::Function, dt = 0.001::Float64, 
+                    small_dt_scale = 1.0::Float64)
+    function trait_evolving(x0::Vector{Float64}, mat::Vector{Symmetric{Float64, Matrix{Float64}}}, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        if each 
+            cors1 = cor.(mat)
+            u = Vector{Vector{Float64}}()
+            t = Vector{Float64}()
+            push!(u, x0)
+            push!(t, tspan[1])
+            for i in 1:(length(cors1)-1)
+                cor1 = cors1[i]
+                small_tspan = t[end]
+                noise = CorrelatedWienerProcess(cor1,small_tspan,
+                                            zeros(size(cor1)[1]),
+                                            zeros(size(cor1)[1]))
+            
+                prob = SDEProblem(trait_drift, trait_diff, u[end], (small_tspan, small_tspan + dt), 
+                                    p=para, noise=noise);       
+                sol = solve(prob, EM(), dt=dt/small_dt_scale, p=para, adaptive=false)
+                push!(u, sol.u[end])
+                push!(t, sol.t[end])
+            end
+            return (u = u, t = t)
+        else
+            cor1 = cor(mat[1])
+            noise = CorrelatedWienerProcess(cor1, tspan[1],
+                                        zeros(size(cor1)[1]),
+                                        zeros(size(cor1)[1]))
+        
+            prob = SDEProblem(trait_drift, trait_diffusion, x0, tspan, p=para, noise=noise);       
+            return solve(prob, EM(), dt=dt, p=para, adaptive=false)
+        end
     end
+end
+
+
+# This might have to be renamed in future
+function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64)
+    function mat_evolving(mat::Matrix{Float64}, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+        mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+        
+        # pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) # Wait. Is this needed. The parameters should be properly specified
+    
+        prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = para) ## set up the sde problem
+        sol = solve(prob, EM(), p = para, dt = dt) ## solve using Euler-Maruyama
+        
+        if each
+            return exp.(Hermitian.(sol.u))
+        else
+            return [exp(Hermitian(sol.u[end]))]
+        end        
+    end
+end

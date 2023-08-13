@@ -18,8 +18,10 @@ export covariance_mat_drift, covariance_mat_diffusion
 
 export apply_trait, apply_prior,apply_prior_descend, apply_trait_descend, get_trait
 
-export plot_labelled
+export plot_labelled, plot_data, plot_g_mat_evol
 
 export Menura_bayesian
+
+export mat_evol, trait_evol
 
 end # module 

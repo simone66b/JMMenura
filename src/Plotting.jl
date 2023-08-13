@@ -1,6 +1,5 @@
 using Phylo, Plots
 # Contains functions which allow for more easy plotting
-pyplot()
 
 function length_order_recurs!(array, min_height, label, iter)
     if iter > 0
@@ -51,24 +50,65 @@ function plot_labelled(tree)
 
 end
 
+function plot_data(tree, trait1, trait2; time = true)
+    pyplot()
+    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    if time 
+        for node in getnodes(tree)
+            u1= node.data["trace"]
+            uui1 = [point[trait1] for point in u1]
+            uui2 = [point[trait2] for point in u1]
+            myt = node.data["timebase"]
+            plot!(myt, uui1, uui2)
+        end; # for
+        return p
+    else 
+        for node in getnodes(tree)
+            u1= node.data["trace"]
+            uui1 = [point[trait1] for point in u1]
+            uui2 = [point[trait2] for point in u1]
+            plot!(uui1, uui2)
+        end; # for
+        return p
+    end
+end
 
-# testnodes = getnodes(exampledat[1])
-# p2 = plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
-# for i in testnodes
-#     u1= i.data["trace"]
-#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)))
-#     myt = i.data["timebase"]
-#     plot!(myt, uu1[:, 1], uu1[:,3])
-# end; # for
-# current()
-# display(p2)
+function plot_data(tree, trait1; time = true)
+    pyplot()
+    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    for node in getnodes(tree)
+        u1= node.data["trace"]
+        uui1 = [point[trait1] for point in u1]
+        myt = node.data["timebase"]
+        plot!(myt, uui1)
+    end; # for
+    return p
+end
 
-# p3 = plot(xlim=(0.0,1.0), ylim= (-2.0, 2.0), legend=nothing, reuse=false)
-# for i in testnodes
-#     u1= i.data["trace"];
-#     uu1 = transpose(reshape(collect(Iterators.flatten(u1)), n, length(u1)));
-#     myt = i.data["timebase"];
-#     plot!(myt, uu1[:, 3]);
-# end; # for
-# current()
-# display(p3)
+function plot_data(tree, trait1, trait2, trait3; time = true)
+    pyplot()
+    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    for node in getnodes(tree)
+        u1= node.data["trace"]
+        uui1 = [point[trait1] for point in u1]
+        uui2 = [point[trait2] for point in u1]
+        uui3 = [point[trait3] for point in u1]
+        plot!(uui1, uui2, uui3)
+    end; # for
+    return p
+end
+
+function plot_g_mat_evol(tree, leaf_num, name; fps = 10)
+    nodes = [reverse(getancestors(tree, tree.nodes[leaf_num]))..., tree.nodes[leaf_num]]
+    cov_mats = [(convert.(Matrix{Float64},node.data["matrixes"])) for node in nodes] 
+    #THIS WILL NEED TO BE CHANGED
+
+    lower = minimum([minimum(minimum.(cov_mat)) for cov_mat in cov_mats])
+    upper = maximum([maximum(maximum.(cov_mat)) for cov_mat in cov_mats])
+
+    anim = @animate for (i, cov_mat) in enumerate(Iterators.flatten(cov_mats))
+        heatmap(cov_mat, title = "$i", yflip = true, clims = (lower, upper))
+    end every 10
+
+    gif(anim, name, fps = fps)
+end

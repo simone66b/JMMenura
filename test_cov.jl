@@ -48,3 +48,22 @@ anim = @animate for Pi in Ps
 end every 10
 
 gif(anim, "cov_evolution_test.gif", fps=30)
+
+nodes = [getancestors(exampledat1[1], exampledat1[1].nodes[3])..., exampledat1[1].nodes[3]]
+
+anim = @animate for (i, node) in enumerate(nodes)
+    heatmap(cor(convert(Matrix{Float64},node.data["matrix"])), title = "$i", yflip = true, clims = (-1, 1))
+end 
+
+gif(anim, "Cov_evol.gif", fps = 0.5)
+
+cov_mats = [convert(Matrix{Float64},node.data["matrix"]) for node in nodes]
+
+lower = minimum([minimum(cov_mat) for cov_mat in cov_mats])
+upper = maximum([maximum(cov_mat) for cov_mat in cov_mats])
+
+anim = @animate for (i, cov_mat) in enumerate(cov_mats)
+    heatmap(cov_mat, title = "$i", yflip = true, clims = (lower, upper))
+end 
+
+gif(anim, "Cov_evol.gif", fps = 0.5)

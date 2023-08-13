@@ -1,6 +1,6 @@
 using Phylo, Distributions, Random, Plots, LinearAlgebra, PosDefManifold, DifferentialEquations
 
-function trouble(metric, S, G)
+function expMap(metric, S, G)
     if   metric==Fisher
          G½, G⁻½=pow(G, 0.5, -0.5)
          return ℍ(G½ * exp(ℍ(G⁻½ * S * G⁻½)) * G½)
@@ -9,7 +9,7 @@ function trouble(metric, S, G)
     end
 end
 
-function troubl2(metric, P, G)
+function t2(metric, P, G)
     if   metric==Fisher
          G½, G⁻½=pow(G, 0.5, -0.5)
          return ℍ(G½ * log(ℍ(G⁻½ * P * G⁻½)) * G½)
@@ -26,7 +26,7 @@ function matrix_OU_diffusion(du, u, p, t)
     du .= p.sigma ## scaled BM
 end
 
-n = 9
+n = 4
 
 tspan = (0.0, 0.3)
 dt = 0.001
@@ -50,9 +50,10 @@ pp = (mu = mu2, alpha = mat_alpha, sigma = mat_sigma) ## tuple of parameters
 prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, u0, tspan, p = pp) ## set up the sde problem
 sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
 
-@time temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u);
 
-@time temp = map(x -> exp(x), sol.u);
+@time temp = map(x -> expMap(Fisher, Hermitian(x), HermId), [P0])[1]
+
+@time temp = map(x -> exp(x), [P0])[1]
 
 @time a = map(x -> exp(Hermitian(x)), sol.u);
 

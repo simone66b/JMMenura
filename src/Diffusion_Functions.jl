@@ -53,7 +53,7 @@ Used in SDE problem.
 """
 function trait_diff_cox_ingersoll_ross_gamma(du, u, p, t)
     sigma = p.sigma;
-    du .= sqrt.(u) .* sigma
+    du .= sqrt.(max.(u,0)) .* sigma
 end
 
 """

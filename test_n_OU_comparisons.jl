@@ -26,12 +26,12 @@ mu1 = repeat([0.0], n) ## randn(8); ## Start at the trait means
 sigma1 = repeat([1.0], n)
 parms= (alpha=alpha1, sigma=sigma1)
 
-mat_alpha = 12.0 .* ones(n,n)
+mat_alpha = 0 .* ones(n,n)
 mat_sigma = (1 / sqrt(2) * 0.10) .* ones(n,n)
 mat_mu = copy(P0)
 
-@profview exampledat1 = menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1)
-@profview exampledat2 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
+@time exampledat1 = menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1)
+@time exampledat2 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
                                              mat_mu, tree2, small_dt_scale = 1);
 @time exampledat3 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma,
                                              mat_mu, tree3, small_dt_scale = 10000)
@@ -50,6 +50,7 @@ for testnodes in testnodesdata
     display(plot1)
 end
 
+
 for testnodes in testnodesdata 
     plot2 = plot(xlim=(-2.0,2.0), ylim= (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
     for i in testnodes
@@ -66,3 +67,5 @@ end
 #     current()
 #     display(h)
 # end
+
+expMap
