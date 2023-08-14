@@ -36,7 +36,9 @@ mat_mu = copy(P0)
 data1 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1, 
 trait_diff = trait_diff_cox_ingersoll_ross_gamma)
 
-plot_data(data1[1], 1, 2)
+plot_data(data1[1], 1, 5, 6)
+
+plot_g_mat_evol(data1[1], 1,"test_cov_evol.gif")
 
 # testing the usual model
 data2 = menura_sim_mat_OU_each(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree2)

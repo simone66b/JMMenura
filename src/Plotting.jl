@@ -112,3 +112,5 @@ function plot_g_mat_evol(tree, leaf_num, name; fps = 10)
 
     gif(anim, name, fps = fps)
 end
+
+# animations for traits through time

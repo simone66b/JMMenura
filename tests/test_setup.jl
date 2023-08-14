@@ -31,4 +31,4 @@ mat_sigma = (1 / sqrt(2) * 0.10) .* ones(n,n)
 mat_mu = copy(P0)
 mat_para = (alpha = mat_alpha, sigma = mat_sigma, mu = mat_mu)
 
-menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1)
+data = menura_sim_exper_mat_OU(alpha1, sigma1, mu1, P0, mat_alpha, mat_sigma, mat_mu, tree1)
