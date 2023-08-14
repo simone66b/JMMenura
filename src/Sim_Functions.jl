@@ -9,38 +9,36 @@ Recursively iterates over the tree and evolves each node.
 
 Takes in tree, node to evol and functions specifing how to evolve.
 """
-function recurse_menura_redone!(tree, node, trait_evol::Function, matrix_evol::Function)
+function recurse_menura_redone!(tree, node, trait_evol::Function, matrix_evol::Function, each::Bool)
     if ismissing(node.inbound) ## the root node, to get started
-        node.data["matrix"] = node.data["parameters"].mat ## starting matrix
+        # Functionality now to be done by a higher up function.
+        # node.data["mat_trace"] = node.data["parameters"].mat ## starting matrix
 
-        node.data["trace"]= [x0]
-        node.data["timebase"] = [t0]
+        # node.data["trait_trace"]= [x0]
+        # node.data["timebase"] = [t0]
     else    
         ancestor = getancestors(tree, node)[1]
 
-        if haskey(node.data, "known_G_mat")
-            evol_matrix = node.data["known_G_mat"]
+        if haskey(ancestor.data, "known_G_mat")
+            evol_matrix = ancestor.data["known_G_mat"] # should this be ancestor? I think so
          else 
              evol_matrix = ancestor.data["matrix"]
          end
 
-        node.data["matrix"] =
-            matrix_evol(evol_matrix,
-                        ancestor.data["parameters"], 
-                        (getheight(tree, ancestor),
-                         getheight(tree, node)), matrix_drift)
+        node.data["mat_trace"] =
+            matrix_evol(evol_matrix,ancestor.data["mat_para"], 
+                        (getheight(tree, ancestor),getheight(tree, node)), each)
 
-        evol = trait_evol(ancestor.data["trace"][end],
-                         (getheight(tree, ancestor), getheight(tree, node)),
-                         ancestor.data["parameters"], 
-                         evol_matrix, trait_drift, trait_diff)
-        node.data["trace"] = evol.u
+        evol = trait_evol(ancestor.data["trait_trace"][end], node.data["mat_trace"], 
+                            ancestor.data["trait_para"],
+                         (getheight(tree, ancestor), getheight(tree, node)), each)
+        node.data["trait_trace"] = evol.u
         node.data["timebase"] = evol.t
         
     end # else
     if !isleaf(tree, node)
-        recurse_menura_redone!(tree, node.other[1].inout[2], trait_evol, matrix_evol)
-        recurse_menura_redone!(tree, node.other[2].inout[2], trait_evol, matrix_evol)
+        recurse_menura_redone!(tree, node.other[1].inout[2], trait_evol, matrix_evol, each)
+        recurse_menura_redone!(tree, node.other[2].inout[2], trait_evol, matrix_evol, each)
     end
 end # Recurse! 
 
@@ -76,11 +74,11 @@ end # predictTraitTree
 
 # The function which runs the loop. Takes in a tree and the two evolution functions.
 # Should throw an error if tree not set up properly
-function menura_redone!(tree, trait_evol, matrix_evol)
+function menura_redone!(tree, trait_evol, matrix_evol, each::Bool)
     root = getroot(tree)
-    recurse_menura_redone!(tree, root, trait_evol, matrix_evol)
+    recurse_menura_redone!(tree, root, trait_evol, matrix_evol, each)
 
-    (tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
+    (tree, reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)]))
 end # menura!
 
 # Outdated function. To be replaced by menura!
@@ -147,9 +145,6 @@ end
 
 # should apply parameters somehow? Check for each requirement.
 function menura_sim_redone(tree, trait_evol, matrix_evol; each = true)
-    if each
-        menura_each_redone!(tree, trait_evol, matrix_evol)
-    else
-        menura_redone!(tree, trait_evol, matrix_evol)
-    end
+    # Apply traits using apply method
+    menura_redone()
 end
