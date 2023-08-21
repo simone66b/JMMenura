@@ -35,7 +35,7 @@ function recurse_menura_redone!(tree, node, trait_evol::Function, matrix_evol::F
         node.data["trait_trace"] = evol.u
         node.data["timebase"] = evol.t
         
-    end # else
+    end
     if !isleaf(tree, node)
         recurse_menura_redone!(tree, node.other[1].inout[2], trait_evol, matrix_evol, each)
         recurse_menura_redone!(tree, node.other[2].inout[2], trait_evol, matrix_evol, each)
@@ -43,108 +43,48 @@ function recurse_menura_redone!(tree, node, trait_evol::Function, matrix_evol::F
 end # Recurse! 
 
 
-##############################
-# Trait Prediction Functions #
-##############################
-
-"""
-    predict_trait_tree(tree)
-
-Returns the last multivariate trait value from all branches
-
-returns the traits of the tree
-"""
-function predict_trait_tree(tree)
-    testtips = getleaves(tree);
-    res = Array{Vector{Float64}}(undef, length(testtips))
-    tipnames = Array{String}(undef, length(testtips))
-    tiptimes = Vector{Float64}()
-    
-    for i in eachindex(testtips) ## could maybe use heightstoroot() for this computation
-        res[i] = testtips[i].data["trace"][end]
-        tipnames[i] = testtips[i].name;
-        push!(tiptimes, getheight(tree, testtips[i]))
-    end;
-    collect(Iterators.flatten(res))
-end # predictTraitTree
-
 #################################
 # Simulation Handling Functions #
 #################################
 
 # The function which runs the loop. Takes in a tree and the two evolution functions.
 # Should throw an error if tree not set up properly
-function menura_redone!(tree, trait_evol, matrix_evol, each::Bool)
+function menura_redone!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+                        , mat0::Matrix{float64}, each::Bool)
+    # set up starting time and values                     
     root = getroot(tree)
+
+    root.data["trait_trace"]= [trait0]
+    root.data["mat_trace"]= [mat0]
+    root.data["timebase"] = [t0]
+
+    # Getting cranky error function
+    
+    # perform the recursion
     recurse_menura_redone!(tree, root, trait_evol, matrix_evol, each)
 
+    # return the tree along with the final trait data points
+    # Might have to reconsider this function
     (tree, reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)]))
-end # menura!
-
-# Outdated function. To be replaced by menura!
-function menura_sim_exper(alpha, sigma, mu, cov_mat, tree, matrix_func; a = nothing, b = nothing, x0 = nothing, mat_alpha = nothing
-    , mat_sigma = nothing, mat_mu = nothing, trait_drift = trait_drift, trait_diff = trait_diff, 
-    matrix_drift = covariance_mat_drift)
-# menura_errors(alpha, sigma, mu, cov_mat)
-
-para_len = length(alpha)
-if isnothing(x0)
-x0 = repeat([0.0], para_len)
 end
 
-p1 = (alpha=alpha, sigma=sigma, mu=mu, mat=cov_mat, a=a, b=b, mat_alpha = mat_alpha, mat_sigma = mat_sigma, mat_mu = mat_mu)
-putp!(tree, p1, "parameters")
-menura!(tree, x0, trait_drift, trait_diff, matrix_drift, matrix_func)
-# (tree, predict_trait_tree(tree))
-(tree, reduce(hcat, [tip.data["trace"][end] for tip in getleaves(tree)]))
+# this function should now be a more fancy menura!
+# Takes traits in dictionary and applies them in a descending pattern
+function menura_descend!(mat_parameters::Dict{Any}, trait_parameters::Dict{Any}, tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+    , mat0::Matrix{float64}, each::Bool)
+# apply traits. Note phylo numbers the nodes in descending order by time
+mat_keys = sort(collect(keys(mat_para)), rev = true)
+trait_keys = sort(collect(keys(trait_para)), rev = true)
+
+for mat_key in mat_keys 
+    apply_trait_descend(tree, mat_parameters[mat_keys], mat_key, "mat_para")
 end
 
-"""
-Makes sure input parameters are acceptable (Might need to refine more).
-
-Error function. Not quite sure what to put in this
-"""
-function menura_errors(alpha, sigma, mu, mat)
-    if size(mat)[1] != size(mat)[2]
-        error("Covariance matrix must be square matrix")
-    end
-
-    if length(alpha) != length(sigma)
-        error("Alpha and Sigma must be the same length")
-    elseif length(mu) != length(sigma)
-        error("Mu and Sigma must be the same length")
-    elseif length(mu) != length(alpha)
-        error("Alpha and Sigma must be the same length")
-    elseif length(mu) != size(mat)[1]
-        error("Mu and Covariance matrix must be the same size")
-    elseif length(alpha) != size(mat)[1]
-        error("Mu and Covariance matrix must be the same size")
-    elseif length(sigma) != size(mat)[1]
-        error("Mu and Covariance matrix must be the same size")
-    end
+for trait_key in trait_keys 
+    apply_trait_descend(tree, trait_parameters[trait_keys], trait_key, "trait_para")
 end
 
-"""
-    menura_sim(alpha, sigma, mu, mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
-                        matrix_drift = covariance_mat_drift)
+# run menura!
+menura_redone!(tree, trait_evol, matrix_evol, t0, trait0, mat0, each)
 
-Handles simulating evolution over a phylogenetic tree.
-
-Returns the tree, along with the trait values on each of the leaves of the tree.
-
-# Arguments 
-- 
-"""
-
-# simulation functions. Should be able to only have the OU as isospectral is just a special case.
-function menura_sim_exper_mat_isospectral(alpha, sigma, mu, cov_mat, a, b, tree; x0 = nothing, trait_drift = trait_drift, trait_diff = trait_diff,
-    matrix_drift = covariance_mat_drift)
-    menura_sim_exper(alpha, sigma, mu, cov_mat, tree, gen_cov_mat, a = a, b = b, x0 = x0, trait_drift = trait_drift, trait_diff = trait_diff, 
-                            matrix_drift = covariance_mat_drift)
-end
-
-# should apply parameters somehow? Check for each requirement.
-function menura_sim_redone(tree, trait_evol, matrix_evol; each = true)
-    # Apply traits using apply method
-    menura_redone()
 end
