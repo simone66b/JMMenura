@@ -7,7 +7,7 @@ pyplot()
 Random.seed!(1)
 
 # number of parameters
-n = 9
+n = 3
 
 # Creating tree
 tree = Ultrametric(6)
@@ -43,4 +43,9 @@ trait_evol_func = trait_evol()
 
 menura_para_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, mat_mu, false)
 
+plot_data(tree1, 1, 2)
+# Checking trait application
 
+for node in tree1.nodes
+    println(node.data["mat_para"])
+end

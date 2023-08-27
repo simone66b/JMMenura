@@ -138,7 +138,7 @@ end
 
 # This might have to be renamed in future
 function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64)
-    function mat_evolving(mat::Matrix{Float64}, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+    function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         println(Hermitian(mat))
         println()
         println(eigen(Hermitian(mat)))
@@ -153,10 +153,14 @@ function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = 
         prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = para) ## set up the sde problem
         sol = solve(prob, EM(), p = para, dt = dt) ## solve using Euler-Maruyama
         
+        # println(sol.u[end])
+        # println()
+        # println(Hermitian(sol.u[end]))
+        # println()
         if each
-            return exp.(sol.u)
+            return exp.(Hermitian.(sol.u))
         else
-            return [exp(sol.u[end])]
+            return [exp(Hermitian(sol.u[end]))]
         end        
     end
 end

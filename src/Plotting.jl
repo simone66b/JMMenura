@@ -55,7 +55,7 @@ function plot_data(tree, trait1, trait2; time = true)
     p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
     if time 
         for node in getnodes(tree)
-            u1= node.data["trace"]
+            u1= node.data["trait_trace"]
             uui1 = [point[trait1] for point in u1]
             uui2 = [point[trait2] for point in u1]
             myt = node.data["timebase"]
@@ -64,7 +64,7 @@ function plot_data(tree, trait1, trait2; time = true)
         return p
     else 
         for node in getnodes(tree)
-            u1= node.data["trace"]
+            u1= node.data["trait_trace"]
             uui1 = [point[trait1] for point in u1]
             uui2 = [point[trait2] for point in u1]
             plot!(uui1, uui2)
@@ -77,7 +77,7 @@ function plot_data(tree, trait1; time = true)
     pyplot()
     p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
     for node in getnodes(tree)
-        u1= node.data["trace"]
+        u1= node.data["trait_trace"]
         uui1 = [point[trait1] for point in u1]
         myt = node.data["timebase"]
         plot!(myt, uui1)
@@ -89,7 +89,7 @@ function plot_data(tree, trait1, trait2, trait3; time = true)
     pyplot()
     p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
     for node in getnodes(tree)
-        u1= node.data["trace"]
+        u1= node.data["trait_trace"]
         uui1 = [point[trait1] for point in u1]
         uui2 = [point[trait2] for point in u1]
         uui3 = [point[trait3] for point in u1]
