@@ -8,6 +8,8 @@ include("Evolution_functions.jl")
 include("Tree_Modifying_Functions.jl")
 include("Plotting.jl")
 include("JMM_Bayesian.jl")
+include("Sim_Functions.jl")
+
 export menura_sim, menura_sim_exper_mat_isospectral, menura_sim_exper_mat_OU, menura_sim_exper_mat_wiener_process
 
 export menura_sim_mat_OU_each
@@ -23,5 +25,7 @@ export plot_labelled, plot_data, plot_g_mat_evol
 export Menura_bayesian
 
 export mat_evol, trait_evol
+
+export menura_para_descend!, menura_redone!
 
 end # module 

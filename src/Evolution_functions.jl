@@ -102,7 +102,7 @@ end
 # function which handles trait evolution 
 function trait_evol(trait_drift = trait_drift::Function , trait_diffusion = trait_diff::Function, dt = 0.001::Float64, 
                     small_dt_scale = 1.0::Float64)
-    function trait_evolving(x0::Vector{Float64}, mat::Vector{Symmetric{Float64, Matrix{Float64}}}, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+    function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         if each 
             cors1 = cor.(mat)
             u = Vector{Vector{Float64}}()
@@ -139,6 +139,12 @@ end
 # This might have to be renamed in future
 function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64)
     function mat_evolving(mat::Matrix{Float64}, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        println(Hermitian(mat))
+        println()
+        println(eigen(Hermitian(mat)))
+        println()
+        println(log(Hermitian(mat)))
+        println()
         uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
         mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         
@@ -148,9 +154,9 @@ function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = 
         sol = solve(prob, EM(), p = para, dt = dt) ## solve using Euler-Maruyama
         
         if each
-            return exp.(Hermitian.(sol.u))
+            return exp.(sol.u)
         else
-            return [exp(Hermitian(sol.u[end]))]
+            return [exp(sol.u[end])]
         end        
     end
 end

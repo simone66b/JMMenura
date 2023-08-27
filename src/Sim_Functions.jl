@@ -22,7 +22,7 @@ function recurse_menura_redone!(tree, node, trait_evol::Function, matrix_evol::F
         if haskey(ancestor.data, "known_G_mat")
             evol_matrix = ancestor.data["known_G_mat"] # should this be ancestor? I think so
          else 
-             evol_matrix = ancestor.data["matrix"]
+             evol_matrix = ancestor.data["mat_trace"][end]
          end
 
         node.data["mat_trace"] =
@@ -50,7 +50,7 @@ end # Recurse!
 # The function which runs the loop. Takes in a tree and the two evolution functions.
 # Should throw an error if tree not set up properly
 function menura_redone!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
-                        , mat0::Matrix{float64}, each::Bool)
+                        , mat0::Matrix{Float64}, each::Bool)
     # set up starting time and values                     
     root = getroot(tree)
 
@@ -70,18 +70,19 @@ end
 
 # this function should now be a more fancy menura!
 # Takes traits in dictionary and applies them in a descending pattern
-function menura_descend!(mat_parameters::Dict{Any}, trait_parameters::Dict{Any}, tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
-    , mat0::Matrix{float64}, each::Bool)
+function menura_para_descend!(mat_parameters, trait_parameters, tree, 
+                                trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+                                , mat0::Matrix{Float64}, each::Bool)
 # apply traits. Note phylo numbers the nodes in descending order by time
-mat_keys = sort(collect(keys(mat_para)), rev = true)
-trait_keys = sort(collect(keys(trait_para)), rev = true)
+mat_keys = sort(collect(keys(mat_parameters)), rev = true)
+trait_keys = sort(collect(keys(trait_parameters)), rev = true)
 
 for mat_key in mat_keys 
-    apply_trait_descend(tree, mat_parameters[mat_keys], mat_key, "mat_para")
+    apply_trait_descend(tree, mat_parameters[mat_key], mat_key, "mat_para")
 end
 
 for trait_key in trait_keys 
-    apply_trait_descend(tree, trait_parameters[trait_keys], trait_key, "trait_para")
+    apply_trait_descend(tree, trait_parameters[trait_key], trait_key, "trait_para")
 end
 
 # run menura!
