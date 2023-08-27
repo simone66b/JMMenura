@@ -97,7 +97,7 @@ end
 
 
 function matrix_OU_drift(du, u, p, t)
-    du .= p.alpha .* (p.mu - u) ## Mean reversion
+    du .= p.alpha .* (p.mu2 - u) ## Mean reversion
 end  ## drift function
 
 function matrix_OU_diffusion(du, u, p, t)

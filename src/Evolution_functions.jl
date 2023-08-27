@@ -100,7 +100,7 @@ function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
 end
 
 # function which handles trait evolution 
-function trait_evol(trait_drift = trait_drift::Function , trait_diffusion = trait_diff::Function, dt = 0.001::Float64, 
+function trait_evol(;trait_drift = trait_drift::Function , trait_diffusion = trait_diff::Function, dt = 0.001::Float64, 
                     small_dt_scale = 1.0::Float64)
     function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         if each 
@@ -137,26 +137,22 @@ end
 
 
 # This might have to be renamed in future
-function mat_evol(mat_OU_drift = matrix_OU_drift::Function , mat_OU_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64)
+function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
-        println(Hermitian(mat))
-        println()
-        println(eigen(Hermitian(mat)))
-        println()
-        println(log(Hermitian(mat)))
-        println()
-        uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
-        mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+        if ismissing(mat_err)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+        else
+            mat_err_mat = Matrix((mat_err)I, size(mat)...)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat + mat_err_mat)))
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu + mat_err_mat)))
+        end
         
-        # pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) # Wait. Is this needed. The parameters should be properly specified
+        
+        para_2 = (mu2 = mu2, para...) # Wait. Is this needed. The parameters should be properly specified
     
-        prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = para) ## set up the sde problem
-        sol = solve(prob, EM(), p = para, dt = dt) ## solve using Euler-Maruyama
-        
-        # println(sol.u[end])
-        # println()
-        # println(Hermitian(sol.u[end]))
-        # println()
+        prob = SDEProblem(mat_drift, mat_diffusion, uu0, tspan, p = para_2) ## set up the sde problem
+        sol = solve(prob, EM(), p = para_2, dt = dt) ## solve using Euler-Maruyama
         if each
             return exp.(Hermitian.(sol.u))
         else

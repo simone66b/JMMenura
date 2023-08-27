@@ -87,7 +87,7 @@ end
 
 function plot_data(tree, trait1, trait2, trait3; time = true)
     pyplot()
-    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    p = Plots.plot(xlim = (-2.0,2.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
     for node in getnodes(tree)
         u1= node.data["trait_trace"]
         uui1 = [point[trait1] for point in u1]
