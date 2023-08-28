@@ -100,14 +100,16 @@ end
 
 function plot_g_mat_evol(tree, leaf_num, name; fps = 10)
     nodes = [reverse(getancestors(tree, tree.nodes[leaf_num]))..., tree.nodes[leaf_num]]
-    cov_mats = [(convert.(Matrix{Float64},node.data["matrixes"])) for node in nodes] 
+    cov_mats = [(convert.(Matrix{Float64},node.data["mat_trace"]))... for node in nodes] 
     #THIS WILL NEED TO BE CHANGED
 
     lower = minimum([minimum(minimum.(cov_mat)) for cov_mat in cov_mats])
     upper = maximum([maximum(maximum.(cov_mat)) for cov_mat in cov_mats])
 
-    anim = @animate for (i, cov_mat) in enumerate(Iterators.flatten(cov_mats))
-        heatmap(cov_mat, title = "$i", yflip = true, clims = (lower, upper))
+    anim = @animate for (i, cov_mat_nodes) in enumerate(Iterators.flatten(cov_mats))
+        for cov_mat in cov_mat_nodes
+            heatmap(cov_mat, title = "$i", yflip = true, clims = (lower, upper))
+        end
     end every 10
 
     gif(anim, name, fps = fps)

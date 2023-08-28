@@ -38,7 +38,7 @@ trait_parameters = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1),
                         8 => (alpha = alpha2, mu = mu2, sigma = sigma2))
 
 # Variables needed for OU matrix model
-mat_alpha = 0 .* ones(n,n)
+mat_alpha = 100 .* ones(n,n)
 mat_sigma = (1 / sqrt(2) * 10.0) .* ones(n,n)
 mat_mu = copy(P0)
 
