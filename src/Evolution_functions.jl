@@ -141,17 +141,21 @@ function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matri
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         println(eigen(mat).values)
         println()
-        if ismissing(mat_err)
+
+        # Trying to fix floating point errors
+        err = eigen(mat).values[1]
+        if err > 0
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         else
-            mat_err_mat = Matrix((mat_err)I, size(mat)...)
-            uu0 = convert(Matrix{Float64}, log(Hermitian(mat + mat_err_mat)))
-            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu + mat_err_mat)))
+            mat_err_mat = Matrix((err)I, size(mat)...)
+            println(eigen(mat - 2*mat_err_mat).values)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 2*mat_err_mat)))
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         end
         
         
-        para_2 = (mu2 = mu2, para...) # Wait. Is this needed. The parameters should be properly specified
+        para_2 = (mu2 = mu2, para...) # Used to add log mu
     
         prob = SDEProblem(mat_drift, mat_diffusion, uu0, tspan, p = para_2) ## set up the sde problem
         sol = solve(prob, EM(), p = para_2, dt = dt) ## solve using Euler-Maruyama
