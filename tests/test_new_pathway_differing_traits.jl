@@ -1,6 +1,6 @@
 # Test file which sets up a basic instance for a run
 using .JMMenura
-using Phylo, Distributions, Random, Plots, LinearAlgebra, BenchmarkTools
+using Phylo, Distributions, Random, Plots, LinearAlgebra
 
 pyplot()
 
@@ -22,18 +22,26 @@ P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  ))) # Change to Wishart Distributio
 
 # plot_labelled(tree1) # get number of root node
 
+
 # traits needed to evolve traits
 alpha1 = repeat([1.0], n)
 mu1 = repeat([0.0], n) # Start at the trait means
 sigma1 = repeat([1.0], n)
 
+# traits needed to evolve traits
+alpha2 = repeat([0.0], n)
+mu2 = repeat([2.0], n) # Start at the trait means
+sigma2 = repeat([0.5], n)
+
 # create trait dictionary
-trait_parameters = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1))
+trait_parameters = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1), 
+                        8 => (alpha = alpha2, mu = mu2, sigma = sigma2))
 
 # Variables needed for OU matrix model
 mat_alpha = 0 .* ones(n,n)
-mat_sigma = (1 / sqrt(2) * 0.10) .* ones(n,n)
+mat_sigma = (1 / sqrt(2) * 10.0) .* ones(n,n)
 mat_mu = copy(P0)
+
 
 # create matrix dictionary
 mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))

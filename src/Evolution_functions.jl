@@ -48,7 +48,7 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
     uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
     mu2 = convert(Matrix{Float64}, log(Hermitian(para.mat_mu)))
     
-    pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
+    pp = (mu2 = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
 
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
@@ -91,7 +91,7 @@ function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
     uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
     mu2 = convert(Matrix{Float64}, log(Hermitian(para.mat_mu)))
     
-    pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
+    pp = (mu2 = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
     
     prob = SDEProblem(matrix_OU_drift, matrix_OU_diffusion, uu0, tspan, p = pp) ## set up the sde problem
     sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
@@ -139,6 +139,8 @@ end
 # This might have to be renamed in future
 function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        println(eigen(mat).values)
+        println()
         if ismissing(mat_err)
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))

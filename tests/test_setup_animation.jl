@@ -27,7 +27,7 @@ trait_para = (alpha=alpha1, sigma=sigma1, mu = mu1)
 
 # Variables needed for OU matrix model
 mat_alpha = 0 .* ones(n,n)
-mat_sigma = (1 / sqrt(2) * 0.10) .* ones(n,n)
+mat_sigma = (1 / sqrt(2) * 100.0) .* ones(n,n)
 mat_mu = copy(P0)
 mat_para = (alpha = mat_alpha, sigma = mat_sigma, mu = mat_mu)
 
