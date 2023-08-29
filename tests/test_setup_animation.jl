@@ -50,6 +50,7 @@ end
 
 s(x) = x[1][1]
 
+# Sort to preserve colour order
 sorted_points= sort!(points, by = s)
 
 # create animation

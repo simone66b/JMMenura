@@ -1,4 +1,4 @@
-# Test file which sets up a basic instance for a run
+# Creates a basic evolution plot
 using .JMMenura
 using Phylo, Distributions, Random, Plots, LinearAlgebra
 
@@ -32,12 +32,15 @@ mat_alpha = 1 .* ones(n,n)
 mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
 mat_mu = copy(P0)
 
+mat_alpha1 = 0 .* ones(n,n)
+
 # create matrix dictionary
-mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
+mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma),
+                        8 => (alpha = mat_alpha1, mu = mat_mu, sigma = mat_sigma))
 
 mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
 
-menura_para_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, false)
+menura_para_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
-plot_data(tree1, 1, 2, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false)
+plot_data(tree1, 1, 2, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)

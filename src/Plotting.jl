@@ -50,9 +50,9 @@ function plot_labelled(tree)
 
 end
 
-function plot_data(tree, trait1, trait2; time = true)
+function plot_data(tree, trait1, trait2; time = true, kwargs...)
     pyplot()
-    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    p = Plots.plot(; kwargs...)
     if time 
         for node in getnodes(tree)
             u1= node.data["trait_trace"]
@@ -73,9 +73,9 @@ function plot_data(tree, trait1, trait2; time = true)
     end
 end
 
-function plot_data(tree, trait1; time = true)
+function plot_data(tree, trait1; time = true, kwargs...)
     pyplot()
-    p = Plots.plot(xlim = (0.0,1.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    p = Plots.plot(; kwargs...)
     for node in getnodes(tree)
         u1= node.data["trait_trace"]
         uui1 = [point[trait1] for point in u1]
@@ -85,9 +85,9 @@ function plot_data(tree, trait1; time = true)
     return p
 end
 
-function plot_data(tree, trait1, trait2, trait3; time = true)
+function plot_data(tree, trait1, trait2, trait3; time = true, kwargs...)
     pyplot()
-    p = Plots.plot(xlim = (-2.0,2.0), ylim = (-2.0, 2.0), zlim=(-2.0, 2.0), legend=nothing, reuse=false)
+    p = Plots.plot(; kwargs...)
     for node in getnodes(tree)
         u1= node.data["trait_trace"]
         uui1 = [point[trait1] for point in u1]
@@ -100,7 +100,7 @@ end
 
 function plot_g_mat_evol(tree, leaf_num, name; fps = 10)
     nodes = [reverse(getancestors(tree, tree.nodes[leaf_num]))..., tree.nodes[leaf_num]]
-    cov_mats = [(convert.(Matrix{Float64},node.data["mat_trace"]))... for node in nodes] 
+    cov_mats = [(convert.(Matrix{Float64},node.data["mat_trace"])) for node in nodes] 
     #THIS WILL NEED TO BE CHANGED
 
     lower = minimum([minimum(minimum.(cov_mat)) for cov_mat in cov_mats])
@@ -113,6 +113,50 @@ function plot_g_mat_evol(tree, leaf_num, name; fps = 10)
     end every 10
 
     gif(anim, name, fps = fps)
+end
+
+
+function animate_data(tree, trait1, trait2, file_name; fps = 20)
+    # Choose backend
+    gr()
+
+    # Set up 2d points
+    points = Vector{Vector{Any}}()
+
+    # Create vector of time and trait values in a tuple (time, trait1, trait2)
+    for node in tree.nodes
+        nodepoints = [(time, [node.data["trait_trace"][i][trait1], node.data["trait_trace"][i][trait2]]) 
+                        for (i, time)  in enumerate(node.data["timebase"])]
+        push!(points, nodepoints)
+    end
+
+    s(x) = x[1][1]
+
+    # Sort the branch by when the branch first appeared
+    sorted_points= sort!(points, by = s)
+
+    # create animation by looping over a cutoff range
+    anim = @animate for cut_off in 0.0:0.05:1.0
+        xss = Vector()
+        yss = Vector()
+        for nodepoints in sorted_points 
+            current_index = 1
+            cut_off < nodepoints[current_index][1] && continue # check if first element too large
+            for nodepoint in nodepoints # Get index up to required value
+                nodepoint[1] < cut_off && (current_index += 1)
+            end
+            current_index -= 1
+            xs = [nodepoints[i][2][1] for i in 1:current_index]
+            ys = [nodepoints[i][2][2] for i in 1:current_index]
+            
+            push!(xss, xs)
+            push!(yss, ys)
+        end
+        p = Plots.plot(xss, yss, xlim = (-2.5,2.5), ylim = (-2.5, 2.5), legend=nothing, reuse=false)
+    end
+
+    # create gif for 2d animation
+    gif(anim, file_name, fps = fps)
 end
 
 # animations for traits through time
