@@ -139,8 +139,8 @@ end
 # This might have to be renamed in future
 function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
-        println(eigen(mat).values)
-        println()
+        # println(eigen(mat).values)
+        # println()
 
         # Trying to fix floating point errors
         err = eigen(mat).values[1]

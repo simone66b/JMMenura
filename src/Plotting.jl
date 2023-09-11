@@ -1,4 +1,4 @@
-using Phylo, Plots
+using Phylo, Plots, StatsPlots
 # Contains functions which allow for more easy plotting
 
 function length_order_recurs!(array, min_height, label, iter)
@@ -160,3 +160,28 @@ function animate_data(tree, trait1, trait2, file_name; fps = 20)
 end
 
 # animations for traits through time
+
+function plot_traits_cov(tree, leaf)
+    trait = tree.nodes[leaf].data["trait_trace"][end]
+    mat = tree.nodes[leaf].data["mat_trace"][end]
+
+    n = length(trait)
+    cov_plots = Vector()
+    
+    for i in 1:n
+        for j in 1:n
+            if i == j
+                p = Plots.plot(; grid = false, showaxis = false )
+                annotate!(0.5, 0.5, "Trait $i", halign=:center, valign=:middle, fontsize=20, color=:black)
+                push!(cov_plots, p)
+            else
+                cov_mean = [trait[i], trait[j]]
+                cov_mat = [mat[i,i] mat[i, j]; mat[j, i] mat[j, j]]
+                p = covellipse(cov_mean, cov_mat, n_std=2, aspect_ratio=1, legend = false)
+                push!(cov_plots, p)
+            end
+        end
+    end
+    # p_final = Plots.plot(cov_plots..., layout = (n,n), legend = false)
+    return cov_plots
+end

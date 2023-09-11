@@ -1,6 +1,6 @@
 # Creates a basic evolution plot
 using .JMMenura
-using Phylo, Distributions, Random, Plots, LinearAlgebra
+using Phylo, Distributions, Random, Plots, LinearAlgebra, PosDefManifold
 
 pyplot()
 
