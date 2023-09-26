@@ -43,12 +43,13 @@ trait_parameterstrue = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1))
 trait_parameters1 = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
-mat_alpha = 1 .* ones(n,n)
+mat_alpha = 1 .* Matrix(1I, n, n)
 mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
 mat_mu = copy(P0)
 
 # create matrix dictionary
 mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
+mat_parameters2 = (mu = mat_mu, sigma = mat_sigma)
 
 mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
@@ -61,6 +62,15 @@ ref_data = get_data(ref_sim[1])
 
 
 @time out = menura_bayesian_trait_alpha(ref_data, tree1, trait_parameters1, α_prior
-    ,mat_parameters, mu1, P0, 50000, n)
+    ,mat_parameters, mu1, P0, 30000, n, 170.0)
 
 histogram(out.population, normalize = :pdf, legend = false)
+
+scatter(out.population, out.distances)
+
+@time outmat = menura_bayesian_mat_alpha(ref_data, tree1, trait_parameterstrue
+    ,mat_parameters2, α_prior, mu1, P0, 90000, n, 170.0)
+
+histogram(outmat.population, normalize = :pdf, legend = false)
+
+scatter(outmat.population, outmat.distances)

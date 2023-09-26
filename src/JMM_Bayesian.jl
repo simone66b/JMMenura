@@ -37,27 +37,9 @@ function extract_priors(trait_priors, mat_priors)
 end
 
 
-function Menura_bayesian(reference_data, tree, trait_known_para, trait_priors
-                                , mat_known_para, mat_priors; prior_interpret)
-    #For unknown functions get priors
-    
-    
-
-    
-
-    # Pull out priors and place into ordered vector 
-    function bayesian_menura!(paramaters)
-            # extract parameters and place onto tree root
-            prior_interpret(parameters)
-            # run simulation
-
-
-        return 
-    end
-    SimulatedABCRejection(reference_data, bayesian_menura!, priors, threshold, n_particles, 
-                            max_iter = max_iter, write_progress = true)
-end
-
+"""
+Calculates the distance between two JMMenura simulations. 
+"""
 function trait_mat_distance(var_num, leaf_num)
     function trait_mat_dist(data1, data2)
         data1 = reshape(data1, var_num, (var_num+1)*leaf_num)
@@ -76,6 +58,9 @@ function trait_mat_distance(var_num, leaf_num)
     end
 end
 
+"""
+Extracts data from a JMMenura simulation into a format usable by GpABC
+"""
 function get_data(tree)
     traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)])
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
@@ -85,7 +70,47 @@ end
 
 # Stuff it I'm hard coding an example
 function menura_bayesian_trait_alpha(reference_data, tree, trait_known_para, alpha_prior
-    ,mat_known_para, trait0, mat0, max_iter, length)
+    ,mat_known_para, trait0, mat0, max_iter, length, error)
+
+    # Pull out priors and place into ordered vector 
+    function bayesian_menura!(parameter)
+    
+        trait_para = Dict(11 => (trait_known_para..., alpha = parameter.*ones(length))) 
+
+        sim = menura_para_descend!(mat_known_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+
+        return get_data(sim[1])
+    end
+
+    SimulatedABCRejection(reference_data, bayesian_menura!, [alpha_prior], error, 600, 
+    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(3,6))
+end
+
+
+
+function menura_bayesian_mat_alpha(reference_data, tree, trait_known_para
+    ,mat_known_para, alpha_prior, trait0, mat0, max_iter, length, error)
+
+    # Pull out priors and place into ordered vector 
+    function bayesian_menura!(parameter)
+    
+        mat_para = Dict(11 => (mat_known_para..., alpha = parameter.* Matrix(1I, length, length))) 
+
+        sim = menura_para_descend!(mat_para, trait_known_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+
+        return get_data(sim[1])
+    end
+
+    SimulatedABCRejection(reference_data, bayesian_menura!, [alpha_prior], error, 600, 
+    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(3,6))
+end
+
+"""
+Function to perform approximate bayesian computation for using the JMMenura simulation framework. Intakes a series of proposed traits and priors along with reference data.
+
+"""
+function menura_bayesian(reference_data, tree, trait_known_para, traits_priors
+    ,mat_known_para, mat_priors, trait0, mat0, max_iter, length)
 
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
