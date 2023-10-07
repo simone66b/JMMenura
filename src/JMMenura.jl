@@ -22,7 +22,7 @@ export apply_trait, apply_prior,apply_prior_descend, apply_trait_descend, get_tr
 
 export plot_labelled, plot_data, plot_g_mat_evol, plot_traits_cov
 
-export menura_bayesian, trait_mat_distance, get_data, menura_bayesian_trait_alpha, menura_bayesian_mat_alpha
+export menura_bayesian, trait_mat_distance, get_data, menura_bayesian_trait_alpha, menura_bayesian_mat_alpha, menura_bayesian_trait_mat_alpha
 
 export mat_evol, trait_evol
 

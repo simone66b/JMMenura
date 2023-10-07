@@ -2,22 +2,6 @@ using .JMMenura
 using Phylo, Distributions, Random, Plots, LinearAlgebra, PosDefManifold, Distances
 pyplot()
 
-# Checking trait application
-
-function menura_bayesian_trait_alpha_no_sim(reference_data, tree, trait_known_para, alpha_prior
-    ,mat_known_para, trait0, mat0, max_iter, length)
-
-    # Pull out priors and place into ordered vector 
-    function bayesian_menura!(parameter)
-    
-    trait_para = Dict(11 => (trait_known_para..., alpha = parameter*ones(length))) 
-
-    sim = menura_para_descend!(mat_known_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
-
-        return get_data(sim[1])
-    end
-end
-
 Random.seed!(1)
 
 # number of parameters
@@ -43,7 +27,7 @@ trait_parameterstrue = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1))
 trait_parameters1 = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
-mat_alpha = 1 .* Matrix(1I, n, n)
+mat_alpha = 1 .* ones(n,n)
 mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
 mat_mu = copy(P0)
 
@@ -54,7 +38,7 @@ mat_parameters2 = (mu = mat_mu, sigma = mat_sigma)
 mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
 
-α_prior = Uniform(0,1)
+α_prior = Gamma(2,0.25)
 
 ref_sim = menura_para_descend!(mat_parameters, trait_parameterstrue, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
@@ -62,14 +46,14 @@ ref_data = get_data(ref_sim[1])
 
 
 @time out = menura_bayesian_trait_alpha(ref_data, tree1, trait_parameters1, α_prior
-    ,mat_parameters, mu1, P0, 30000, n, 170.0)
+    ,mat_parameters, mu1, P0, 30000, n, 174.0)
 
 histogram(out.population, normalize = :pdf, legend = false)
 
 scatter(out.population, out.distances)
 
 @time outmat = menura_bayesian_mat_alpha(ref_data, tree1, trait_parameterstrue
-    ,mat_parameters2, α_prior, mu1, P0, 90000, n, 170.0)
+    ,mat_parameters2, α_prior, mu1, P0, 300, n, 180.0)
 
 histogram(outmat.population, normalize = :pdf, legend = false)
 
