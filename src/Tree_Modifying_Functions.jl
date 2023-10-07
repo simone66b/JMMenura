@@ -1,5 +1,3 @@
-using Phylo
-
 ######################################
 # Functions to modify tree variables #
 ######################################

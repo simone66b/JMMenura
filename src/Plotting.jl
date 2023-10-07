@@ -1,4 +1,3 @@
-using Phylo, Plots, StatsPlots
 # Contains functions which allow for more easy plotting
 
 function length_order_recurs!(array, min_height, label, iter)

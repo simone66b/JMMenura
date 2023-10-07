@@ -1,6 +1,7 @@
 module JMMenura
 
-#include("Basic_Functions.jl")
+using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, PyPlot, KissABC, PosDefManifold, GpABC, PosDefManifold, StatsPlots
+
 include("Basic_Functions_exper.jl")
 include("Basic_Functions_each.jl")
 include("Diffusion_Functions.jl")
@@ -9,6 +10,7 @@ include("Tree_Modifying_Functions.jl")
 include("Plotting.jl")
 include("JMM_Bayesian.jl")
 include("Sim_Functions.jl")
+include("JMMABCparameters.jl")
 
 export menura_sim, menura_sim_exper_mat_isospectral, menura_sim_exper_mat_OU, menura_sim_exper_mat_wiener_process
 
@@ -27,5 +29,7 @@ export menura_bayesian, trait_mat_distance, get_data, menura_bayesian_trait_alph
 export mat_evol, trait_evol
 
 export menura_para_descend!, menura_redone!
+
+export get_priors, assemble_mat_parameters, assemble_trait_parameters, JMMABCAllSingle, JMMABCAlphaSingle
 
 end # module 

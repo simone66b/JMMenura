@@ -1,21 +1,3 @@
-using GpABC, Distributions, DifferentialEquations, Plots, PosDefManifold, StatsPlots
-
-
-"""
-A function which returns the required priors from a tree
-
-Could make it so you can choose which ones
-"""
-function JMM_get_priors(tree, known_var)
-    get_trait(tree, "Prior", 1)
-end
-
-
-
-function trait_prior_alpha_all_diff()
-    return nothing
-end
-
 """
 Function that takes the output of generated priors and returns the interprets it for an alpha value for the traits
 
@@ -124,23 +106,27 @@ function menura_bayesian_trait_mat_alpha(reference_data, tree, trait_known_para
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(3,6))
 end
 
+
 """
 Function to perform approximate bayesian computation for using the JMMenura simulation framework. Intakes a series of proposed traits and priors along with reference data.
 
 """
-function menura_bayesian(reference_data, tree, trait_known_para, traits_priors
-    ,mat_known_para, mat_priors, trait0, mat0, max_iter, length)
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, error, cutoff) end
+
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqual, trait0, mat0, max_iter, error, cutoff; t0 = 0.0, each = false)
 
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
-    
-        trait_para = Dict(11 => (trait_known_para..., alpha = parameter.*ones(length))) 
 
-        sim = menura_para_descend!(mat_known_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+        trait_para = Dict(11 => (trait_known_para..., alpha = parameter[1].*ones(length))) 
+    
+        mat_para = Dict(11 => (mat_known_para..., alpha = parameter[2].* ones(length,length))) 
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
 
-    SimulatedABCRejection(reference_data, bayesian_menura!, [alpha_prior], 170.0, 600, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(3,6))
+    SimulatedABCRejection(reference_data, bayesian_menura!, alpha_priors, error, cutoff, 
+    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end

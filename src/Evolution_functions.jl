@@ -1,5 +1,3 @@
-using DifferentialEquations, PosDefManifold
-
 ##############################
 # Matrix and trait evolution #
 ##############################
