@@ -111,22 +111,51 @@ end
 Function to perform approximate bayesian computation for using the JMMenura simulation framework. Intakes a series of proposed traits and priors along with reference data.
 
 """
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, error, cutoff) end
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, error, n_particles) end
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqual, trait0, mat0, max_iter, error, cutoff; t0 = 0.0, each = false)
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false)
 
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
 
-        trait_para = Dict(11 => (trait_known_para..., alpha = parameter[1].*ones(length))) 
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
     
-        mat_para = Dict(11 => (mat_known_para..., alpha = parameter[2].* ones(length,length))) 
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
         sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
 
-    SimulatedABCRejection(reference_data, bayesian_menura!, alpha_priors, error, cutoff, 
+    SimulatedABCRejection(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+end
+
+
+
+function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, n_particles; t0 = 0.0, each = false)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
+    
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
+
+        return get_data(sim[1])
+    end
+
+    thresholds = zeros(n_particles)
+
+    for i in 1:n_particles
+        para = rand.(get_priors(JMMpara))
+        sim = bayesian_menura!(para)
+        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+        thresholds[i] = dist
+    end
+    return thresholds
 end

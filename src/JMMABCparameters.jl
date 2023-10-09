@@ -10,7 +10,7 @@ Stores the priors for a JMM ABC simulation where all parameters are unknown. Als
 Inputs:
 TODO
 """
-struct JMMABCAllEqual <: JMMABCparameters
+struct JMMABCAllEqualConstant <: JMMABCparameters
     trait_alpha_prior::ContinuousUnivariateDistribution
     trait_mu_prior::ContinuousUnivariateDistribution
     trait_sigma_prior::ContinuousUnivariateDistribution
@@ -26,13 +26,13 @@ Stores the priors for a JMM ABC simulation where only alpha parameters are unkno
 Inputs:
 TODO
 """
-struct JMMABCAlphaEqual <: JMMABCparameters
+struct JMMABCAlphaEqualConstant <: JMMABCparameters
     trait_alpha_prior::ContinuousUnivariateDistribution
-    trait_mu_known::Number
-    trait_sigma_known::Number
+    trait_mu_known::Array{<:Number}
+    trait_sigma_known::Array{<:Number}
     mat_alpha_prior::ContinuousUnivariateDistribution
-    mat_mu_known::Number
-    mat_sigma_known::Number
+    mat_mu_known::Array{<:Number}
+    mat_sigma_known::Array{<:Number}
     size::Int
 end
 
@@ -45,12 +45,12 @@ Returns the priors as a vector of continuous univariate distributions
 """
 function get_priors(parameters::JMMABCparameters) end
 
-function get_priors(parameters::JMMABCAllEqual)
+function get_priors(parameters::JMMABCAllEqualConstant)
     return  [parameters.trait_alpha_prior, parameters.trait_mu_prior, parameters.trait_sigma_prior, 
                 parameters.mat_alpha_prior, parameters.mat_mu_prior, parameters.mat_sigma_prior]
 end
 
-function get_priors(parameters::JMMABCAlphaEqual) 
+function get_priors(parameters::JMMABCAlphaEqualConstant) 
     return  [parameters.trait_alpha_prior, parameters.mat_alpha_prior]
 end
 
@@ -62,11 +62,11 @@ end
 """
 function assemble_trait_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
 
-function assemble_trait_parameters(parameters::JMMABCAllEqual, prior_results::Vector{<:Number}) 
+function assemble_trait_parameters(parameters::JMMABCAllEqualConstant, prior_results::Vector{<:Number}) 
     return (alpha = prior_results[1]*ones(parameters.size), mu = prior_results[2]*ones(parameters.size), sigma = prior_results[3]*ones(parameters.size)) 
 end
 
-function assemble_trait_parameters(parameters::JMMABCAlphaEqual, prior_results::Vector{<:Number}) 
+function assemble_trait_parameters(parameters::JMMABCAlphaEqualConstant, prior_results::Vector{<:Number}) 
     return (alpha = prior_results[1]*ones(parameters.size), mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
 end
 
@@ -74,10 +74,10 @@ end
 """
 function assemble_mat_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
 
-function assemble_mat_parameters(parameters::JMMABCAllEqual, prior_results::Vector{<:Number}) 
+function assemble_mat_parameters(parameters::JMMABCAllEqualConstant, prior_results::Vector{<:Number}) 
     return (alpha = prior_results[4]*ones(parameters.size, parameters.size), mu = prior_results[5]*ones(parameters.size, parameters.size), sigma = prior_results[6]*ones(parameters.size, parameters.size)) 
 end
 
-function assemble_mat_parameters(parameters::JMMABCAlphaEqual, prior_results::Vector{<:Number}) 
+function assemble_mat_parameters(parameters::JMMABCAlphaEqualConstant, prior_results::Vector{<:Number}) 
     return (alpha = prior_results[2]*ones(parameters.size, parameters.size), mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
 end
