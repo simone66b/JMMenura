@@ -35,9 +35,27 @@ function trait_mat_distance(var_num, leaf_num)
 
         trait_diff = sum([euclidean(traits1[i], traits2[i]) for i in 1:leaf_num])
         hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
+
+        # Stupid floating points
+        hermi_matrices1 = correct_mat.(hermi_matrices1)
+        hermi_matrices2 = correct_mat.(hermi_matrices2)
         matrix_diff = sum([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
         return trait_diff + matrix_diff
     end
+end
+
+"""
+Attempt to fix floating point errors
+"""
+function correct_mat(mat)
+    err = eigen(mat).values[1]
+    println(err)
+    if err < 0
+        mat_err_mat = Matrix((err)I, size(mat)...)
+        println(eigen(mat - mat_err_mat).values)
+        mat = Hermitian(mat - mat_err_mat)
+    end
+    return mat
 end
 
 """
@@ -143,6 +161,51 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant,
         trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
     
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
+
+        return get_data(sim[1])
+    end
+
+    thresholds = zeros(n_particles)
+
+    for i in 1:n_particles
+        para = rand.(get_priors(JMMpara))
+        sim = bayesian_menura!(para)
+        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+        thresholds[i] = dist
+    end
+    return thresholds
+end
+
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false)
+
+    # Pull out priors and place into ordered vector 
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = assemble_trait_parameters(JMMpara, parameter)
+    
+        mat_para = assemble_mat_parameters(JMMpara, parameter)
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
+
+        return get_data(sim[1])
+    end
+
+    SimulatedABCRejection(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
+    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+end
+
+function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, n_particles; t0 = 0.0, each = false)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = assemble_trait_parameters(JMMpara, parameter)
+    
+        mat_para = assemble_mat_parameters(JMMpara, parameter)
 
         sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
 

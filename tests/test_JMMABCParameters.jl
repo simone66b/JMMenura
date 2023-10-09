@@ -51,6 +51,8 @@ thresholds = test_threshold(ref_data, tree1, parameters, mu1, P0, 1000)
 
 histogram(thresholds)
 
-@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 200)
+@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 20)
+
+@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 3000)
 
 histogram2d(out.population[:,1], out.population[:,2], normalize = :pdf, show_empty_bins = true)

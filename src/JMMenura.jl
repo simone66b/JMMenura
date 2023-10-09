@@ -33,6 +33,6 @@ export mat_evol, trait_evol
 
 export menura_para_descend!, menura_redone!
 
-export get_priors, assemble_mat_parameters, assemble_trait_parameters, JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant
+export get_priors, assemble_mat_parameters, assemble_trait_parameters, JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual
 
 end # module 
