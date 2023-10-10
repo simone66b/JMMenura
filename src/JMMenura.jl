@@ -1,6 +1,7 @@
 module JMMenura
 
-using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, PyPlot, KissABC, PosDefManifold, GpABC, PosDefManifold, StatsPlots
+using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, PyPlot, KissABC
+using PosDefManifold, GpABC, PosDefManifold, StatsPlots, ProgressBars
 
 include("JMMABCparameters.jl")
 include("Basic_Functions_exper.jl")

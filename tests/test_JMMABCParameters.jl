@@ -6,10 +6,10 @@ pyplot()
 Random.seed!(1)
 
 # number of parameters
-n = 3
+n = 8
 
 # Creating tree
-tree = Ultrametric(6)
+tree = Ultrametric(7)
 Random.seed!(1)
 tree1 = rand(tree)
 time_tot = 1.0
@@ -24,7 +24,7 @@ mu1 = repeat([0.0], n)
 sigma1 = repeat([1.0], n)
 
 # create trait dictionary
-trait_parameters_true = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1))
+trait_parameters_true = Dict(13 => (alpha = alpha1, mu = mu1, sigma = sigma1))
 trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
@@ -33,7 +33,7 @@ mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
 mat_mu = copy(P0)
 
 # create matrix dictionary
-mat_parameters_true = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
+mat_parameters_true = Dict(13 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
 mat_parameters = (mu = mat_mu, sigma = mat_sigma)
 
 mat_evol_func = mat_evol()
@@ -51,7 +51,7 @@ thresholds = test_threshold(ref_data, tree1, parameters, mu1, P0, 1000)
 
 histogram(thresholds)
 
-@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 20)
+@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 205.0, 200)
 
 @time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 3000)
 

@@ -48,12 +48,15 @@ end
 Attempt to fix floating point errors
 """
 function correct_mat(mat)
+    # println("Eigen: ", eigen(mat).values, "\n")
     err = eigen(mat).values[1]
-    println(err)
+    # println("Error: ", err,"\n", isposdef(mat), "\n")
+    println
     if err < 0
         mat_err_mat = Matrix((err)I, size(mat)...)
-        println(eigen(mat - mat_err_mat).values)
+        # println("Corrected eigen: ", eigen(mat - mat_err_mat).values, "\n")
         mat = Hermitian(mat - mat_err_mat)
+        # println("Hermitian corrected eigen: ", eigen(mat).values, "\n", isposdef(mat), "\n")
     end
     return mat
 end
@@ -136,12 +139,14 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
 
+        println("Applying \n")
         root = getroot(tree)
 
         trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
     
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
+        println("Simulating \n")
         sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
 
         return get_data(sim[1])
@@ -169,7 +174,7 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant,
 
     thresholds = zeros(n_particles)
 
-    for i in 1:n_particles
+    for i in ProgressBar(1:n_particles)
         para = rand.(get_priors(JMMpara))
         sim = bayesian_menura!(para)
         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
@@ -214,7 +219,7 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual,
 
     thresholds = zeros(n_particles)
 
-    for i in 1:n_particles
+    for i in ProgressBar(1:n_particles)
         para = rand.(get_priors(JMMpara))
         sim = bayesian_menura!(para)
         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
