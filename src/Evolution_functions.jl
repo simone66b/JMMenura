@@ -146,9 +146,9 @@ function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matri
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
         else
             mat_err_mat = Matrix((err)I, size(mat)...)
-            println(eigen(mat - 2*mat_err_mat).values, "\n")
-            println(eigen(para.mu).values)
-            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 2*mat_err_mat)))
+            # println(eigen(mat - 10*mat_err_mat).values, "\n")
+            # println(eigen(para.mu).values)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 10*mat_err_mat)))
         end
 
         err_mu = eigen(para.mu).values[1]
@@ -156,8 +156,8 @@ function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matri
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         else
             mat_err_mat = Matrix((err_mu)I, size(para.mu)...)
-            println(eigen(para.mu - 2*mat_err_mat).values, "\n")
-            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 2*mat_err_mat)))
+            # println(eigen(para.mu - 10*mat_err_mat).values, "\n")
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 10*mat_err_mat)))
         end
         
         

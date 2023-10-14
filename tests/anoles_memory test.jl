@@ -1,5 +1,5 @@
 using .JMMenura
-using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase
+using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, Profile, Random, LinearAlgebra
 # read in data
 
 Pkg.activate(".")
@@ -46,6 +46,46 @@ para = JMMABCAlphaEqualConstant(prior, overall_trait_mean[2:end], overall_trait_
 data = [reduce(hcat, trait_means)..., reduce(hcat, cov_mats)...]
 ref_data = reshape(data, length(data), 1)
 
+##########################
+# Theoretical parameters #
+##########################
+
+# number of parameters
+n = 8
+
+# Creating tree
+tree = Ultrametric(7)
+Random.seed!(1)
+tree1 = rand(tree)
+time_tot = 1.0
+tspan = (0.0, time_tot)
+
+# G matrix
+P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  )))
+
+# traits needed to evolve traits
+alpha1 = repeat([1.0], n)
+mu1 = repeat([0.0], n)
+sigma1 = repeat([1.0], n)
+
+# create trait dictionary
+trait_parameters = (mu = mu1, sigma = sigma1)
+
+# Variables needed for OU matrix model
+mat_alpha = 1 .* Matrix(1I, n, n)
+mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
+mat_mu = copy(P0)
+
+# create matrix dictionary
+mat_parameters_true = Dict(13 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
+mat_parameters = (mu = mat_mu, sigma = mat_sigma)
+
+mat_evol_func = mat_evol(dt = 0.041)
+trait_evol_func = trait_evol(dt = 0.041)
+
+##############
+# Simulation #
+##############
 
 thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 100)
 
@@ -53,21 +93,16 @@ histogram(thresholds)
 
 threshold = percentile(thresholds, 2)
 
-function bayesian_menura!(parameter)
+# warm up 
+menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 5)
 
-    root = getroot(tree_anole)
+# theoretical simulation menura_bayesian(ref_data, tree1, parameters, mu1, P0, 245.0, 40)
 
-    trait_para = Dict(tree_anole.nodedict[root.name] => assemble_trait_parameters(para, parameter)) 
-    
-    mat_para = Dict(tree_anole.nodedict[root.name] => assemble_mat_parameters(para, parameter)) 
+@profview menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 1)
 
-    sim = menura_para_descend!(mat_para, trait_para, tree_anole, trait_evol(), mat_evol(), 0.0, overall_trait_mean[2:end], cov_mean, false)
+@profview menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 1)
 
-    return get_data(sim[1])
-end
-
-
-out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 10)
+out = menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 10)
 
 # takes too much memory. Why?
 

@@ -41,18 +41,23 @@ trait_evol_func = trait_evol()
 
 α_priors = [Gamma(2,0.25), Gamma(2,0.25)]
 
-ref_sim = menura_para_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+ther_ref_sim = menura_para_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
-ref_data = get_data(ref_sim[1])
+ther_ref_data = get_data(ther_ref_sim[1])
 
 parameters = JMMABCAlphaEqualConstant(Gamma(2,0.25), mu1, sigma1, Gamma(2,0.25), mat_mu, mat_sigma, n)
 
-thresholds = test_threshold(ref_data, tree1, parameters, mu1, P0, 1000)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 1000)
 
 histogram(thresholds)
 
-@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 205.0, 200)
+@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, 245.0, 40)
 
-@time out = menura_bayesian(ref_data, tree1, parameters, mu1, P0, 175.0, 3000)
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, 245.0, 40)
 
-histogram2d(out.population[:,1], out.population[:,2], normalize = :pdf, show_empty_bins = true)
+
+x = out.population[:,1]
+y = out.population[:,2]
+append!(x, out2.population[:,1])
+append!(y, out2.population[:,2])
+histogram2d(x, y, normalize = :pdf, show_empty_bins = true)

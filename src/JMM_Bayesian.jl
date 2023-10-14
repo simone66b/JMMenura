@@ -134,20 +134,21 @@ Function to perform approximate bayesian computation for using the JMMenura simu
 """
 function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, error, n_particles) end
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false)
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+    dt = 0.001)
 
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
 
-        println("Applying \n")
+        # println("Applying \n")
         root = getroot(tree)
 
         trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
     
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        println("Simulating \n")
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
+        # println("Simulating \n")
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -183,7 +184,8 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant,
     return thresholds
 end
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false)
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+    dt = 0.001)
 
     # Pull out priors and place into ordered vector 
     function bayesian_menura!(parameter)
@@ -194,7 +196,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual
     
         mat_para = assemble_mat_parameters(JMMpara, parameter)
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), t0, trait0, mat0, each)
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
