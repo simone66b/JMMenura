@@ -158,6 +158,58 @@ function animate_data(tree, trait1, trait2, file_name; fps = 20)
     gif(anim, file_name, fps = fps)
 end
 
+
+
+function animate_data(tree, trait1, trait2, trait3, file_name; fps = 20)
+    # Choose backend
+    gr()
+
+    # Set up 2d points
+    points = Vector{Vector{Any}}()
+
+    # Create vector of time and trait values in a tuple (time, trait1, trait2)
+    for node in tree.nodes
+        nodepoints = [(time, [node.data["trait_trace"][i][trait1], node.data["trait_trace"][i][trait2], 
+                                node.data["trait_trace"][i][trait3]]) 
+                        for (i, time)  in enumerate(node.data["timebase"])]
+        push!(points, nodepoints)
+    end
+
+    s(x) = x[1][1]
+
+    # Sort the branch by when the branch first appeared
+    sorted_points= sort!(points, by = s)
+
+    # create animation by looping over a cutoff range
+    anim = @animate for cut_off in 0.0:0.01:1.0
+        xss = Vector()
+        yss = Vector()
+        zss = Vector()
+        for nodepoints in sorted_points 
+            current_index = 1
+            cut_off < nodepoints[current_index][1] && continue # check if first element too large
+            for nodepoint in nodepoints # Get index up to required value
+                nodepoint[1] < cut_off && (current_index += 1)
+            end
+            current_index -= 1
+            xs = [nodepoints[i][2][1] for i in 1:current_index]
+            ys = [nodepoints[i][2][2] for i in 1:current_index]
+            zs = [nodepoints[i][2][3] for i in 1:current_index]
+            push!(xss, xs)
+            push!(yss, ys)
+            push!(zss, zs)
+        end
+        p = Plots.plot(xss, yss, zss, xlim = (-2.5,2.5), ylim = (-2.5, 2.5), 
+                    zlim = (-2.5, 2.5),legend=nothing, reuse=false)
+        Plots.plot!(p[1], camera = (45 + 30 * (sin(2*cut_off*π)), 40))
+    end
+
+    # create gif for animation
+    gif(anim, file_name, fps = fps)
+end
+
+
+
 # animations for traits through time
 
 function plot_traits_cov(tree, leaf)

@@ -1,6 +1,9 @@
 using .JMMenura
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase
-# read in data
+
+###########################
+# Read in and format data #
+###########################
 
 Pkg.activate(".")
 tree_anole = open(parsenewick, "anoles_data//pruned7.tre")
@@ -38,14 +41,23 @@ overall_trait_sd = mean(trait_sd)
 
 cov_sd = std(cov_mats)
 
-# Set up parameters
+#####################
+# Set up parameters #
+#####################
+
 prior = Gamma(2, 0.25)
 para = JMMABCAlphaEqualConstant(prior, overall_trait_mean[2:end], overall_trait_sd[2:end], prior, cov_mean, cov_sd, 8)
 
-# get_reference_data
+######################
+# get_reference_data #
+######################
+
 data = [reduce(hcat, trait_means)..., reduce(hcat, cov_mats)...]
 ref_data = reshape(data, length(data), 1)
 
+######################
+# Perform simulation #
+######################
 
 thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 100)
 
@@ -53,23 +65,12 @@ histogram(thresholds)
 
 threshold = percentile(thresholds, 2)
 
-function bayesian_menura!(parameter)
-
-    root = getroot(tree_anole)
-
-    trait_para = Dict(tree_anole.nodedict[root.name] => assemble_trait_parameters(para, parameter)) 
-    
-    mat_para = Dict(tree_anole.nodedict[root.name] => assemble_mat_parameters(para, parameter)) 
-
-    sim = menura_para_descend!(mat_para, trait_para, tree_anole, trait_evol(), mat_evol(), 0.0, overall_trait_mean[2:end], cov_mean, false)
-
-    return get_data(sim[1])
-end
-
-
-out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 100, dt = 0.05)
+out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 10, dt = 0.05)
 
 out2 = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 400, dt = 0.05)
+
+
+pyplot()
 
 x = out.population[:,1]
 y = out.population[:,2]
