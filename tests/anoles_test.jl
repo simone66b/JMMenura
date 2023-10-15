@@ -67,8 +67,12 @@ function bayesian_menura!(parameter)
 end
 
 
-out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 10)
+out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 100, dt = 0.05)
 
-# takes too much memory. Why?
+out2 = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 400, dt = 0.05)
 
-bayesian_menura!([1.0, 1.0])
+x = out.population[:,1]
+y = out.population[:,2]
+append!(x, out2.population[:,1])
+append!(y, out2.population[:,2])
+histogram2d(x, y, normalize = :pdf, show_empty_bins = true, xlab = "Trait alpha", ylab = "G matrix alpha")
