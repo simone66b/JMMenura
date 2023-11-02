@@ -1,5 +1,5 @@
 using .JMMenura
-using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase
+using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2
 
 ###########################
 # Read in and format data #
@@ -65,15 +65,15 @@ histogram(thresholds)
 
 threshold = percentile(thresholds, 2)
 
-out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 10, dt = 0.05)
+@time out = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, [threshold], 10, dt = 0.05)
 
-out2 = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 400, dt = 0.05)
+out2 = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, [threshold], 1000, dt = 0.05)
 
 
 pyplot()
 
-x = out.population[:,1]
-y = out.population[:,2]
-append!(x, out2.population[:,1])
-append!(y, out2.population[:,2])
+x = out2.population[1][:,1]
+y = out2.population[1][:,2]
+# append!(x, out2.population[:,1])
+# append!(y, out2.population[:,2])
 histogram2d(x, y, normalize = :pdf, show_empty_bins = true, xlab = "Trait alpha", ylab = "G matrix alpha")

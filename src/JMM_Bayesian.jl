@@ -33,13 +33,13 @@ function trait_mat_distance(var_num, leaf_num)
         mats1 = [data1[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
         mats2 = [data2[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
 
-        trait_diff = sum([euclidean(traits1[i], traits2[i]) for i in 1:leaf_num])
+        trait_diff =  mean((traits1[i][j] - traits2[i][j])^2 for i in 1:leaf_num for j in 1:var_num)^0.5
         hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
 
         # Stupid floating points
         hermi_matrices1 = correct_mat.(hermi_matrices1)
         hermi_matrices2 = correct_mat.(hermi_matrices2)
-        matrix_diff = sum([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
+        matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
         return trait_diff + matrix_diff
     end
 end
@@ -153,7 +153,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant
         return get_data(sim[1])
     end
 
-    SimulatedABCRejection(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 
@@ -201,7 +201,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual
         return get_data(sim[1])
     end
 
-    SimulatedABCRejection(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 
