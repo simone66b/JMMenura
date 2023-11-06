@@ -63,6 +63,28 @@ struct JMMABCAlphaConstantEqual <: JMMABCparameters
     mat_sigma_known::Dict{Int64, Any}
     size::Int
 end
+
+
+"""
+Stores the priors for a JMM ABC simulation using the isospectral model where only  the alpha parameter is unknown.
+
+Conditions:
+- Alpha is unknown traits and is constant for all variables and branches
+- Parameters are constant on all branches of a tree
+
+Inputs:
+TODO
+"""
+struct JMMABCIsospectralAlpha <: JMMABCparameters
+    trait_alpha_prior::ContinuousUnivariateDistribution
+    trait_mu_known::Array{<:Number}
+    trait_sigma_known::Array{<:Number}
+    mat_a::Number
+    mat_b::Number
+    size::Int
+end
+
+
 ############################################
 # Functions to extract prior distributions #
 ############################################
@@ -73,16 +95,20 @@ Returns the priors as a vector of continuous univariate distributions
 function get_priors(parameters::JMMABCparameters) end
 
 function get_priors(parameters::JMMABCAllEqualConstant)
-    return  [parameters.trait_alpha_prior, parameters.trait_mu_prior, parameters.trait_sigma_prior, 
-                parameters.mat_alpha_prior, parameters.mat_mu_prior, parameters.mat_sigma_prior]
+    return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior, parameters.trait_mu_prior, parameters.trait_sigma_prior, 
+                parameters.mat_alpha_prior, parameters.mat_mu_prior, parameters.mat_sigma_prior])
 end
 
 function get_priors(parameters::JMMABCAlphaEqualConstant) 
-    return  [parameters.trait_alpha_prior, parameters.mat_alpha_prior]
+    return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior, parameters.mat_alpha_prior])
 end
 
 function get_priors(parameters::JMMABCAlphaConstantEqual) 
-    return  [parameters.trait_alpha_prior, parameters.mat_alpha_prior]
+    return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior, parameters.mat_alpha_prior])
+end
+
+function get_priors(parameters::JMMABCIsospectralAlpha) 
+    return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior])
 end
 
 #####################################################################################
@@ -111,6 +137,10 @@ function assemble_trait_parameters(parameters::JMMABCAlphaConstantEqual, prior_r
     return combined
 end
 
+function assemble_trait_parameters(parameters::JMMABCIsospectralAlpha, prior_results::Vector{<:Number}) 
+    return (alpha = prior_results[1]*ones(parameters.size), mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
+end
+
 """
 """
 function assemble_mat_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
@@ -132,3 +162,47 @@ function assemble_mat_parameters(parameters::JMMABCAlphaConstantEqual, prior_res
     end
     return combined
 end
+
+function assemble_mat_parameters(parameters::JMMABCIsospectralAlpha, prior_results::Vector{<:Number}) 
+    return (a = parameters.mat_a,b = parameters.mat_b) 
+end
+
+
+#########################################
+# Bayesian simulation function creators #
+#########################################
+
+function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0; t0 = 0.0, each = false, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+
+        return get_data(sim[1])
+    end
+end
+
+
+function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0; t0 = 0.0, each = false, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_skew_symmetric(dt = dt), t0, trait0, mat0, each)
+
+        return get_data(sim[1])
+    end
+end
+
+

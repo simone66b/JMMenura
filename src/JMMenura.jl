@@ -34,6 +34,8 @@ export mat_evol, trait_evol, mat_evol_skew_symmetric
 
 export menura_para_descend!, menura_redone!
 
-export get_priors, assemble_mat_parameters, assemble_trait_parameters, JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual
+export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_bayesian_sim
+
+export JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCIsospectralAlpha
 
 end # module 

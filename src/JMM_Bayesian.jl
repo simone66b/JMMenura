@@ -22,7 +22,7 @@ end
 """
 Calculates the distance between two JMMenura simulations. 
 """
-function trait_mat_distance(var_num, leaf_num)
+function trait_mat_distance(var_num, leaf_num; err_thres = 10^-14)
     function trait_mat_dist(data1, data2)
         data1 = reshape(data1, var_num, (var_num+1)*leaf_num)
         data2 = reshape(data2, var_num, (var_num+1)*leaf_num)
@@ -37,9 +37,11 @@ function trait_mat_distance(var_num, leaf_num)
         hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
 
         # Stupid floating points
-        hermi_matrices1 = correct_mat.(hermi_matrices1)
-        hermi_matrices2 = correct_mat.(hermi_matrices2)
-        matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
+        hermi_matrices1 = correct_mat.(hermi_matrices1, err_thres)
+        hermi_matrices2 = correct_mat.(hermi_matrices2, err_thres)
+
+        # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
+        matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num])
         return trait_diff + matrix_diff
     end
 end
@@ -47,13 +49,25 @@ end
 """
 Attempt to fix floating point errors
 """
-function correct_mat(mat)
+# function correct_mat(mat)
+#     println("Eigen: ", eigen(mat).values, "\n")
+#     err = eigen(mat).values[1]
+#     println("Error: ", err,"\n", isposdef(mat), "\n")
+#     if err < 0
+#         mat_err_mat = Matrix((err)I, size(mat)...)
+#         println("Corrected eigen: ", eigen(mat - mat_err_mat).values, "\n")
+#         mat = Hermitian(mat - mat_err_mat)
+#         println("Hermitian corrected eigen: ", eigen(mat).values, "\n", isposdef(mat), "\n")
+#     end
+#     return mat
+# end
+
+function correct_mat(mat, err_thres)
     # println("Eigen: ", eigen(mat).values, "\n")
     err = eigen(mat).values[1]
     # println("Error: ", err,"\n", isposdef(mat), "\n")
-    println
-    if err < 0
-        mat_err_mat = Matrix((err)I, size(mat)...)
+    if err < err_thres
+        mat_err_mat = Matrix((min(-10^-14, err))I, size(mat)...)
         # println("Corrected eigen: ", eigen(mat - mat_err_mat).values, "\n")
         mat = Hermitian(mat - mat_err_mat)
         # println("Hermitian corrected eigen: ", eigen(mat).values, "\n", isposdef(mat), "\n")
