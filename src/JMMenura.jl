@@ -30,7 +30,7 @@ export menura_bayesian, trait_mat_distance, get_data, menura_bayesian_trait_alph
 
 export test_threshold
 
-export mat_evol, trait_evol
+export mat_evol, trait_evol, mat_evol_skew_symmetric
 
 export menura_para_descend!, menura_redone!
 

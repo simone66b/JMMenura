@@ -172,3 +172,33 @@ function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matri
         end        
     end
 end
+
+
+
+function mat_evol_skew_symmetric(;mat_drift = matrix_skew_symmetric_drift::Function , 
+                                    mat_diffusion = matrix_skew_symmetric_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
+    function mat_evolving_skew_symmetric(mat, para, tspan::Tuple{Float64, Float64}, each::Bool)
+        
+        u0 = zeros(size(mat))
+        
+        lowertri = LowerTriangular(mat)
+        uppertri = - UpperTriangular(mat)
+        skewsymm = lowertri + uppertri
+        W = WienerProcess(0.0, 0.0, 0.0)
+
+        pp = (A=skewsymm, B=skewsymm, a=para.a, b=para.b) ## skew symmetric matrices not necessarily the same.
+        prob = SDEProblem(mat_drift, mat_diffusion, u0, tspan, p=pp, noise=W,
+                        noise_rate_prototype=zeros(size(mat))) ## setup SDE problem
+        sol = solve(prob, EM(), p=pp, dt=dt)
+
+        if each
+            Omegas = exp.(sol.u)
+
+            return [Omega * mat * Omega' for Omega in Omegas]
+        else 
+            Omega1 = exp(last(sol.u)) ## get the final matrix
+
+            return [Omega1 * mat * Omega1'] ## reconstruct P_1
+        end
+    end
+end

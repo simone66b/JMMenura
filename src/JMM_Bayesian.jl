@@ -153,7 +153,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant
         return get_data(sim[1])
     end
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [error], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 
@@ -201,7 +201,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual
         return get_data(sim[1])
     end
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), error, n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [error], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 

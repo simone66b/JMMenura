@@ -79,7 +79,7 @@ One possible method for covariance matrix diffusion.
 
 Used in SDE problem.
 """
-function covariance_mat_drift(du, u, p, t) ## drift function for the SDE
+function matrix_skew_symmetric_drift(du, u, p, t) ## drift function for the SDE
     du .= p.a .* t .* p.A
 end
 
@@ -90,10 +90,9 @@ One possible method for covariance matrix diffusion.
 
 Used in SDE problem.
 """
-function covariance_mat_diffusion(du, u, p, t) ## diffusion function for the SDE
+function matrix_skew_symmetric_diffusion(du, u, p, t) ## diffusion function for the SDE
     du .= p.b .* t .* p.B 
 end
-
 
 
 function matrix_OU_drift(du, u, p, t)
