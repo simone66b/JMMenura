@@ -184,7 +184,7 @@ function mat_evol_skew_symmetric(;mat_drift = matrix_skew_symmetric_drift::Funct
         lowertri = LowerTriangular(mat)
         uppertri = - UpperTriangular(mat)
         skewsymm = lowertri + uppertri
-        W = WienerProcess(0.0, 0.0, 0.0)
+        W = WienerProcess(0.0,0.0, 0.0)
 
         pp = (A=skewsymm, B=skewsymm, a=para.a, b=para.b) ## skew symmetric matrices not necessarily the same.
         prob = SDEProblem(mat_drift, mat_diffusion, u0, tspan, p=pp, noise=W,
