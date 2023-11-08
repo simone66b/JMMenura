@@ -92,11 +92,11 @@ iso_reference_data = menura_para_descend!(iso_mat_parameters, trait_parameters, 
 
 iso_ref_data = get_data(iso_reference_data[1])
 
-iso_out = SimulatedModelSelection(iso_ref_data, model_sim_functions, priors, [44.0], 100, distance_function = dist_func,
-max_iter = 20000)
+iso_out = SimulatedModelSelection(iso_ref_data, model_sim_functions, priors, [40.0], 100, distance_function = dist_func,
+max_iter = 200000)
 
-histogram(iso_out.smc_outputs[3].population, normalize = :pdf)
+# histogram(iso_out.smc_outputs[3].population, normalize = :pdf)
 
-plot!(Gamma(2, 0.25))
+# plot!(Gamma(2, 0.25))
 
-density!(iso_out.smc_outputs[3].population, trim = true)
+# density!(iso_out.smc_outputs[3].population, trim = true)
