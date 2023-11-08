@@ -36,6 +36,6 @@ export menura_para_descend!, menura_redone!
 
 export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_bayesian_sim
 
-export JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCIsospectralAlpha
+export JMMABCAllSingleConstnat, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCIsospectralAlpha, JMMABCAlphaDifferentConstant
 
 end # module 

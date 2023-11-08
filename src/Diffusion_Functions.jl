@@ -91,7 +91,9 @@ One possible method for covariance matrix diffusion.
 Used in SDE problem.
 """
 function matrix_skew_symmetric_diffusion(du, u, p, t) ## diffusion function for the SDE
-    du .= p.b .* t .* p.B 
+    for i in 1:size(du)[2]
+        du[1:size(du)[1],i] .= p.a .* t.* p.B' 
+    end
 end
 
 
