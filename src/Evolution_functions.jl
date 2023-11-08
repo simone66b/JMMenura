@@ -179,7 +179,8 @@ function mat_evol_skew_symmetric(;mat_drift = matrix_skew_symmetric_drift::Funct
                                     mat_diffusion = matrix_skew_symmetric_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving_skew_symmetric(mat, para, tspan::Tuple{Float64, Float64}, each::Bool)
         
-        u0_proto = zeros(size(mat))
+        n = size(mat)[1]
+        u0_proto = zeros(n,n)
         u0 = vcat(u0_proto...)
         
         lowertri = LowerTriangular(mat)
@@ -189,15 +190,17 @@ function mat_evol_skew_symmetric(;mat_drift = matrix_skew_symmetric_drift::Funct
 
         pp = (A=hcat(skewsymm...), B=hcat(skewsymm...), a=para.a, b=para.b) ## skew symmetric matrices not necessarily the same.
         prob = SDEProblem(mat_drift, mat_diffusion, u0, tspan, p=pp, noise=W,
-                        noise_rate_prototype=zeros(size(mat)[1]^2, 1)) ## setup SDE problem
+                        noise_rate_prototype=zeros(n^2, 1)) ## setup SDE problem
         sol = solve(prob, EM(), p=pp, dt=dt)
 
         if each
-            Omegas = exp.(sol.u)
+            res_sol = reshape.(sol.u, n, n)
+            Omegas = exp.(res_sol)
 
             return [Omega * mat * Omega' for Omega in Omegas]
         else 
-            Omega1 = exp(last(sol.u)) ## get the final matrix
+            res_sol = reshape(sol.u[end], n, n)
+            Omega1 = exp(res_sol) ## get the final matrix
 
             return [Omega1 * mat * Omega1'] ## reconstruct P_1
         end
