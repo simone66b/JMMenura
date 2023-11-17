@@ -47,7 +47,7 @@ function OUmatrix(mat, para, tspan, matrix_drift, dt = 0.001)
     ## map mean matrix onto tangent space
     uu0 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mat), HermId))
     mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(para.mat_mu), HermId))
-    
+    Ev
     pp = (mu = mu2, alpha = para.mat_alpha, sigma = para.mat_sigma) ## tuple of parameters
     
     # println(matrix_OU_drift)
