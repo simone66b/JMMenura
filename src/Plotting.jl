@@ -2,13 +2,14 @@
 
 function length_order_recurs!(array, min_height, label, iter)
     if iter > 0
-        current_height, current_index = 1, nothing
+        height_max, current_height, current_index = maximum(array), maximum(array), nothing
         for (index,height) in enumerate(array)
             if height <= current_height && height >= min_height
                 current_height, current_index = height, index
             end
         end
-        if current_height == 1
+        if current_height == height_max
+            println(current_height)
             array[current_index] = 0 
             length_order_recurs!(array, current_height, label -1, iter -1 )
         else

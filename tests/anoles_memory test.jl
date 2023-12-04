@@ -39,7 +39,7 @@ overall_trait_sd = mean(trait_sd)
 cov_sd = std(cov_mats)
 
 # Set up parameters
-prior = Gamma(2, 0.25)
+prior = Uniform(0,3)
 para = JMMABCAlphaEqualConstant(prior, overall_trait_mean[2:end], overall_trait_sd[2:end], prior, cov_mean, cov_sd, 8)
 
 # get_reference_data
@@ -87,14 +87,16 @@ trait_evol_func = trait_evol(dt = 0.041)
 # Simulation #
 ##############
 
-thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 100)
+@time thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 2000, dt = 0.041)
+
+# @time thresholds = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 1000.0, 2000, dt = 0.041).distances[1]
 
 histogram(thresholds)
 
-threshold = percentile(thresholds, 2)
+threshold = percentile(thresholds, 0.1)
 
 # warm up 
-menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 5)
+@time menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 30, dt = 0.041)
 
 # theoretical simulation menura_bayesian(ref_data, tree1, parameters, mu1, P0, 245.0, 40)
 
@@ -106,4 +108,3 @@ out = menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean
 
 # takes too much memory. Why?
 
-bayesian_menura!([1.0, 1.0])

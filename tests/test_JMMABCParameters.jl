@@ -29,7 +29,7 @@ trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
 mat_alpha = 1 .* Matrix(1I, n, n)
-mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
+mat_sigma = (1 / sqrt(2) * 0.01) .* ones(n,n)
 mat_mu = copy(P0)
 
 # create matrix dictionary
@@ -39,15 +39,15 @@ mat_parameters = (mu = mat_mu, sigma = mat_sigma)
 mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
 
-α_priors = [Gamma(2,0.25), Gamma(2,0.25)]
+α_priors = [Uniform(0,3), Uniform(0,3)]
 
 ther_ref_sim = menura_para_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
 ther_ref_data = get_data(ther_ref_sim[1])
 
-parameters = JMMABCAlphaEqualConstant(Gamma(2,0.25), mu1, sigma1, Gamma(2,0.25), mat_mu, mat_sigma, n)
+parameters = JMMABCAlphaEqualConstant(Uniform(0,3), mu1, sigma1, Uniform(0,3), mat_mu, mat_sigma, n)
 
-thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 1000)
+@benchmark thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 1000)
 
 histogram(thresholds)
 
