@@ -1,4 +1,6 @@
-
+######################
+# Struct definitions #
+######################
 """
 Abstract Super type which for types which house the conditions and assumptions of various ABC models for JMM
 """
@@ -87,7 +89,7 @@ end
 
 
 """
-Stores the priors for a JMM ABC simulation using the isospectral model where only  the alpha parameter is unknown.
+Stores the priors for a JMM ABC simulation using the isospectral model where only the alpha parameter is unknown.
 
 Conditions:
 - Alpha is unknown traits and is constant for all variables and branches
@@ -261,7 +263,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -277,7 +279,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -294,7 +296,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end

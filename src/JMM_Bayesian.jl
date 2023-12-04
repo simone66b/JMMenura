@@ -94,7 +94,7 @@ function menura_bayesian_trait_alpha(reference_data, tree, trait_known_para, alp
     
         trait_para = Dict(11 => (trait_known_para..., alpha = parameter.*ones(length))) 
 
-        sim = menura_para_descend!(mat_known_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+        sim = menura_parameter_descend!(mat_known_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
 
         return get_data(sim[1])
     end
@@ -113,7 +113,7 @@ function menura_bayesian_mat_alpha(reference_data, tree, trait_known_para
     
         mat_para = Dict(11 => (mat_known_para..., alpha = parameter.* Matrix(1I, length, length))) 
 
-        sim = menura_para_descend!(mat_para, trait_known_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+        sim = menura_parameter_descend!(mat_para, trait_known_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
 
         return get_data(sim[1])
     end
@@ -132,7 +132,7 @@ function menura_bayesian_trait_mat_alpha(reference_data, tree, trait_known_para
     
         mat_para = Dict(11 => (mat_known_para..., alpha = parameter[2].* ones(length,length))) 
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(), mat_evol(), 0.0, trait0, mat0, false)
 
         return get_data(sim[1])
     end
@@ -146,9 +146,9 @@ end
 Function to perform approximate bayesian computation for using the JMMenura simulation framework. Intakes a series of proposed traits and priors along with reference data.
 
 """
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, error, n_particles) end
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, threshold, n_particles) end
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
     dt = 0.001)
 
     # Pull out priors and place into ordered vector 
@@ -162,7 +162,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
         # println("Simulating \n")
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -190,13 +190,13 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant,
 end
 
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
     dt = 0.001)
 
     # Pull out priors and place into ordered vector 
     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [error], n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 
@@ -219,13 +219,13 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaDifferentConst
 end
 
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
     dt = 0.001)
 
     # Pull out priors and place into ordered vector 
     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [error], n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 
@@ -245,13 +245,13 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual,
     return thresholds
 end
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, error, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
     dt = 0.001)
 
     # Pull out priors and place into ordered vector 
     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [error], n_particles, 
+    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 end
 

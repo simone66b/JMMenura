@@ -37,7 +37,7 @@ mat_parameters = Dict(11 => (a = mat_a, b = mat_b))
 mat_evol_func = mat_evol_isospectral()
 trait_evol_func = trait_evol()
 
-menura_para_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, false)
+menura_parameter_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, false)
 
 plot_data(tree1, 1, 2, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)
 

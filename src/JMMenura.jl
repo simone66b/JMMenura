@@ -31,7 +31,7 @@ export test_threshold
 
 export mat_evol, trait_evol, mat_evol_isospectral
 
-export menura_para_descend!, menura_redone!
+export menura_parameter_descend!, menura!
 
 export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_bayesian_sim
 
