@@ -112,6 +112,13 @@ end
 
 """
 Returns the priors as a vector of continuous univariate distributions
+
+Inputs: 
+- parameters - An object which is a subtype of the JMMABCparameters type 
+
+Outputs: 
+
+A vector with elements of type ContinuousUnivariateDistribution
 """
 function get_priors(parameters::JMMABCparameters) end
 
@@ -141,6 +148,15 @@ end
 #####################################################################################
 
 """
+Combines a random result from the relevant priors for a distribution with the constant parameters for evolving the traits
+
+Inputs:
+- parameters - An object which is a subtype of the JMMABCparameters type 
+- prior_results - A vector containing random results of the priors specified by parameters
+
+Outputs:
+
+A named tuple with elements being the relevant parameters for the model specified by parameters
 """
 function assemble_trait_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
 
@@ -171,6 +187,15 @@ function assemble_trait_parameters(parameters::JMMABCIsospectralAlpha, prior_res
 end
 
 """
+Combines a random result from the relevant priors for a distribution with the constant parameters for evolving the G matrix
+
+Inputs:
+- parameters - An object which is a subtype of the JMMABCparameters type 
+- prior_results - A vector containing random results of the priors specified by parameters
+
+Outputs:
+
+A named tuple with elements being the relevant parameters for the model specified by parameters
 """
 function assemble_mat_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
 
@@ -204,6 +229,27 @@ end
 #########################################
 # Bayesian simulation function creators #
 #########################################
+
+"""
+Creates a function which can be used to perform approximate bayesian computation in the style given by GpABC
+
+Inputs:
+- tree - An object of type Tree which the simulation is to be performed on
+- JMMpara - An object which is a subtype of the JMMABCparameters type 
+- trait0 - A vector of Numbers which represents the intial values for the traits
+- mat0 - A matrix of Numbers which represents the intial values for the G matrix
+
+Optional inputs: 
+- t0 - The inital time to start the simulation from
+- each - If false the G matrix matrix is kept constant when evolving the traits along each of the branches. If true the G matrix is updated at each time step when evolving the traits
+- dt - The time step to be used
+
+Outputs:
+
+A function which can be used in the framework provided by GpABC
+"""
+function create_bayesian_sim(tree, JMMpara::JMMABCparameters, trait0, mat0; t0 = 0.0, each = false, 
+    dt = 0.001) end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0; t0 = 0.0, each = false, 
     dt = 0.001)
@@ -248,7 +294,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_skew_symmetric(dt = dt), t0, trait0, mat0, each)
+        sim = menura_para_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end

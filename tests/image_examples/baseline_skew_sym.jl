@@ -34,7 +34,7 @@ mat_b = 1
 # create matrix dictionary
 mat_parameters = Dict(11 => (a = mat_a, b = mat_b))
 
-mat_evol_func = mat_evol_skew_symmetric()
+mat_evol_func = mat_evol_isospectral()
 trait_evol_func = trait_evol()
 
 menura_para_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, false)

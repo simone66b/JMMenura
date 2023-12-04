@@ -98,7 +98,7 @@ function OUmatrix_each(mat, para, tspan, matrix_drift, dt = 0.001)
 end
 
 # function which handles trait evolution 
-function trait_evol(;trait_drift = trait_drift::Function , trait_diffusion = trait_diff::Function, dt = 0.001::Float64, 
+function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_diffusion = trait_diffusion_brownian_motion::Function, dt = 0.001::Float64, 
                     small_dt_scale = 1.0::Float64)
     function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         if each 
@@ -135,7 +135,7 @@ end
 
 
 # This might have to be renamed in future
-function mat_evol(;mat_drift = matrix_OU_drift::Function , mat_diffusion = matrix_OU_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
+function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffusion = matrix_diffusion_brownian_motion::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         # println(eigen(mat).values)
         # println()
@@ -175,8 +175,8 @@ end
 
 
 
-function mat_evol_skew_symmetric(;mat_drift = matrix_skew_symmetric_drift::Function , 
-                                    mat_diffusion = matrix_skew_symmetric_diffusion::Function, dt = 0.001::Float64, mat_err = missing)
+function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function , 
+                                    mat_diffusion = matrix_diffusion_isospectral::Function, dt = 0.001::Float64, mat_err = missing)
     function mat_evolving_skew_symmetric(mat, para, tspan::Tuple{Float64, Float64}, each::Bool)
         
         n = size(mat)[1]

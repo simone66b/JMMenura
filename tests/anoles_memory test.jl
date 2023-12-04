@@ -87,7 +87,7 @@ trait_evol_func = trait_evol(dt = 0.041)
 # Simulation #
 ##############
 
-@time thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 2000, dt = 0.041)
+thresholds = test_threshold(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 2000, dt = 0.041)
 
 # @time thresholds = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, 1000.0, 2000, dt = 0.041).distances[1]
 
@@ -98,13 +98,10 @@ threshold = percentile(thresholds, 0.1)
 # warm up 
 @time menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 30, dt = 0.041)
 
-# theoretical simulation menura_bayesian(ref_data, tree1, parameters, mu1, P0, 245.0, 40)
-
 @profview menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 1)
 
 @profview menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, 1)
 
 out = menura_bayesian(ref_data, tree1, para, overall_trait_mean[2:end], cov_mean, threshold, 10)
 
-# takes too much memory. Why?
 
