@@ -282,7 +282,7 @@ function assemble_mat_parameters(parameters::JMMABCIsospectralAlpha, prior_resul
 end
 
 function assemble_mat_parameters(parameters::JMMABCIsospectralAlphaAB, prior_results::Vector{<:Number}) 
-    return (a = prior_results[1],b = prior_results[2]) 
+    return (a = prior_results[2],b = prior_results[3]) 
 end
 
 function assemble_mat_parameters(parameters::JMMABCBrownian, prior_results::Vector{<:Number}) 
