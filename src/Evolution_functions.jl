@@ -145,7 +145,7 @@ function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffu
         if err > 0
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
         else
-            mat_err_mat = Matrix((min(-10^-14, err))I, size(mat)...)
+            mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
             # println(eigen(mat - 10*mat_err_mat).values, "\n")
             # println(eigen(para.mu).values)
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat - mat_err_mat)))
@@ -155,7 +155,7 @@ function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffu
         if err_mu > 0
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         else
-            mat_err_mat = Matrix((min(-10^-14, err_mu))I, size(para.mu)...)
+            mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
             # println(eigen(para.mu - 10*mat_err_mat).values, "\n")
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - mat_err_mat)))
         end
