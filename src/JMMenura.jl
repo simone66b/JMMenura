@@ -3,6 +3,7 @@ module JMMenura
 using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, KissABC
 using PosDefManifold, GpABC, StatsPlots, ProgressBars, StochasticDiffEq
 
+include("Preallocation.jl")
 include("JMMABCparameters.jl")
 include("Diffusion_Functions.jl")
 include("Evolution_functions.jl")

@@ -40,7 +40,7 @@ mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
 
 α_prior = Uniform(0,3)
-ther_ref_sim = menura_para_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
 ther_ref_data = get_data(ther_ref_sim[1])
 

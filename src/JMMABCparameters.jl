@@ -324,7 +324,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -340,7 +340,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -357,7 +357,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -374,7 +374,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, ma
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end
@@ -390,7 +390,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol(dt = dt), t0, trait0, mat0, each)
 
         return get_data(sim[1])
     end

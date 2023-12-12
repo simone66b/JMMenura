@@ -24,6 +24,10 @@ function apply_trait(tree, trait, node::LinkNode, key)
     node.data[key] = trait
 end
 
+function apply_trait(tree, trait, node::RecursiveNode, key)
+    node.data[key] = trait
+end
+
 function apply_trait_descend(tree, trait, node, key)
     tree.nodes[node].data[key] = trait
     for i in getdescendants(tree,tree.nodes[node])                                                                   
