@@ -3,7 +3,7 @@ using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, Profile, Ra
 # read in data
 
 Pkg.activate(".")
-tree_anole = open(parsenewick, "anoles_data//pruned7.tre")
+tree_anole = open(parsenewick, "anoles_data//prunedscaled.tre")
 
 plot(tree_anole)
 

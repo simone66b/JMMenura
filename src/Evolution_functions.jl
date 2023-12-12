@@ -114,7 +114,7 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
                                             zeros(size(cor1)[1]),
                                             zeros(size(cor1)[1]))
             
-                prob = SDEProblem(trait_drift, trait_diff, u[end], (small_tspan, small_tspan + dt), 
+                prob = SDEProblem(trait_drift, trait_diffusion, u[end], (small_tspan, small_tspan + dt), 
                                     p=para, noise=noise);       
                 sol = solve(prob, EM(), dt=dt/small_dt_scale, p=para, adaptive=false)
                 push!(u, sol.u[end])

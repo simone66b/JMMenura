@@ -27,6 +27,8 @@ end
 One possible method for trait drift. Assumes brownian motion.
 
 Combined with trait_diffusion_brownian_motion creates brownian motion.
+
+Wait is this wrong?
 """
 function trait_drift_brownian_motion(du, u, p, t)
     alpha = p.alpha
@@ -96,7 +98,7 @@ Used in SDE problem.
 """
 function matrix_diffusion_isospectral(du, u, p, t) ## diffusion function for the SDE
     for i in 1:size(du)[2]
-        du[1:size(du)[1],i] .= p.a .* t.* p.B' 
+        du[1:size(du)[1],i] .= p.b .* t.* p.B' 
     end
 end
 
