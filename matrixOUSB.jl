@@ -13,7 +13,7 @@ function diffusion(du, u, p, t)
     du .= p.sigma  ## scaled BM
 end ## diffusion function
 
-##function OUmatrix(drift, diffusion, G0, mu, alpha, sigma, tspan, dt)
+function OUmatrix(drift, diffusion, G0, mu, alpha, sigma, tspan, dt)
 temp = Matrix{Float64}[]
 push!(temp, G0)
 pp = (mu = mu, G0=G0, alpha =  alpha, sigma = sigma) ## tuple of parameters
