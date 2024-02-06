@@ -6,7 +6,8 @@ cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
 
 #############################################################################
 function drift(du, u, p, t)
-    du .= p.alpha .* (p.mu - u) ## Mean reversion
+   ## du .= p.alpha .* (p.mu - u) ## Mean reversion
+    du .= p.alpha .* u ## Mean reversion
 end  ## drift function
 
 function diffusion(du, u, p, t)
@@ -27,20 +28,23 @@ function OUmatrix(drift, diffusion, uu0, mu1, alpha, sigma, tspan, dt)
 # _[tril(trues(size(_)))]
 # end
 
-HermId = Hermitian(1.0I(size(uu0, 1))) ## Identity matrix
+## HermId = Hermitian(1.0I(size(uu0, 1))) ## Identity matrix
 
 ## map mean matrix onto tangent space
-uu1 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(uu0), HermId))
-mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mu1), HermId))
+## uu1 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(uu0), HermId))
+uu1 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(uu0), mu1))
+## mu2 = convert(Matrix{Float64}, logMap(Fisher, Hermitian(mu1), HermId))
 
-pp = (mu = mu2, alpha =  alpha, sigma = sigma) ## tuple of parameters
+pp = (alpha =  alpha, sigma = sigma) ## tuple of parameters
 
 prob = SDEProblem(drift, diffusion, uu1, tspan, p = pp) ## set up the sde problem
 sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
 
 ## herms = vec2Hermitian.(sol.u, size(uu0,1))
 ## herms = convert(Vector{Hermitian{Float64, Matrix{Float64}}}, herms)
-temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
+temp = map(x -> expMap(Fisher, Hermitian(x), sol.u), mu1) # back transfer trace onto manifold
+
+## temp = map(x -> expMap(Fisher, Hermitian(x), HermId), sol.u) # back transfer trace onto manifold
 temp  ## can now plot, print this, etc.
 end # OUmatrix function
 
