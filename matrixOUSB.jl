@@ -6,21 +6,22 @@ cd("/home/simoneb/Desktop/JMMenura") ## may need to change this to suit
 
 #############################################################################
 function drift(du, u, p, t)
-  du .= p.alpha * inv(sqrt(Hermitian(u, :L))) * Hermitian(p.mu, :L) * inv(sqrt(Hermitian(u, :L)))# Mean reversion
-  ##println(du)
+  du .= p.alpha .* logMap(Fisher, Hermitian(u, :L), Hermitian(p.mu, :L))# Mean reversion
 end  ## drift function
 
 function diffusion(du, u, p, t)
-  du .= p.sigma  ## scaled BM
+  du .= p.sigma ##.* p.Sigma  ## scaled BM
 end ## diffusion function
 
-function OUmatrix(drift, diffusion, G0, mu, alpha, sigma, tspan, dt, W)
+function OUmatrix(drift, diffusion, G0, mu, alpha, sigma, tspan, dt) ##, W)
   pp = (mu = mu, G0=G0, alpha =  alpha, sigma = sigma) ## tuple of parameters
-  prob = SDEProblem(drift, diffusion, G0, tspan, p = pp, noise=W, noise_rate_prototype=zeros(size(G0))) ## set up the sde problem
+  prob = SDEProblem(drift, diffusion, G0, tspan, p = pp) ##, noise=W, noise_rate_prototype=zeros(1,8)) ## set up the sde problem
   sol = solve(prob, EM(), p = pp, dt = dt) ## solve using Euler-Maruyama
 sol
 end # OUmatrix function
 
+test = OUmatrix(drift, diffusion, G0, mu, alpha, sigma, tspan, dt)
+# if 1
 ###################################################################################################3
 
 nms = ["cris.txt", "ever.txt", "grah.txt", "line.txt", "pulc.txt", "sagr.txt", "smar.txt"];
@@ -60,17 +61,21 @@ G0 = Hermitian(G0, :L)
 ## u0 = G0 #### FullData[7, :Gmatrix]; ## randPosDefMat(8)
 mu = G0
 alpha = 2.0 ###fill(2.0, size(G0, 1), size(G0, 1));
-sigma = fill(1.0 / sqrt(2.0), size(G0, 1), size(G0, 1));
-sigma[diagind(sigma)] .= 1.0;
-## sigma = 0.05 ##  .* sigma
+Sigma = fill(1.0 / sqrt(2.0), size(G0, 1), size(G0, 1));
+Sigma[diagind(Sigma)] .= 1.0;
+sigma = 0.05 ##  .* sigma
 tspan = (0.0, 0.001)
-W=CorrelatedWienerProcess!(sigma, tspan[1], G0)
+# endif
 
+W=CorrelatedWienerProcess!(Sigma,  tspan[1], zeros(8), zeros(8))
+
+size(zeros(1,8), 2)
+length(W.u[1])
 temp = Matrix{Float64}[]
 push!(temp, G0)
 for i = 2 ## :1000
-  test = OUmatrix(drift, diffusion, temp[i-1], mu, alpha, 0.2, tspan, dt, W)
-  G1 = sqrt(Hermitian(temp[i-1],:L)) * exp(Hermitian(test.u[1], :L)) * sqrt(Hermitian(temp[i-1],:L))
+  test = OUmatrix(drift, diffusion, G0, mu, alpha, 0.2, tspan, dt)
+  G1 = expMap(Hermitian(test.u[1], :L), Hermitian(temp[i-1],:L))
   println(G1)
   push!(temp, G1) 
 end
