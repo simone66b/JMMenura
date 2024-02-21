@@ -174,6 +174,88 @@ function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffu
 end
 
 
+"""
+Each must be true for this one. 
+"""
+function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
+    function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        # println(eigen(mat).values)
+        # println()
+        # Trying to fix floating point errors
+        err = eigen(mat).values[1]
+        if err > 0
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+        else
+            mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
+            # println(eigen(mat - 10*mat_err_mat).values, "\n")
+            # println(eigen(para.mu).values)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 10*mat_err_mat)))
+        end
+
+        err_mu = eigen(para.mu).values[1]
+        if err_mu > 0
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+        else
+            mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
+            # println(eigen(para.mu - 10*mat_err_mat).values, "\n")
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 10*mat_err_mat)))
+        end
+        
+        n = size(mat)[1]
+
+        Gs = [Hermitian(Matrix(1.0I, n,n)) for _ in 1:((tspan[2] - tspan[1])÷dt+1)]
+
+        Gs[1] = Hermitian(mat)
+    
+    
+        for i in 2:length(Gs) 
+            # println("Last G: ", Gs[i-1])
+            W_t = Hermitian(rand(Normal(0,1/sqrt(2)), (n,n)))
+            W_t[diagind(W_t)] .*= sqrt(2)
+            last_G = Gs[i-1]
+            err = real(eigen(last_G).values[1])
+            # println("err: ", err)
+            if err > 0
+                sqrt_G = Hermitian(sqrt(last_G))
+            else
+                # println("a")
+                mat_err_mat = Matrix((min(-10^-10, err))I, size(last_G)...)
+                # println(err)
+                # println(mat_err_mat)
+                # println(last_G)
+                # println(last_G - 10*mat_err_mat)
+                # println(eigen(last_G - 10*mat_err_mat).values, "\n")
+                sqrt_G = Hermitian(sqrt(last_G - 10*mat_err_mat))
+            end
+            
+            inv_sqrt_G = inv(sqrt_G)
+
+            # println("Last eigen: ", eigen(Gs[i-1]))
+
+            g_mu = inv_sqrt_G*para.mu*inv_sqrt_G
+            err = real(eigen(g_mu).values[1])
+            # println("err: ", err)
+            if err > 0
+                log_g = log(Hermitian(g_mu))
+            else
+                # println("b")
+                mat_err_mat = Matrix((min(-10^-10, err))I, size(g_mu)...)
+                # println(eigen(g_mu - 10*mat_err_mat).values, "\n")
+                log_g = log(Hermitian(g_mu - 10*mat_err_mat))
+            end
+            # println("log_g: ", log_g)
+            inner = para.alpha*real(log_g)*dt + para.sigma*sqrt(dt)*W_t
+            # println("inner: ", inner)
+            # println("exp inner: ", exp(inner))
+            # println("sqrt: ", sqrt_G)
+            Gs[i] = Hermitian(sqrt_G*exp(inner)*sqrt_G)
+        end
+
+        return Gs[2:end]        
+    end
+end
+
+
 
 function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function , 
                                     mat_diffusion = matrix_diffusion_isospectral::Function, dt = 0.001::Float64, mat_err = missing)
@@ -205,4 +287,55 @@ function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function ,
             return [Omega1 * mat * Omega1'] ## reconstruct P_1
         end
     end
+end
+
+"""
+Returns two functions. The first is the evolution function for traits which is an empty function while the
+second is the function for the matrix.
+
+Each determines if all matrices are stored 
+"""
+function no_trait_evol(;mat_drift = matrix_drift_mean_reversion::Function , 
+    mat_diffusion = matrix_diffusion_brownian_motion::Function, dt = 0.001::Float64, mat_err = missing)
+
+    trait_func = function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        return (u = nothing, t = nothing)
+    end
+    mat_func = function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+        # println(eigen(mat).values)
+        # println()
+
+        # Trying to fix floating point errors
+        err = eigen(mat).values[1]
+        if err > 0
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+        else
+            mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
+            # println(eigen(mat - 10*mat_err_mat).values, "\n")
+            # println(eigen(para.mu).values)
+            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - mat_err_mat)))
+        end
+
+        err_mu = eigen(para.mu).values[1]
+        if err_mu > 0
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+        else
+            mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
+            # println(eigen(para.mu - 10*mat_err_mat).values, "\n")
+            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - mat_err_mat)))
+        end
+        
+        
+        para_2 = (mu2 = mu2, para...) # Used to add log mu
+    
+        prob = SDEProblem(mat_drift, mat_diffusion, uu0, tspan, p = para_2) ## set up the sde problem
+        sol = solve(prob, EM(), p = para_2, dt = dt) ## solve using Euler-Maruyama
+        if each
+            return exp.(Hermitian.(sol.u))
+        else
+            return [exp(Hermitian(sol.u[end]))]
+        end        
+    end
+
+    return trait_func, mat_func    
 end

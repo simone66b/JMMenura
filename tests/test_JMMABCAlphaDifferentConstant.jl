@@ -28,8 +28,8 @@ trait_parameters_true = Dict(13 => (alpha = alpha1, mu = mu1, sigma = sigma1))
 trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
-mat_alpha = 1 .* Matrix(1I, n, n)
-mat_sigma = (1 / sqrt(2) * 0.1) .* ones(n,n)
+mat_alpha = 1
+mat_sigma = 1
 mat_mu = copy(P0)
 
 # create matrix dictionary
@@ -39,24 +39,29 @@ mat_parameters = (mu = mat_mu, sigma = mat_sigma)
 mat_evol_func = mat_evol()
 trait_evol_func = trait_evol()
 
-α_prior = Uniform(0,3)
+α_prior = Uniform(0,4)
 ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+
+plot_data(tree1, 1, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)
+
 
 ther_ref_data = get_data(ther_ref_sim[1])
 
-parameters = JMMABCAlphaDifferentConstant([α_prior for _ in 1:n], mu1, sigma1, α_prior, mat_mu, mat_sigma, n)
+parameters = JMMABCAlphaEqualConstant(α_prior, mu1, sigma1, α_prior, mat_mu, mat_sigma, n)
 
-thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 2000)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20)
 
-threshold = percentile(thresholds,0.05)
+threshold = quantile(thresholds, (0:2)./length(thresholds))[2]
 
-@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 100)
+@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 10)
 
-@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, 245.0, 40)
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 100)
 
 
-x = out.population[:,1]
-y = out.population[:,2]
-append!(x, out2.population[:,1])
-append!(y, out2.population[:,2])
+x = out.population[1][:,1]
+y = out.population[1][:,2]
+append!(x, out2.population[1][:,1])
+append!(y, out2.population[1][:,2])
 histogram2d(x, y, normalize = :pdf, show_empty_bins = true)
+
+histogram(y, normalize = :pdf, legend = false)

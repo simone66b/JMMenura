@@ -4,12 +4,12 @@
 ##########################################
 
 """
-recurse_menura!(tree, node, trait_evol, matrix_evol, each::Bool)
+recurse_menura_mat!(tree, node, trait_evol, matrix_evol, each::Bool)
 Recursively iterates over the tree and evolves each node.
 
 Takes in tree, node to evol and functions specifing how to evolve.
 """
-function recurse_menura!(tree, node, trait_evol::Function, matrix_evol::Function, each::Bool)
+function recurse_menura_mat!(tree, node, trait_evol::Function, matrix_evol::Function, each::Bool)
     if isroot(tree, node) ## the root node, to get started
         # Functionality now to be done by a higher up function.
         # node.data["mat_trace"] = node.data["parameters"].mat ## starting matrix
@@ -38,12 +38,12 @@ function recurse_menura!(tree, node, trait_evol::Function, matrix_evol::Function
     end
     if !isleaf(tree, node)
         children = getchildren(tree, node)
-        recurse_menura!(tree, children[1], trait_evol, matrix_evol, each)
-        recurse_menura!(tree,children[2], trait_evol, matrix_evol, each)
+        recurse_menura_mat!(tree, children[1], trait_evol, matrix_evol, each)
+        recurse_menura_mat!(tree,children[2], trait_evol, matrix_evol, each)
     end
 end # Recurse! 
 
-function recurse_menura_in_place!(tree, node, trait_evol::Function, matrix_evol::Function, each::Bool)
+function recurse_menura_in_place_mat!(tree, node, trait_evol::Function, matrix_evol::Function, each::Bool)
     if isroot(tree, node) ## the root node, to get started
         # Functionality now to be done by a higher up function.
         # node.data["mat_trace"] = node.data["parameters"].mat ## starting matrix
@@ -73,13 +73,14 @@ function recurse_menura_in_place!(tree, node, trait_evol::Function, matrix_evol:
         node_trait_trace .= evol.u
 
         node_timebase = get(node.data, "timebase", nothing)
+        println(node_timebase)
         node_timebase .= evol.t
         
     end
     if !isleaf(tree, node)
         children = getchildren(tree, node)
-        recurse_menura_in_place!(tree, children[1], trait_evol, matrix_evol, each)
-        recurse_menura_in_place!(tree,children[2], trait_evol, matrix_evol, each)
+        recurse_menura_in_place_mat!(tree, children[1], trait_evol, matrix_evol, each)
+        recurse_menura_in_place_mat!(tree,children[2], trait_evol, matrix_evol, each)
     end
 end # Recurse! 
 
@@ -89,7 +90,7 @@ end # Recurse!
 
 # The function which runs the loop. Takes in a tree and the two evolution functions.
 # Should throw an error if tree not set up properly
-function menura!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+function menura_mat!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
                         , mat0::Matrix{Float64}, each::Bool)
     # set up starting time and values                     
     root = getroot(tree)
@@ -101,7 +102,7 @@ function menura!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64,
     # Getting cranky error function
     
     # perform the recursion
-    recurse_menura!(tree, root, trait_evol, matrix_evol, each)
+    recurse_menura_mat!(tree, root, trait_evol, matrix_evol, each)
 
     # return the tree along with the final trait data points
     # Might have to reconsider this function
@@ -109,9 +110,9 @@ function menura!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64,
 end
 
 
-# this function should now be a more fancy menura!
+# this function should now be a more fancy menura_mat!
 # Takes traits in dictionary and applies them in a descending pattern
-function menura_parameter_descend!(mat_parameters, trait_parameters, tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+function menura_parameter_descend_mat!(mat_parameters, trait_parameters, tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
                                 , mat0::Matrix{Float64}, each::Bool)
     # apply traits. Note phylo numbers the nodes in descending order by time
     mat_keys = sort(collect(keys(mat_parameters)), rev = true)
@@ -125,8 +126,8 @@ function menura_parameter_descend!(mat_parameters, trait_parameters, tree, trait
         apply_trait_descend(tree, trait_parameters[trait_key], trait_key, "trait_para")
     end
 
-    # run menura!
-    menura!(tree, trait_evol, matrix_evol, t0, trait0, mat0, each)
+    # run menura_mat!
+    menura_mat!(tree, trait_evol, matrix_evol, t0, trait0, mat0, each)
 
 end
 
@@ -134,7 +135,7 @@ end
 # Funciton which work in place #
 ################################
 
-function menura_in_place!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
+function menura_in_place_mat!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
     , mat0::Matrix{Float64}, each::Bool)
     # set up starting time and values                     
     root = getroot(tree)
@@ -146,7 +147,7 @@ function menura_in_place!(tree, trait_evol::Function, matrix_evol::Function, t0:
     # Getting cranky error function
 
     # perform the recursion
-    recurse_menura_in_place!(tree, root, trait_evol, matrix_evol, each)
+    recurse_menura_in_place_mat!(tree, root, trait_evol, matrix_evol, each)
 
     # return the tree along with the final trait data points
     # Might have to reconsider this function
@@ -154,10 +155,10 @@ function menura_in_place!(tree, trait_evol::Function, matrix_evol::Function, t0:
 end
 
 
-# this function should now be a more fancy menura!
+# this function should now be a more fancy menura_mat!
 # Takes traits in dictionary and applies them in a descending pattern
 
-function menura_parameter_descend_in_place!(mat_parameters, trait_parameters, tree, 
+function menura_parameter_descend_in_place_mat!(mat_parameters, trait_parameters, tree, 
             trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}
             , mat0::Matrix{Float64}, each::Bool)
     # apply traits. Note phylo numbers the nodes in descending order by time
@@ -172,7 +173,7 @@ function menura_parameter_descend_in_place!(mat_parameters, trait_parameters, tr
     apply_trait_descend(tree, trait_parameters[trait_key], trait_key, "trait_para")
     end
 
-    # run menura!
-    menura_in_place!(tree, trait_evol, matrix_evol, t0, trait0, mat0, each)
+    # run menura_mat!
+    menura_mat!(tree, trait_evol, matrix_evol, t0, trait0, mat0, each)
 
 end

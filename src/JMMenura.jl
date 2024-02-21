@@ -1,6 +1,6 @@
 module JMMenura
 
-using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, KissABC
+using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots
 using PosDefManifold, GpABC, StatsPlots, ProgressBars, StochasticDiffEq
 
 include("Preallocation.jl")
@@ -30,9 +30,9 @@ export menura_bayesian, trait_mat_distance, get_data, menura_bayesian_trait_alph
 
 export test_threshold
 
-export mat_evol, trait_evol, mat_evol_isospectral
+export mat_evol, trait_evol, mat_evol_isospectral, no_trait_evol, mat_evol_affine
 
-export menura_parameter_descend!, menura!
+export menura_parameter_descend!, menura!, preallocate_tree!
 
 export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_bayesian_sim
 

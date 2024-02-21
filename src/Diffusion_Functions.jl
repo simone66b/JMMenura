@@ -18,7 +18,7 @@ Combined with trait_diff_cox_ingersoll_ross_gamma creates the Cox-Ingersoll-Ross
 function trait_drift_mean_reversion(du, u, p, t)
     alpha = p.alpha
     mu = p.mu
-    du .= alpha .* (mu .- u)
+    du .= alpha .* (mu .- u) # The metric should go here Fisher-Rao distance # alpha single scalar 
 end
 
 """

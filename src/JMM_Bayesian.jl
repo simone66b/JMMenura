@@ -41,7 +41,7 @@ function trait_mat_distance(var_num, leaf_num; err_thres = 10^-14)
         hermi_matrices2 = correct_mat.(hermi_matrices2, err_thres)
 
         # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
-        matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num])
+        matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
         return trait_diff + matrix_diff
     end
 end
