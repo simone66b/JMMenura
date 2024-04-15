@@ -25,16 +25,17 @@ function recurse_menura!(tree, node, trait_evol, matrix_evol::Function, each::Bo
              evol_matrix = ancestor.data["mat_trace"][end]
          end
 
-        node.data["mat_trace"] =
+        mat_evol =
             matrix_evol(evol_matrix,ancestor.data["mat_para"], 
                         (getheight(tree, ancestor),getheight(tree, node)), each)
+        
+        node.data["mat_trace"], node.data["timebase"] = mat_evol.m, mat_evol.t 
 
         if !isnothing(trait_evol)
             evol = trait_evol(ancestor.data["trait_trace"][end], node.data["mat_trace"], 
                                 ancestor.data["trait_para"],
                             (getheight(tree, ancestor), getheight(tree, node)), each)
             node.data["trait_trace"] = evol.u
-            node.data["timebase"] = evol.t
         end
         
     end

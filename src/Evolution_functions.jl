@@ -102,7 +102,7 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
                     small_dt_scale = 1.0::Float64)
     function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         if each 
-            cors1 = cor.(mat)
+            cors1 = (mat)
             u = Vector{Vector{Float64}}()
             t = Vector{Float64}()
             push!(u, x0)
@@ -122,7 +122,7 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
             end
             return (u = u, t = t)
         else
-            cor1 = cor(mat[1])
+            cor1 = (mat[1])
             noise = CorrelatedWienerProcess(cor1, tspan[1],
                                         zeros(size(cor1)[1]),
                                         zeros(size(cor1)[1]))
@@ -165,10 +165,14 @@ function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffu
     
         prob = SDEProblem(mat_drift, mat_diffusion, uu0, tspan, p = para_2) ## set up the sde problem
         sol = solve(prob, EM(), p = para_2, dt = dt) ## solve using Euler-Maruyama
+
+        timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
+        timebase[end] = tspan[2]
+
         if each
-            return exp.(Hermitian.(sol.u))
+            return (m = exp.(Hermitian.(sol.u)), t = timebase)
         else
-            return [exp(Hermitian(sol.u[end]))]
+            return (m = [exp(Hermitian(sol.u[end]))], t = timebase)
         end        
     end
 end
@@ -197,7 +201,7 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
         
         n = size(mat)[1]
 
-        Gs = [Hermitian(Matrix(1.0I, n,n)) for _ in 1:((tspan[2] - tspan[1])÷dt+1)]
+        Gs = [Hermitian(Matrix(1.0I, n,n)) for _ in 1:(ceil((tspan[2] - tspan[1])/dt)+1)]
 
         Gs[1] = Hermitian(mat)
     
@@ -205,6 +209,7 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
         for i in 2:length(Gs) 
             W_t = Hermitian(rand(Normal(0,1/sqrt(2)), (n,n)))
             W_t[diagind(W_t)] .*= sqrt(2)
+            W_t = Hermitian(W_t)
             last_G = Gs[i-1]
             err = real(eigen(last_G).values[1])
             if err > 0
@@ -227,7 +232,10 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
             Gs[i] = Hermitian(sqrt_G*exp(Hermitian(inner))*sqrt_G)
         end
 
-        return Gs[2:end]        
+        timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
+        timebase[end] = tspan[2]
+
+        return (m = Gs, t = timebase)    
     end
 end
 
@@ -260,7 +268,10 @@ function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function ,
             res_sol = reshape(sol.u[end], n, n)
             Omega1 = exp(res_sol) ## get the final matrix
 
-            return [Omega1 * mat * Omega1'] ## reconstruct P_1
+        timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
+        timebase[end] = tspan[2]
+
+            return (m = [Omega1 * mat * Omega1'], t = timebase) ## reconstruct P_1
         end
     end
 end

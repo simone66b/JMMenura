@@ -19,7 +19,7 @@ time_tot = 1.0
 tspan = (0.0, time_tot)
 
 # G matrix
-P0 = cor(rand(Wishart(1, Matrix(1I, n, n)  )))
+P0 = rand(Wishart(1, Matrix(1I, n, n)  ))
 
 # traits needed to evolve traits
 alpha1 = repeat([1.0], n)
@@ -37,6 +37,6 @@ mat_mu = copy(P0)
 # create matrix dictionary
 mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
 
-trait_evol_func, mat_evol_func = no_trait_evol()
+mat_evol_func = mat_evol_affine(dt = 0.005)
 
 menura_parameter_descend!(mat_parameters, trait_parameters, tree1, nothing, mat_evol_func, 0.0, mu1, P0, true)

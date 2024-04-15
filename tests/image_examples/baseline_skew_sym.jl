@@ -17,7 +17,7 @@ time_tot = 1.0
 tspan = (0.0, time_tot)
 
 # G matrix
-P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  )))
+P0 = (rand(Wishart(100, Matrix(1I, n, n)  )))
 
 # traits needed to evolve traits
 alpha1 = repeat([1.0], n)
@@ -38,7 +38,7 @@ mat_evol_func = mat_evol_isospectral(dt = 0.005)
 trait_evol_func = trait_evol(dt = 0.005)
 
 
-menura_parameter_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, false)
+menura_parameter_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
 
 plot_data(tree1, 1, 2, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)
