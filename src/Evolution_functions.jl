@@ -179,16 +179,11 @@ Each must be true for this one.
 """
 function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
-        # println(eigen(mat).values)
-        # println()
-        # Trying to fix floating point errors
         err = eigen(mat).values[1]
         if err > 0
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
         else
             mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
-            # println(eigen(mat - 10*mat_err_mat).values, "\n")
-            # println(eigen(para.mu).values)
             uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 10*mat_err_mat)))
         end
 
@@ -197,7 +192,6 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
         else
             mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
-            # println(eigen(para.mu - 10*mat_err_mat).values, "\n")
             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 10*mat_err_mat)))
         end
         
@@ -209,46 +203,28 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
     
     
         for i in 2:length(Gs) 
-            # println("Last G: ", Gs[i-1])
             W_t = Hermitian(rand(Normal(0,1/sqrt(2)), (n,n)))
             W_t[diagind(W_t)] .*= sqrt(2)
             last_G = Gs[i-1]
             err = real(eigen(last_G).values[1])
-            # println("err: ", err)
             if err > 0
                 sqrt_G = Hermitian(sqrt(last_G))
             else
-                # println("a")
                 mat_err_mat = Matrix((min(-10^-10, err))I, size(last_G)...)
-                # println(err)
-                # println(mat_err_mat)
-                # println(last_G)
-                # println(last_G - 10*mat_err_mat)
-                # println(eigen(last_G - 10*mat_err_mat).values, "\n")
                 sqrt_G = Hermitian(sqrt(last_G - 10*mat_err_mat))
             end
             
-            inv_sqrt_G = inv(sqrt_G)
-
-            # println("Last eigen: ", eigen(Gs[i-1]))
-
+            inv_sqrt_G = Hermitian(inv(sqrt_G))
             g_mu = inv_sqrt_G*para.mu*inv_sqrt_G
             err = real(eigen(g_mu).values[1])
-            # println("err: ", err)
             if err > 0
-                log_g = log(Hermitian(g_mu))
+                log_g = Hermitian(log(Hermitian(g_mu)))
             else
-                # println("b")
                 mat_err_mat = Matrix((min(-10^-10, err))I, size(g_mu)...)
-                # println(eigen(g_mu - 10*mat_err_mat).values, "\n")
-                log_g = log(Hermitian(g_mu - 10*mat_err_mat))
+                log_g = Hermitian(log(Hermitian(g_mu - 10*mat_err_mat)))
             end
-            # println("log_g: ", log_g)
             inner = para.alpha*real(log_g)*dt + para.sigma*sqrt(dt)*W_t
-            # println("inner: ", inner)
-            # println("exp inner: ", exp(inner))
-            # println("sqrt: ", sqrt_G)
-            Gs[i] = Hermitian(sqrt_G*exp(inner)*sqrt_G)
+            Gs[i] = Hermitian(sqrt_G*exp(Hermitian(inner))*sqrt_G)
         end
 
         return Gs[2:end]        

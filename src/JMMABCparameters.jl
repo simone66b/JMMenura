@@ -58,7 +58,7 @@ struct JMMABCAlphaDifferentConstant <: JMMABCparameters
     trait_sigma_known::Array{<:Number}
     mat_alpha_prior::ContinuousUnivariateDistribution
     mat_mu_known::Array{<:Number}
-    mat_sigma_known::Array{<:Number}
+    mat_sigma_known::Number
     size::Int
 end
 
@@ -256,15 +256,15 @@ A named tuple with elements being the relevant parameters for the model specifie
 function assemble_mat_parameters(parameters::JMMABCparameters, prior_results::Vector{<:Number}) end
 
 function assemble_mat_parameters(parameters::JMMABCAllEqualConstant, prior_results::Vector{<:Number}) 
-    return (alpha = prior_results[4]*ones(parameters.size, parameters.size), mu = prior_results[5]*ones(parameters.size, parameters.size), sigma = prior_results[6]*ones(parameters.size, parameters.size)) 
+    return (alpha = prior_results[4], mu = prior_results[5]*ones(parameters.size, parameters.size), sigma = prior_results[6]) 
 end
 
 function assemble_mat_parameters(parameters::JMMABCAlphaEqualConstant, prior_results::Vector{<:Number}) 
-    return (alpha = prior_results[2]*ones(parameters.size, parameters.size), mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
+    return (alpha = prior_results[2], mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
 end
 
 function assemble_mat_parameters(parameters::JMMABCAlphaDifferentConstant, prior_results::Vector{<:Number}) 
-    return (alpha = prior_results[end]*ones(parameters.size, parameters.size), mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
+    return (alpha = prior_results[end], mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
 end
 
 function assemble_mat_parameters(parameters::JMMABCAlphaConstantEqual, prior_results::Vector{<:Number})
@@ -324,7 +324,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
         
         GC.gc()
         
@@ -342,7 +342,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
         
         GC.gc()
 
@@ -361,7 +361,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine_isospectral(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
         GC.gc()
         
@@ -380,7 +380,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, ma
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine_isospectral(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
         GC.gc()
         
@@ -398,7 +398,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0
 
         mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
 
-        sim = menura_parameter_descend_in_place!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
         
         GC.gc()
         

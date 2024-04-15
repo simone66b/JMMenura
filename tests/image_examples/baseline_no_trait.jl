@@ -39,4 +39,4 @@ mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
 
 trait_evol_func, mat_evol_func = no_trait_evol()
 
-menura_parameter_descend!(mat_parameters, trait_parameters, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+menura_parameter_descend!(mat_parameters, trait_parameters, tree1, nothing, mat_evol_func, 0.0, mu1, P0, true)
