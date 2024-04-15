@@ -29,31 +29,33 @@ trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
 mat_alpha = 1 .* Matrix(1I, n, n)
-mat_sigma = (1 / sqrt(2) * 0.01) .* ones(n,n)
+mat_sigma = (1 / sqrt(2) * 0.01)
 mat_mu = copy(P0)
 
 # create matrix dictionary
 mat_parameters_true = Dict(13 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
 mat_parameters = (mu = mat_mu, sigma = mat_sigma)
 
-mat_evol_func = mat_evol()
+mat_evol_func = mat_evol_affine()
 trait_evol_func = trait_evol()
 
 α_priors = [Uniform(0,3), Uniform(0,3)]
 
-ther_ref_sim = menura_para_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
 
-ther_ref_data = get_data(ther_ref_sim[1])
+ther_ref_data = get_data(ther_ref_sim)
 
 parameters = JMMABCAlphaEqualConstant(Uniform(0,3), mu1, sigma1, Uniform(0,3), mat_mu, mat_sigma, n)
 
-@benchmark thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 1000)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 40)
 
 histogram(thresholds)
 
-@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, 245.0, 40)
+threshold = sort(thresholds)[2]
 
-@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, 245.0, 40)
+@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 1)
+
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 40)
 
 
 x = out.population[:,1]

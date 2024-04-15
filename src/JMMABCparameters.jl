@@ -145,6 +145,55 @@ struct JMMABCBrownian <: JMMABCparameters
     size::Int
 end
 
+"""
+Stores the priors for a JMM ABC simulation where only alpha parameters are unknown.
+
+Conditions:
+- Alpha is unknown for matrixes and traits and is constant for all variables
+- Parameters are constant on all branches of a tree
+
+Inputs:
+TODO
+"""
+struct JMMABCAlphaEqualConstantNoTrait <: JMMABCparameters
+    mat_alpha_prior::ContinuousUnivariateDistribution
+    mat_mu_known::Array{<:Number}
+    mat_sigma_known::Number
+    size::Int
+end
+
+"""
+Stores the priors for a JMM ABC simulation using the isospectral model without evolving traits where only the alpha parameter is unknown.
+
+Conditions:
+- Alpha is unknown traits and is constant for all variables and branches
+- Parameters are constant on all branches of a tree
+
+Inputs:
+TODO
+"""
+struct JMMABCIsospectralAlphaABNoTrait <: JMMABCparameters
+    mat_a_prior::ContinuousUnivariateDistribution
+    mat_b_prior::ContinuousUnivariateDistribution
+    size::Int
+end
+
+"""
+Stores the priors for a JMM ABC simulation without traits where only alpha parameter are unknown.
+
+Conditions:
+- Alpha is unknown for matrixes and traits and is constant for all variables
+- Parameters are constant on all branches of a tree
+
+Inputs:
+TODO
+"""
+struct JMMABCBrownianNoTrait <: JMMABCparameters
+    mat_mu_known::Array{<:Number}
+    mat_sigma_prior::ContinuousUnivariateDistribution
+    size::Int
+end
+
 ############################################
 # Functions to extract prior distributions #
 ############################################
@@ -189,6 +238,20 @@ end
 function get_priors(parameters::JMMABCBrownian) 
     return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior, parameters.mat_sigma_prior])
 end
+
+
+function get_priors(parameters::JMMABCAlphaEqualConstantNoTrait) 
+    return  Vector{ContinuousUnivariateDistribution}([parameters.mat_alpha_prior])
+end
+
+function get_priors(parameters::JMMABCIsospectralAlphaABNoTrait) 
+    return  Vector{ContinuousUnivariateDistribution}([parameters.mat_a_prior, parameters.mat_b_prior])
+end
+
+function get_priors(parameters::JMMABCBrownianNoTrait) 
+    return  Vector{ContinuousUnivariateDistribution}([parameters.mat_sigma_prior])
+end
+
 
 
 #####################################################################################
@@ -242,6 +305,19 @@ function assemble_trait_parameters(parameters::JMMABCBrownian, prior_results::Ve
     return (alpha = prior_results[1]*ones(parameters.size), mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
 end
 
+
+function assemble_trait_parameters(parameters::JMMABCAlphaEqualConstantNoTrait, prior_results::Vector{<:Number}) 
+    return nothing 
+end
+
+function assemble_trait_parameters(parameters::JMMABCIsospectralAlphaABNoTrait, prior_results::Vector{<:Number}) 
+    return nothing
+end
+
+function assemble_trait_parameters(parameters::JMMABCBrownianNoTrait, prior_results::Vector{<:Number}) 
+    return nothing 
+end
+
 """
 Combines a random result from the relevant priors for a distribution with the constant parameters for evolving the G matrix
 
@@ -289,6 +365,19 @@ function assemble_mat_parameters(parameters::JMMABCBrownian, prior_results::Vect
     return (alpha = zeros(parameters.size, parameters.size), mu = parameters.mat_mu_known, sigma = prior_results[2]) 
 end
 
+
+function assemble_mat_parameters(parameters::JMMABCAlphaEqualConstantNoTrait, prior_results::Vector{<:Number}) 
+    return (alpha = prior_results[1], mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
+end
+
+function assemble_mat_parameters(parameters::JMMABCIsospectralAlphaABNoTrait, prior_results::Vector{<:Number}) 
+    return (a = prior_results[1],b = prior_results[2]) 
+end
+
+function assemble_mat_parameters(parameters::JMMABCBrownianNoTrait, prior_results::Vector{<:Number}) 
+    return (alpha = zeros(parameters.size, parameters.size), mu = parameters.mat_mu_known, sigma = prior_results[1]) 
+end
+
 #########################################
 # Bayesian simulation function creators #
 #########################################
@@ -311,10 +400,10 @@ Outputs:
 
 A function which can be used in the framework provided by GpABC
 """
-function create_bayesian_sim(tree, JMMpara::JMMABCparameters, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCparameters, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001) end
 
-function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001)
     function bayesian_menura!(parameter)
 
@@ -328,11 +417,11 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
         
         GC.gc()
         
-        return get_data(sim[1])
+        return get_data(sim)
     end
 end
 
-function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001)
     function bayesian_menura!(parameter)
 
@@ -346,12 +435,12 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
         
         GC.gc()
 
-        return get_data(sim[1])
+        return get_data(sim)
     end
 end
 
 
-function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001)
     function bayesian_menura!(parameter)
 
@@ -365,12 +454,12 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
         
         GC.gc()
         
-        return get_data(sim[1])
+        return get_data(sim)
     end
 end
 
 
-function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001)
     function bayesian_menura!(parameter)
 
@@ -384,11 +473,11 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, ma
         
         GC.gc()
         
-        return get_data(sim[1])
+        return get_data(sim)
     end
 end
 
-function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0.0, each = false, 
+function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0.0, each = true, 
     dt = 0.001)
     function bayesian_menura!(parameter)
 
@@ -402,6 +491,61 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0
         
         GC.gc()
         
-        return get_data(sim[1])
+        return get_data(sim)
+    end
+end
+
+
+function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTrait, trait0, mat0; t0 = 0.0, each = true, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => nothing) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        
+        GC.gc()
+        
+        return get_data_no_trait(sim)
+    end
+end
+
+function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABNoTrait, trait0, mat0; t0 = 0.0, each = true, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => nothing) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
+        
+        GC.gc()
+        
+        return get_data_no_trait(sim)
+    end
+end
+
+function create_bayesian_sim(tree, JMMpara::JMMABCBrownianNoTrait, trait0, mat0; t0 = 0.0, each = true, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => nothing) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        
+        GC.gc()
+        
+        return get_data_no_trait(sim)
     end
 end

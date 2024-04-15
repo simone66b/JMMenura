@@ -46,6 +46,29 @@ function trait_mat_distance(var_num, leaf_num; err_thres = 10^-14)
     end
 end
 
+function mat_distance(var_num, leaf_num; err_thres = 10^-14)
+    function mat_dist(data1, data2)
+        data1 = reshape(data1, var_num, (var_num)*leaf_num)
+        data2 = reshape(data2, var_num, (var_num)*leaf_num)
+
+        traits1 = [data1[:,i] for i in 1:leaf_num]
+        traits2 = [data2[:,i] for i in 1:leaf_num]
+
+        mats1 = [data1[:,(var_num*(i-1)+1):(var_num*(i))] for i in 1:leaf_num]
+        mats2 = [data2[:,(var_num*(i-1)+1):(var_num*(i))] for i in 1:leaf_num]
+
+        hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
+
+        # Stupid floating points
+        hermi_matrices1 = correct_mat.(hermi_matrices1, err_thres)
+        hermi_matrices2 = correct_mat.(hermi_matrices2, err_thres)
+
+        # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
+        matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
+        return matrix_diff
+    end
+end
+
 """
 Attempt to fix floating point errors
 """
@@ -83,6 +106,11 @@ function get_data(tree)
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
     data = [traits..., mats...]
     return reshape(data, length(data), 1)
+end 
+
+function get_data_no_trait(tree)
+    mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
+    return reshape(mats, length(mats), 1)
 end 
 
 # Stuff it I'm hard coding an example
@@ -146,25 +174,19 @@ end
 Function to perform approximate bayesian computation for using the JMMenura simulation framework. Intakes a series of proposed traits and priors along with reference data.
 
 """
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, max_iter, threshold, n_particles) end
-
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
-
+function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+    dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+    
     preallocate_tree!(tree, dt, JMMpara.size)
-
-    # Pull out priors and place into ordered vector 
 
     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+    max_iter = max_iter, write_progress = true, distance_function = distance_function)
 end
 
-
-
-function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, n_particles
-                        ; t0 = 0.0, each = false, dt = 0.001)
+function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, n_particles; 
+    t0 = 0.0, each = false, dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
 
     preallocate_tree!(tree, dt, JMMpara.size)
 
@@ -175,169 +197,201 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant,
     for i in ProgressBar(1:n_particles)
         para = rand.(get_priors(JMMpara))
         sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+        dist = distance_function(sim, reference_data)
         thresholds[i] = dist
     end
     return thresholds
 end
 
 
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
 
-    preallocate_tree!(tree, dt, JMMpara.size)
+#     preallocate_tree!(tree, dt, JMMpara.size)
 
-    # Pull out priors and place into ordered vector 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
-end
-
-
-
-function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, n_particles; 
-                        t0 = 0.0, each = false, dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    thresholds = zeros(n_particles)
-
-    for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
-        thresholds[i] = dist
-    end
-    return thresholds
-end
-
-
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    # Pull out priors and place into ordered vector 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
-end
-
-function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, n_particles;
-                         t0 = 0.0, each = false, dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    thresholds = zeros(n_particles)
-
-    for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
-        thresholds[i] = dist
-    end
-    return thresholds
-end
-
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    # Pull out priors and place into ordered vector 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
-end
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
 
 
 
-function test_threshold(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, n_particles; 
-                        t0 = 0.0, each = false, dt = 0.001)
+# function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, n_particles
+#                         ; t0 = 0.0, each = false, dt = 0.001)
 
-    preallocate_tree!(tree, dt, JMMpara.size)
+#     preallocate_tree!(tree, dt, JMMpara.size)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    thresholds = zeros(n_particles)
+#     thresholds = zeros(n_particles)
 
-    for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
-        thresholds[i] = dist
-    end
-    return thresholds
-end
-
-
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    # Pull out priors and place into ordered vector 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
-end
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
 
 
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
 
-function test_threshold(reference_data, tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0, n_particles; 
-                        t0 = 0.0, each = false, dt = 0.001)
+#     preallocate_tree!(tree, dt, JMMpara.size)
 
-    preallocate_tree!(tree, dt, JMMpara.size)
+#     # Pull out priors and place into ordered vector 
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    thresholds = zeros(n_particles)
-
-    for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
-        thresholds[i] = dist
-    end
-    return thresholds
-end
-
-function menura_bayesian(reference_data, tree, JMMpara::JMMABCBrownian, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001)
-
-    preallocate_tree!(tree, dt, JMMpara.size)
-
-    # Pull out priors and place into ordered vector
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
-
-    SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
-    max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
-end
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
 
 
 
-function test_threshold(reference_data, tree, JMMpara::JMMABCBrownian, trait0, mat0, n_particles; 
-                        t0 = 0.0, each = false, dt = 0.001)
+# function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0, n_particles; 
+#                         t0 = 0.0, each = false, dt = 0.001)
 
-    preallocate_tree!(tree, dt, JMMpara.size)
+#     preallocate_tree!(tree, dt, JMMpara.size)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
 
-    thresholds = zeros(n_particles)
+#     thresholds = zeros(n_particles)
 
-    for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
-        thresholds[i] = dist
-    end
-    return thresholds
-end
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
+
+
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     # Pull out priors and place into ordered vector 
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
+
+# function test_threshold(reference_data, tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0, n_particles;
+#                          t0 = 0.0, each = false, dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     thresholds = zeros(n_particles)
+
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
+
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     # Pull out priors and place into ordered vector 
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
+
+
+
+# function test_threshold(reference_data, tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0, n_particles; 
+#                         t0 = 0.0, each = false, dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     thresholds = zeros(n_particles)
+
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
+
+
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     # Pull out priors and place into ordered vector 
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
+
+
+
+# function test_threshold(reference_data, tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0, n_particles; 
+#                         t0 = 0.0, each = false, dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     thresholds = zeros(n_particles)
+
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
+
+# function menura_bayesian(reference_data, tree, JMMpara::JMMABCBrownian, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
+#     dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     # Pull out priors and place into ordered vector
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
+#     max_iter = max_iter, write_progress = true, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+# end
+
+
+
+# function test_threshold(reference_data, tree, JMMpara::JMMABCBrownian, trait0, mat0, n_particles; 
+#                         t0 = 0.0, each = false, dt = 0.001)
+
+#     preallocate_tree!(tree, dt, JMMpara.size)
+
+#     bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+
+#     thresholds = zeros(n_particles)
+
+#     for i in ProgressBar(1:n_particles)
+#         para = rand.(get_priors(JMMpara))
+#         sim = bayesian_menura!(para)
+#         dist = trait_mat_distance(JMMpara.size,nleaves(tree))(sim, reference_data)
+#         thresholds[i] = dist
+#     end
+#     return thresholds
+# end
