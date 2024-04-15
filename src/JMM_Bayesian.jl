@@ -66,7 +66,7 @@ function trait_mat_distance_scaled(var_num, leaf_num, mat_scale = 1, trait_scale
 
         # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
         matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
-        return mat_scale*trait_diff + trait_scale*matrix_diff
+        return trait_scale*trait_diff + mat_scale*matrix_diff
     end
 end
 
