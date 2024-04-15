@@ -46,6 +46,30 @@ function trait_mat_distance(var_num, leaf_num; err_thres = 10^-14)
     end
 end
 
+function trait_mat_distance_scaled(var_num, leaf_num, mat_scale = 1, trait_scale = 1; err_thres = 10^-14)
+    function trait_mat_dist(data1, data2)
+        data1 = reshape(data1, var_num, (var_num+1)*leaf_num)
+        data2 = reshape(data2, var_num, (var_num+1)*leaf_num)
+
+        traits1 = [data1[:,i] for i in 1:leaf_num]
+        traits2 = [data2[:,i] for i in 1:leaf_num]
+
+        mats1 = [data1[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
+        mats2 = [data2[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
+
+        trait_diff =  mean((traits1[i][j] - traits2[i][j])^2 for i in 1:leaf_num for j in 1:var_num)^0.5
+        hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
+
+        # Stupid floating points
+        hermi_matrices1 = correct_mat.(hermi_matrices1, err_thres)
+        hermi_matrices2 = correct_mat.(hermi_matrices2, err_thres)
+
+        # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
+        matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
+        return mat_scale*trait_diff + trait_scale*matrix_diff
+    end
+end
+
 function mat_distance(var_num, leaf_num; err_thres = 10^-14)
     function mat_dist(data1, data2)
         data1 = reshape(data1, var_num, (var_num)*leaf_num)
