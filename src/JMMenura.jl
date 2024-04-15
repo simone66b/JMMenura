@@ -28,7 +28,7 @@ export plot_labelled, plot_data, plot_g_mat_evol, plot_traits_cov, animate_data
 
 export menura_bayesian, trait_mat_distance, mat_distance, get_data, get_data_no_trait
 
-export test_threshold
+export test_threshold, trait_mat_distance_scaled
 
 export mat_evol, trait_evol, mat_evol_isospectral, no_trait_evol, mat_evol_affine
 

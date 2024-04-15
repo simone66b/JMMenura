@@ -47,13 +47,13 @@ ther_ref_data = get_data(ther_ref_sim)
 
 parameters = JMMABCAlphaEqualConstant(Uniform(0,3), mu1, sigma1, Uniform(0,3), mat_mu, mat_sigma, n)
 
-thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 40)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 40, distance_function = trait_mat_distance_scaled(8,7, 5, 27))
 
 histogram(thresholds)
 
 threshold = sort(thresholds)[2]
 
-@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 1)
+@time out = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 1, distance_function = trait_mat_distance_scaled(8,7, 5, 27))
 
 @time out2 = menura_bayesian(ther_ref_data, tree1, parameters, mu1, P0, threshold, 40)
 
