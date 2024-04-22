@@ -38,7 +38,7 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 
 ther_ref_data = get_data_no_trait(ther_ref_sim)
 
-parameters = JMMABCAlphaEqualConstantNoTrait(Uniform(0,3), mat_mu, mat_sigma, n)
+parameters = JMMABCAlphaEqualConstantNoTraitSigma(Uniform(0,3), mat_mu, Uniform(0.1, 3), n)
 
 thresholds = test_threshold(ther_ref_data, tree1, parameters, [0.0], P0, 10, distance_function = mat_distance(4,7), each = true)
 
@@ -48,7 +48,7 @@ threshold = sort(thresholds)[2]
 
 @time out = menura_bayesian(ther_ref_data, tree1, parameters, [0.0], P0, threshold, 1, distance_function = mat_distance(4,7), each = true)
 
-@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, [0.0], P0, threshold, 40, distance_function = mat_distance(4,7), each = true)
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, [0.0], P0, threshold, 10, distance_function = mat_distance(4,7), each = true)
 
 
 x = out.population[1][:,1]

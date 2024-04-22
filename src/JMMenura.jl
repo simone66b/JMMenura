@@ -38,6 +38,8 @@ export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_ba
 
 export JMMABCAllSingleConstant, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCIsospectralAlpha, JMMABCAlphaDifferentConstant, JMMABCIsospectralAlphaAB, JMMABCBrownian
 
-export JMMABCAlphaEqualConstantNoTrait, JMMABCIsospectralAlphaABNoTrait, JMMABCBrownianNoTrait
+export JMMABCAlphaEqualConstantSigma
+
+export JMMABCAlphaEqualConstantNoTrait, JMMABCIsospectralAlphaABNoTrait, JMMABCBrownianNoTrait, JMMABCAlphaEqualConstantNoTraitSigma
 
 end # module 
