@@ -45,7 +45,7 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 
 ther_ref_data = get_data(ther_ref_sim)
 
-parameters = JMMABCAlphaEqualConstant(Uniform(0,3), mu1, sigma1, Uniform(0,3), mat_mu, mat_sigma, n)
+parameters = JMMABCIsospectralAlphaABTraitOUDiff([Uniform(0,3) for _ in 1:n], mu1, sigma1, Uniform(0,3), Uniform(0,3),  n)
 
 thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 40, distance_function = trait_mat_distance_scaled(8,7, 5, 27))
 

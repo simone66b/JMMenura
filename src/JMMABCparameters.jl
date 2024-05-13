@@ -454,7 +454,7 @@ function assemble_trait_parameters(parameters::JMMABCAlphaDifferentConstant, pri
     return (alpha = prior_results[1:(parameters.size)], mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
 end
 
-function assemble_trait_parameters(parameters::JMMABCAlphaEqualConstant, prior_results::Vector{<:Number}) 
+function assemble_trait_parameters(parameters::JMMABCAlphaEqualConstantTraitBrownian, prior_results::Vector{<:Number}) 
     return (alpha = zeros(parameters.size), mu = parameters.trait_mu_known, sigma = prior_results[1]) 
 end
 
