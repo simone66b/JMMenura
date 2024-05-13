@@ -42,4 +42,6 @@ export JMMABCAlphaEqualConstantSigma
 
 export JMMABCAlphaEqualConstantNoTrait, JMMABCIsospectralAlphaABNoTrait, JMMABCBrownianNoTrait, JMMABCAlphaEqualConstantNoTraitSigma
 
+export JMMABCAlphaEqualConstantTraitBrownian, JMMABCBrownianTraitsBrownian, JMMABCBrownianTraitsOUDiff, JMMABCIsospectralAlphaABTraitBrownian, JMMABCIsospectralAlphaABTraitOUDiff
+
 end # module 
