@@ -16,7 +16,7 @@ time_tot = 1.0
 tspan = (0.0, time_tot)
 
 # G matrix
-P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  )))
+P0 =rand(Wishart(100, Matrix(1I, n, n)  ))
 
 # traits needed to evolve traits
 alpha1 = 1.5*rand(n)
@@ -28,8 +28,8 @@ trait_parameters_true = Dict(13 => (alpha = alpha1, mu = mu1, sigma = sigma1))
 trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
-mat_alpha = 0.5
-mat_sigma = 0.1
+mat_alpha = 1
+mat_sigma = 0
 mat_mu = copy(P0)
 
 # create matrix dictionary
@@ -45,17 +45,17 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 plot_data(tree1, 1, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)
 
 
-ther_ref_data = get_data(ther_ref_sim[1])
+ther_ref_data = get_data_no_mat(ther_ref_sim)
 
-parameters = JMMABCAlphaEqualConstant(α_prior, mu1, sigma1, α_prior, mat_mu, mat_sigma, n)
+parameters = JMMABCAlphaDifferentConstantMatrix([α_prior for _ in 1:n], mu1, sigma1, mat_alpha, mat_mu, mat_sigma, n)
 
-thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 0.005)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 0.005, distance_function = trait_distance(n, 7))
 
 threshold = quantile(thresholds, (0:2)./length(thresholds))[2]
 
-out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005)
+out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005, distance_function = distance_function = trait_distance(n, 7))
 
-@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 50, dt = 0.005)
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 50, dt = 0.005, distance_function = distance_function = trait_distance(n, 7))
 
 
 x = out.population[1][:,1]

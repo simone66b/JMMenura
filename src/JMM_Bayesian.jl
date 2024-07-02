@@ -93,6 +93,21 @@ function mat_distance(var_num, leaf_num; err_thres = 10^-14)
     end
 end
 
+function trait_distance(var_num, leaf_num; err_thres = 10^-14)
+    function trait_dist(data1, data2)
+        data1 = reshape(data1, var_num, leaf_num)
+        data2 = reshape(data2, var_num, leaf_num)
+
+        traits1 = [data1[:,i] for i in 1:leaf_num]
+        traits2 = [data2[:,i] for i in 1:leaf_num]
+
+
+        trait_diff =  mean((traits1[i][j] - traits2[i][j])^2 for i in 1:leaf_num for j in 1:var_num)^0.5
+
+        return trait_diff
+    end
+end
+
 """
 Attempt to fix floating point errors
 """
@@ -136,6 +151,12 @@ function get_data_no_trait(tree)
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
     return reshape(mats, length(mats), 1)
 end 
+
+function get_data_no_mat(tree)
+    traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)])
+    return reshape(traits, length(traits), 1)
+end 
+
 
 # Stuff it I'm hard coding an example
 function menura_bayesian_trait_alpha(reference_data, tree, trait_known_para, alpha_prior

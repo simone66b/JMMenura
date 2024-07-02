@@ -259,6 +259,27 @@ struct JMMABCBrownianTraitsOUDiff <: JMMABCparameters
     size::Int
 end
 
+"""
+Stores the priors for a JMM ABC simulation where only alpha parameters are unknown.
+
+Conditions:
+- Alpha is unknown for matrixes and traits and is different for all variables
+- Parameters are constant on all branches of a tree
+
+Inputs:
+TODO
+"""
+struct JMMABCAlphaDifferentConstantMatrix <: JMMABCparameters
+    trait_alpha_prior::Array{<:ContinuousUnivariateDistribution}
+    trait_mu_known::Array{<:Number}
+    trait_sigma_known::Array{<:Number}
+    mat_alpha_known::Number
+    mat_mu_known::Array{<:Number}
+    mat_sigma_known::Number
+    size::Int
+end
+
+
 ##################
 # No Trait types #
 ##################
@@ -399,6 +420,10 @@ function get_priors(parameters::JMMABCBrownianTraitsOUDiff)
     return  Vector{ContinuousUnivariateDistribution}([parameters.trait_alpha_prior..., parameters.mat_sigma_prior])
 end
 
+function get_priors(parameters::JMMABCAlphaDifferentConstantMatrix) 
+    return  Vector{ContinuousUnivariateDistribution}(parameters.trait_alpha_prior)
+end
+
 ######################
 # No Trait Functions #
 ######################
@@ -496,6 +521,11 @@ function assemble_trait_parameters(parameters::JMMABCBrownianTraitsOUDiff, prior
     return (alpha = prior_results[1:(parameters.size)], mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
 end
 
+function assemble_trait_parameters(parameters::JMMABCAlphaDifferentConstantMatrix, prior_results::Vector{<:Number}) 
+    return (alpha = prior_results[1:(parameters.size)], mu = parameters.trait_mu_known, sigma = parameters.trait_sigma_known) 
+end
+
+
 ############
 # No Trait #
 ############
@@ -586,6 +616,10 @@ end
 
 function assemble_mat_parameters(parameters::JMMABCBrownianTraitsOUDiff, prior_results::Vector{<:Number}) 
     return (alpha = 0, mu = parameters.mat_mu_known, sigma = prior_results[parameters.size+1]) 
+end
+
+function assemble_mat_parameters(parameters::JMMABCAlphaDifferentConstantMatrix, prior_results::Vector{<:Number}) 
+    return (alpha = parameters.mat_alpha_known, mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
 end
 
 ############
@@ -832,6 +866,24 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsOUDiff, trait0, 
         GC.gc()
         
         return get_data(sim)
+    end
+end
+
+function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstantMatrix, trait0, mat0; t0 = 0.0, each = true, 
+    dt = 0.001)
+    function bayesian_menura!(parameter)
+
+        root = getroot(tree)
+
+        trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
+
+        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+
+        sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
+        
+        GC.gc()
+
+        return get_data_no_mat(sim)
     end
 end
 
