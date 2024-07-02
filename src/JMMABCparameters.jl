@@ -273,9 +273,6 @@ struct JMMABCAlphaDifferentConstantMatrix <: JMMABCparameters
     trait_alpha_prior::Array{<:ContinuousUnivariateDistribution}
     trait_mu_known::Array{<:Number}
     trait_sigma_known::Array{<:Number}
-    mat_alpha_known::Number
-    mat_mu_known::Array{<:Number}
-    mat_sigma_known::Number
     size::Int
 end
 
@@ -619,7 +616,7 @@ function assemble_mat_parameters(parameters::JMMABCBrownianTraitsOUDiff, prior_r
 end
 
 function assemble_mat_parameters(parameters::JMMABCAlphaDifferentConstantMatrix, prior_results::Vector{<:Number}) 
-    return (alpha = parameters.mat_alpha_known, mu = parameters.mat_mu_known, sigma = parameters.mat_sigma_known) 
+    return (alpha = 1, sigma = 0) 
 end
 
 ############
@@ -877,7 +874,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstantMatrix, 
 
         trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
 
-        mat_para = Dict(tree.nodedict[root.name] => assemble_mat_parameters(JMMpara, parameter)) 
+        mat_para = Dict(tree.nodedict[root.name] => (assemble_mat_parameters(JMMpara, parameter)..., mat_mu_known = mat0))
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
         
