@@ -47,7 +47,7 @@ plot_data(tree1, 1, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = 
 
 ther_ref_data = get_data_no_mat(ther_ref_sim)
 
-parameters = JMMABCAlphaDifferentConstantMatrix([α_prior for _ in 1:n], mu1, sigma1, mat_alpha, mat_mu, mat_sigma, n)
+parameters = JMMABCAlphaDifferentConstantMatrix([α_prior for _ in 1:n], mu1, sigma1, n)
 
 thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 0.005, distance_function = trait_distance(n, 7))
 

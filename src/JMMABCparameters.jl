@@ -874,7 +874,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstantMatrix, 
 
         trait_para = Dict(tree.nodedict[root.name] => assemble_trait_parameters(JMMpara, parameter)) 
 
-        mat_para = Dict(tree.nodedict[root.name] => (assemble_mat_parameters(JMMpara, parameter)..., mat_mu_known = mat0))
+        mat_para = Dict(tree.nodedict[root.name] => (assemble_mat_parameters(JMMpara, parameter)..., mu = mat0))
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt), t0, trait0, mat0, each)
         
