@@ -36,7 +36,7 @@ export menura_parameter_descend!, menura!, preallocate_tree!
 
 export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_bayesian_sim
 
-export JMMABCAllSingleConstant, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCIsospectralAlpha, JMMABCAlphaDifferentConstant, JMMABCIsospectralAlphaAB, JMMABCBrownian
+export JMMABCAllSingleConstant, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCAlphaDifferentEqual, JMMABCIsospectralAlpha, JMMABCAlphaDifferentConstant, JMMABCIsospectralAlphaAB, JMMABCBrownian
 
 export JMMABCAlphaEqualConstantSigma, JMMABCAlphaDifferentConstantMatrix
 
