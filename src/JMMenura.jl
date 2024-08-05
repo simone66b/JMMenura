@@ -38,7 +38,7 @@ export get_priors, assemble_mat_parameters, assemble_trait_parameters, create_ba
 
 export JMMABCAllSingleConstant, JMMABCAlphaEqualConstant, JMMABCAlphaConstantEqual, JMMABCAlphaDifferentEqual, JMMABCIsospectralAlpha, JMMABCAlphaDifferentConstant, JMMABCIsospectralAlphaAB, JMMABCBrownian
 
-export JMMABCAlphaEqualConstantSigma, JMMABCAlphaDifferentConstantMatrix
+export JMMABCAlphaEqualConstantSigma, JMMABCAlphaDifferentConstantMatrix, JMMABCAlphaSigmaDifferentConstant
 
 export JMMABCAlphaEqualConstantNoTrait, JMMABCIsospectralAlphaABNoTrait, JMMABCBrownianNoTrait, JMMABCAlphaEqualConstantNoTraitSigma
 
