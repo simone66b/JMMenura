@@ -181,7 +181,7 @@ end
 """
 Each must be true for this one. 
 """
-function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
+function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         err = eigen(mat).values[1]
         if err > 0
@@ -211,13 +211,24 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
             W_t[diagind(W_t)] .*= sqrt(2)
             W_t = Hermitian(W_t)
             last_G = Gs[i-1]
+            
+            G_cond = cond(last_G)
+            if G_cond > cond_threshold
+                @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
+                results in instability"
+                return (m = nothing, t = nothing), false
+            end
+
             err = real(eigen(last_G).values[1])
+
             if err > 0
                 sqrt_G = Hermitian(sqrt(last_G))
             else
-                mat_err_mat = Matrix((min(-10^-10, err))I, size(last_G)...)
+                mat_err_mat = Matrix((-10^-10)I, size(last_G)...)
                 sqrt_G = Hermitian(sqrt(last_G - 10*mat_err_mat))
             end
+
+            
             
             inv_sqrt_G = Hermitian(inv(sqrt_G))
             g_mu = inv_sqrt_G*para.mu*inv_sqrt_G
@@ -235,7 +246,7 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing)
         timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
         timebase[end] = tspan[2]
 
-        return (m = Gs, t = timebase)    
+        return (m = Gs, t = timebase), true 
     end
 end
 

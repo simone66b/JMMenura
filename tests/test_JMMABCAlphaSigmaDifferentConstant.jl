@@ -6,42 +6,46 @@ pyplot()
 Random.seed!(1)
 
 # number of parameters
-n = 4
+function main()
+    n = 4
 
-# Creating tree
-tree = Ultrametric(7)
-Random.seed!(1)
-tree1 = rand(tree)
-time_tot = 1.0
-tspan = (0.0, time_tot)
+    # Creating tree
+    tree = Ultrametric(7)
+    Random.seed!(1)
+    tree1 = rand(tree)
+    time_tot = 1.0
+    tspan = (0.0, time_tot)
 
-# G matrix
-P0 =rand(Wishart(100, Matrix(1I, n, n)  ))
+    # G matrix
+    P0 =rand(Wishart(100, Matrix(1I, n, n)  ))
+    alpha1 = 1.5*rand()*ones(n)
+    mu1 = repeat([0.0], n)
+    sigma1 = repeat([sqrt(2)], n)
 
-# traits needed to evolve traits
-alpha1 = 1.5*rand()*ones(n)
-mu1 = repeat([0.0], n)
-sigma1 = repeat([sqrt(2)], n)
+    # create trait dictionary
+    trait_parameters_true = Dict(13 => (alpha = alpha1, mu = mu1, sigma = sigma1))
+    trait_parameters = (mu = mu1)
 
-# create trait dictionary
-trait_parameters_true = Dict(13 => (alpha = alpha1, mu = mu1, sigma = sigma1))
-trait_parameters = (mu = mu1)
+    # Variables needed for OU matrix model
+    mat_alpha1 = 1
+    mat_sigma = sqrt(2)
+    mat_mu = copy(P0)
 
-# Variables needed for OU matrix model
-mat_alpha1 = 1
-mat_sigma = sqrt(2)
-mat_mu = copy(P0)
+    # create matrix dictionary
+    mat_parameters_true = Dict(13 => (alpha = mat_alpha1, mu = mat_mu, sigma = mat_sigma))
+    mat_parameters = (mu = mat_mu)
 
-# create matrix dictionary
-mat_parameters_true = Dict(13 => (alpha = mat_alpha1, mu = mat_mu, sigma = mat_sigma))
-mat_parameters = (mu = mat_mu)
+    mat_evol_func = mat_evol_affine(dt = 0.005)
+    trait_evol_func = trait_evol(dt =0.005)
 
-mat_evol_func = mat_evol_affine(dt = 0.005)
-trait_evol_func = trait_evol(dt =0.005)
+    α_prior = Gamma(2,0.25)
+    sigma_prior = Gamma(6,0.25)
+    ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, ones(n), P0, true)
 
-α_prior = Gamma(2,0.25)
-sigma_prior = Gamma(2,0.25)
-ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, ones(n), P0, true)
+    return ther_ref_sim
+end
+
+
 
 plot_data(tree1, 1, ylim = (-2, 10), zlim = (-2.0, 2.0), legend = false, reuse = false)
 

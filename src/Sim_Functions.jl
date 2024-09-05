@@ -25,10 +25,11 @@ function recurse_menura!(tree, node, trait_evol, matrix_evol::Function, each::Bo
              evol_matrix = ancestor.data["mat_trace"][end]
          end
 
-        mat_evol =
+        mat_evol, sol_stable =
             matrix_evol(evol_matrix,ancestor.data["mat_para"], 
                         (getheight(tree, ancestor),getheight(tree, node)), each)
         
+        !sol_stable && return false # solution unstable
         node.data["mat_trace"], node.data["timebase"] = mat_evol.m, mat_evol.t 
 
         if !isnothing(trait_evol)
@@ -39,10 +40,14 @@ function recurse_menura!(tree, node, trait_evol, matrix_evol::Function, each::Bo
         end
         
     end
+
     if !isleaf(tree, node)
         children = getchildren(tree, node)
-        recurse_menura!(tree, children[1], trait_evol, matrix_evol, each)
-        recurse_menura!(tree,children[2], trait_evol, matrix_evol, each)
+        ch1_stability = recurse_menura!(tree, children[1], trait_evol, matrix_evol, each)
+        ch2_stability = recurse_menura!(tree,children[2], trait_evol, matrix_evol, each)
+        return ch1_stability && ch2_stability
+    else 
+        return true # solution stable
     end
 end # Recurse! 
 
@@ -104,11 +109,11 @@ function menura!(tree, trait_evol, matrix_evol::Function, t0::Float64, trait0::V
     # Getting cranky error function
     
     # perform the recursion
-    recurse_menura!(tree, root, trait_evol, matrix_evol, each)
+    stability = recurse_menura!(tree, root, trait_evol, matrix_evol, each)
 
     # return the tree along with the final trait data points
     # Might have to reconsider this function
-    return tree
+    return tree, stability
 end
 
 

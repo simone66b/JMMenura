@@ -140,21 +140,24 @@ end
 """
 Extracts data from a JMMenura simulation into a format usable by GpABC
 """
-function get_data(tree)
+function get_data(sim_data)
+    tree = sim_data[1]
     traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)])
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
     data = [traits..., mats...]
-    return reshape(data, length(data), 1)
+    return sim_data[2] ? reshape(data, length(data), 1) : Array{Float64}(undef, 0, 0)
 end 
 
-function get_data_no_trait(tree)
+function get_data_no_trait(sim_data)
+    tree = sim_data[1]
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
-    return reshape(mats, length(mats), 1)
+    return sim_data[2] ? reshape(mats, length(mats), 1) : Array{Float64}(undef, 0, 0)
 end 
 
-function get_data_no_mat(tree)
+function get_data_no_mat(sim_data)
+    tree = sim_data[1]
     traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getleaves(tree)])
-    return reshape(traits, length(traits), 1)
+    return sim_data[2] ? reshape(traits, length(traits), 1) : Array{Float64}(undef, 0, 0)
 end 
 
 
@@ -242,8 +245,10 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0,
     for i in ProgressBar(1:n_particles)
         para = rand.(get_priors(JMMpara))
         sim = bayesian_menura!(para)
-        dist = distance_function(sim, reference_data)
-        thresholds[i] = dist
+        if length(sim) != 0
+            dist = distance_function(sim, reference_data)
+            thresholds[i] = dist
+        end
     end
     return thresholds
 end
