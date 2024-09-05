@@ -39,7 +39,7 @@ function main()
     trait_evol_func = trait_evol(dt =0.005)
 
     α_prior = Gamma(2,0.25)
-    sigma_prior = Gamma(6,0.25)
+    sigma_prior = Gamma(20,0.25)
     ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, ones(n), P0, true)
 
     return ther_ref_sim

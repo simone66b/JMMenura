@@ -243,11 +243,15 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0,
     thresholds = zeros(n_particles)
 
     for i in ProgressBar(1:n_particles)
-        para = rand.(get_priors(JMMpara))
-        sim = bayesian_menura!(para)
-        if length(sim) != 0
-            dist = distance_function(sim, reference_data)
-            thresholds[i] = dist
+        found_particle = false
+            while !found_particle
+            para = rand.(get_priors(JMMpara))
+            sim = bayesian_menura!(para)
+            if length(sim) != 0
+                found_particle = true
+                dist = distance_function(sim, reference_data)
+                thresholds[i] = dist
+            end
         end
     end
     return thresholds
