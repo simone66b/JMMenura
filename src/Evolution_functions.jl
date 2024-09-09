@@ -181,7 +181,7 @@ end
 """
 Each must be true for this one. 
 """
-function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10)
+function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10, verbose = true)
     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         err = eigen(mat).values[1]
         if err > 0
@@ -214,8 +214,10 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold
             
             G_cond = cond(last_G)
             if G_cond > cond_threshold
-                @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
-                results in instability"
+                if verbose
+                    @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
+                    results in instability"
+                end
                 return (m = nothing, t = nothing), false
             end
 
