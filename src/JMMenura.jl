@@ -26,7 +26,7 @@ export apply_trait, apply_prior,apply_prior_descend, apply_trait_descend, get_tr
 
 export plot_labelled, plot_data, plot_g_mat_evol, plot_traits_cov, animate_data
 
-export menura_bayesian, trait_mat_distance, mat_distance, trait_distance, get_data, get_data_no_trait, get_data_no_mat
+export menura_bayesian, trait_mat_distance, mat_distance, trait_distance, get_data, get_data_no_trait, get_data_no_mat, get_all_data
 
 export test_threshold, trait_mat_distance_scaled
 

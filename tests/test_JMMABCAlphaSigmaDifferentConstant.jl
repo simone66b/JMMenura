@@ -39,7 +39,7 @@ function main()
     trait_evol_func = trait_evol(dt =0.005)
 
     α_prior = Gamma(2,0.25)
-    sigma_prior = Gamma(20,0.25)
+    sigma_prior = Gamma(2,0.25)
     ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, ones(n), P0, true)
 
     return ther_ref_sim
@@ -50,14 +50,16 @@ end
 plot_data(tree1, 1, ylim = (-2, 10), zlim = (-2.0, 2.0), legend = false, reuse = false)
 
 
-ther_ref_data = get_data(ther_ref_sim)
+ther_ref_data = get_all_data(ther_ref_sim)
 
 parameters = JMMABCAlphaSigmaDifferentConstant(repeat([α_prior], n) , mu1,repeat([sigma_prior], n), α_prior , mat_mu, sigma_prior, n)
 
-thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 0.005)
+thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 0.005
+, distance_function = trait_mat_distance(parameters.size,nnodes(tree1)), summary_function = get_all_data)
 
 threshold = quantile(thresholds, (0:2)./length(thresholds))[2]
 
-out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005)
+out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005
+, distance_function = trait_mat_distance(parameters.size,nnodes(tree1)), summary_function = get_all_data, max_iter = 4000)
 
 @time out2 = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 50, dt = 0.005)

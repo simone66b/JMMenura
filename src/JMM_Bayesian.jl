@@ -148,6 +148,14 @@ function get_data(sim_data)
     return sim_data[2] ? reshape(data, length(data), 1) : Array{Float64}(undef, 0, 0)
 end 
 
+function get_all_data(sim_data)
+    tree = sim_data[1]
+    traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getnodes(tree)])
+    mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getnodes(tree)])
+    data = [traits..., mats...]
+    return sim_data[2] ? reshape(data, length(data), 1) : Array{Float64}(undef, 0, 0)
+end 
+
 function get_data_no_trait(sim_data)
     tree = sim_data[1]
     mats = reduce(hcat, [tip.data["mat_trace"][end] for tip in getleaves(tree)])
@@ -223,22 +231,22 @@ Function to perform approximate bayesian computation for using the JMMenura simu
 
 """
 function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+    dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data)
     
     preallocate_tree!(tree, dt, JMMpara.size)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt, summary_function = summary_function)
 
     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = distance_function)
 end
 
 function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, n_particles; 
-    t0 = 0.0, each = false, dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)))
+    t0 = 0.0, each = false, dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data)
 
     preallocate_tree!(tree, dt, JMMpara.size)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt)
+    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt, summary_function = summary_function)
 
     thresholds = zeros(n_particles)
 

@@ -806,7 +806,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaSigmaDifferentConstant, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, summary_function = get_data)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -819,7 +819,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaSigmaDifferentConstant, t
         
         GC.gc()
 
-        return get_data(sim)
+        return summary_function(sim)
     end
 end
 
