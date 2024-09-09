@@ -235,7 +235,7 @@ function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0
     
     preallocate_tree!(tree, dt, JMMpara.size)
 
-    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt, summary_function = summary_function)
+    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt, summary_function = summary_function, verbose = verbose)
 
     SimulatedABCSMC(reference_data, bayesian_menura!, get_priors(JMMpara), [threshold], n_particles, 
     max_iter = max_iter, write_progress = true, distance_function = distance_function)
