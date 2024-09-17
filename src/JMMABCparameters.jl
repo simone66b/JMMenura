@@ -752,7 +752,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCparameters, trait0, mat0; t0 =
     dt = 0.001) end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -770,7 +770,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantSigma, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -788,7 +788,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantSigma, trait
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -824,7 +824,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaSigmaDifferentConstant, t
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantTraitBrownian, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -842,7 +842,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantTraitBrownia
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaConstantEqual, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -860,7 +860,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaConstantEqual, trait0, ma
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentEqual, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -879,7 +879,7 @@ end
 
 
 function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -898,7 +898,7 @@ end
 
 
 function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -916,7 +916,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, ma
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitBrownian, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -934,7 +934,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitBrownia
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitOUDiff, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -952,7 +952,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitOUDiff,
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -971,7 +971,7 @@ end
 
 
 function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsBrownian, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -990,7 +990,7 @@ end
 
 
 function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsOUDiff, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -1008,7 +1008,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsOUDiff, trait0, 
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstantMatrix, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -1032,7 +1032,7 @@ end
 
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTrait, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -1050,7 +1050,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTrait, tra
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTraitSigma, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -1068,7 +1068,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTraitSigma
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABNoTrait, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
@@ -1086,7 +1086,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABNoTrait, tra
 end
 
 function create_bayesian_sim(tree, JMMpara::JMMABCBrownianNoTrait, trait0, mat0; t0 = 0.0, each = true, 
-    dt = 0.001, verbose = true)
+    dt = 0.001, verbose = true, summary_function = false)
     function bayesian_menura!(parameter)
 
         root = getroot(tree)
