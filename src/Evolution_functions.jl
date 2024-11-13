@@ -102,15 +102,19 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
                     small_dt_scale = 1.0::Float64)
     function trait_evolving(x0::Vector{Float64}, mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
         if each 
-            cors1 = cor.(mat)
+            cor_scaling = inv.(sqrt.(Diagonal.(diag.(mat))))
+            cors1 = cor_scaling.*mat.*cor_scaling
+
             u = Vector{Vector{Float64}}()
             t = Vector{Float64}()
             push!(u, x0)
             push!(t, tspan[1])
             for i in 1:(length(cors1)-1)
                 cor1 = cors1[i]
+
+                cov1 = mat[i]
                 small_tspan = t[end]
-                noise = CorrelatedWienerProcess(cor1,small_tspan,
+                noise = CorrelatedWienerProcess(cov1,small_tspan,
                                             zeros(size(cor1)[1]),
                                             zeros(size(cor1)[1]))
             
@@ -279,7 +283,7 @@ function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function ,
             timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
             timebase[end] = tspan[2]
 
-            return (m = [Omega * mat * Omega' for Omega in Omegas], t = timebase)
+            return (m = [Omega * mat * Omega' for Omega in Omegas], t = timebase), true
         else 
             res_sol = reshape(sol.u[end], n, n)
             Omega1 = exp(res_sol) ## get the final matrix
@@ -287,7 +291,7 @@ function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function ,
             timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
             timebase[end] = tspan[2]
 
-            return (m = [Omega1 * mat * Omega1'], t = timebase) ## reconstruct P_1
+            return (m = [Omega1 * mat * Omega1'], t = timebase), true ## reconstruct P_1
         end
     end
 end
