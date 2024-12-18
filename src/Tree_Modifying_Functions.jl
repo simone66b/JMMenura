@@ -1,5 +1,3 @@
-using Phylo
-
 ######################################
 # Functions to modify tree variables #
 ######################################
@@ -23,6 +21,10 @@ function apply_trait(tree, trait, node::Array{Int}, key)
 end
 
 function apply_trait(tree, trait, node::LinkNode, key)
+    node.data[key] = trait
+end
+
+function apply_trait(tree, trait, node::RecursiveNode, key)
     node.data[key] = trait
 end
 

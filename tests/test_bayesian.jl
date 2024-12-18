@@ -1,0 +1,62 @@
+using .JMMenura
+using Phylo, Distributions, Random, Plots, LinearAlgebra, PosDefManifold, Distances
+pyplot()
+
+Random.seed!(1)
+
+# number of parameters
+n = 3
+
+# Creating tree
+tree = Ultrametric(6)
+Random.seed!(1)
+tree1 = rand(tree)
+time_tot = 1.0
+tspan = (0.0, time_tot)
+
+# G matrix
+P0 = cor(rand(Wishart(100, Matrix(1I, n, n)  )))
+
+# traits needed to evolve traits
+alpha1 = repeat([1.0], n)
+mu1 = repeat([0.0], n)
+sigma1 = repeat([1.0], n)
+
+# create trait dictionary
+trait_parameterstrue = Dict(11 => (alpha = alpha1, mu = mu1, sigma = sigma1))
+trait_parameters1 = (mu = mu1, sigma = sigma1)
+
+# Variables needed for OU matrix model
+mat_alpha = 1
+mat_sigma = 1
+mat_mu = copy(P0)
+
+# create matrix dictionary
+mat_parameters = Dict(11 => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
+mat_parameters2 = (mu = mat_mu, sigma = mat_sigma)
+
+mat_evol_func = mat_evol_affine()
+trait_evol_func = trait_evol()
+
+α_prior = Uniform(0,3)
+
+ref_sim = menura_parameter_descend!(mat_parameters, trait_parameterstrue, tree1, trait_evol_func, mat_evol_func, 0.0, mu1, P0, true)
+
+
+
+ref_data = get_data(ref_sim[1])
+
+
+out = menura_bayesian_trait_alpha(ref_data, tree1, trait_parameters1, α_prior
+    ,mat_parameters, mu1, P0, 30000, n, 174.0)
+
+histogram(out.population, normalize = :pdf, legend = false)
+
+scatter(out.population, out.distances)
+
+@time outmat = menura_bayesian_mat_alpha(ref_data, tree1, trait_parameterstrue
+    ,mat_parameters2, α_prior, mu1, P0, 300, n, 180.0)
+
+histogram(outmat.population, normalize = :pdf, legend = false)
+
+scatter(outmat.population, outmat.distances)

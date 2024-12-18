@@ -1,10 +1,3 @@
-using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots, PyPlot, KissABC
-
-# include("Diffusion_Functions.jl")
-# include("Evolution_functions.jl")
-# include("Tree_Modifying_Functions.jl")
-
-
 #######################
 # Recursive Functions #
 #######################
@@ -49,7 +42,7 @@ function recurse_menura!(tree, node, t0 , x0, trait_drift, trait_diff, matrix_dr
          else 
              evol_matrix = ancestor.data["matrix"]
          end
-             
+
         node.data["matrix"] =
             matrix_func(evol_matrix,
                         ancestor.data["parameters"], 
