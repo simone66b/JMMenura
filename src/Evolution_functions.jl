@@ -112,9 +112,8 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
             for i in 1:(length(cors1)-1)
                 cor1 = cors1[i]
 
-                cov1 = mat[i]
                 small_tspan = t[end]
-                noise = CorrelatedWienerProcess(cov1,small_tspan,
+                noise = CorrelatedWienerProcess(cor1,small_tspan,
                                             zeros(size(cor1)[1]),
                                             zeros(size(cor1)[1]))
             
