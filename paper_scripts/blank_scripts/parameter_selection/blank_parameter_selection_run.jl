@@ -47,19 +47,7 @@ mat_mu = #copy(P0)
 # Create matrix dictionary
 mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
 
-# Specify what evolution functions are used
-# Can set dt the evolution lenght
-trait_evol_func = trait_evol(#dt = 0.005)
-mat_evol_func = mat_evol_affine(#dt = 0.005)
-
-# Run reference simulation
-ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func
-, mat_evol_func, 0.0, trait_mu, P0, true)
-
-# Extract and save data
-ref_data = get_data(ref_sim)
-@save "ref_data.jld2" ref_data
-@save "tree.jld2" tree1
+@load "ref_data.jld2"
 
 #####################
 # Set up parameters #
@@ -76,7 +64,7 @@ para = JMMABCAlphaDifferentConstant([prior for _ in 1:n], trait_mu, trait_sigma,
 n_particles = 100
 @load "./threshold.jld2" threshold
 
-run_result = menura_bayesian(para_ref_data, tree1, para, zeros(n), P0, threshold, n_particles
+run_result = menura_bayesian(ref_data, tree1, para, zeros(n), P0, threshold, n_particles
 , dt = 0.005, max_iter = 50000*n_particles, each = true)
 
 # Save model results

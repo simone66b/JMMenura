@@ -22,7 +22,7 @@ tree1 = open(parsenewick, #"./../..//anoles_data//bigsim.tre")
 root = getroot(tree1)
 root_num = tree1.nodedict[root.name]
 
-# Define G matrix - Can be done before hand and then loaded in using JLD2
+# Define G matrix - Can be done beforehand and then loaded in using JLD2
 @load #"./../../anoles_data/P0.jld2"
 
 # Set trait parameters needed to evolve traits
