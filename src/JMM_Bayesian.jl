@@ -231,7 +231,7 @@ Function to perform approximate bayesian computation for using the JMMenura simu
 
 """
 function menura_bayesian(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 
-    dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data, verbose = verbose)
+    dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data, verbose = true)
     
     preallocate_tree!(tree, dt, JMMpara.size)
 
