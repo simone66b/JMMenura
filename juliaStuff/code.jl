@@ -21,7 +21,7 @@ root_num = tree1.nodedict[root.name]
 
 # Set trait parameters needed to evolve traits
 # Should be a vector of length n
-trait_alpha = repeat([0.0], n)
+trait_alpha = repeat([1.0], n)
 trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
 
@@ -60,9 +60,9 @@ ref_data = get_data(ref_sim)
 ##    z = randn(rng)
 ##    return abs(d.σ * z)
 ##    end
-sigma = 10.0
-## prior = HalfNormal(sigma)
-prior = Truncated(Normal(0, sigma), 0, Inf)
+sigmaPrior = 10.0
+## prior = HalfNormal(sigmaPrior)
+prior = Truncated(Normal(0, sigmaPrior), 0, Inf)
 para = JMMABCAlphaDifferentConstant([prior for _ in 1:n], trait_mu, trait_sigma, prior, mat_mu, mat_sigma, n)
 
 @time thresholds = test_threshold(ref_data, tree1, para, zeros(n), P0, 10, dt = 0.01, each = true) ## changed threshold samples to 10

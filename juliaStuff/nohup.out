@@ -1,40 +1,98 @@
-  Activating project at `~/Desktop/juliaStuff`
-0.0%┣                                               ┫ 0/10 [00:00<00:00, -0s/it]
-[1A10.0%┣████▏                                     ┫ 1/10 [00:04<Inf:Inf, InfGs/it]
-[1A20.0%┣█████████▍                                     ┫ 2/10 [00:05<00:37, 5s/it]
-[1A30.0%┣██████████████                                 ┫ 3/10 [00:06<00:19, 3s/it]
-[1A40.0%┣██████████████████▉                            ┫ 4/10 [00:06<00:13, 2s/it]
-[1A50.0%┣███████████████████████▌                       ┫ 5/10 [00:07<00:09, 2s/it]
-[1A60.0%┣████████████████████████████▏                  ┫ 6/10 [00:08<00:06, 2s/it]
-[1A70.0%┣█████████████████████████████████              ┫ 7/10 [00:09<00:04, 1s/it]
-[1A80.0%┣█████████████████████████████████████▋         ┫ 8/10 [00:10<00:03, 1s/it]
-[1A90.0%┣██████████████████████████████████████████▎    ┫ 9/10 [00:10<00:01, 1s/it]
-[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:11<00:00, 1s/it]
-[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:11<00:00, 1s/it]
-[ Info: GpABC rejection simulation. ϵ = 4.73535551165808.
-[ Info: GpABC rejection simulation. Accepted 342/1000 particles.
-[ Info: GpABC rejection simulation. Accepted 683/2000 particles.
- 27.348730 seconds (66.61 M allocations: 3.267 GiB, 5.73% gc time, 98.97% compilation time)
- 15.954676 seconds (21.63 M allocations: 1.255 GiB, 38.94% gc time, 48.01% compilation time)
-2596.828712 seconds (2.56 G allocations: 186.361 GiB, 72.23% gc time, 0.12% compilation time)
+
+[13099] signal 15: Terminated
+in expression starting at /home/simoneb/Desktop/JMMenura/juliaStuff/code.jl:78
+randn! at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/usr/share/julia/stdlib/v1.11/Random/src/normal.jl:251
+rand at /home/simoneb/.julia/packages/Distributions/j0ZcJ/src/genericrand.jl:23 [inlined]
+mat_evolving at /home/simoneb/Desktop/JMMenura/src/Evolution_functions.jl:213
+unknown function (ip: 0x771f27db3efa)
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:28
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:46
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:46
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:46
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:46
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:46
+recurse_menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:47
+unknown function (ip: 0x771f72fb76ea)
+menura! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:112
+menura_parameter_descend! at /home/simoneb/Desktop/JMMenura/src/Sim_Functions.jl:139
+unknown function (ip: 0x771f27dac91a)
+bayesian_menura! at /home/simoneb/Desktop/JMMenura/src/JMMABCparameters.jl:800
+unknown function (ip: 0x771f27daa822)
+simulate_distance at /home/simoneb/.julia/packages/GpABC/o0EN1/src/util/emulation_helpers.jl:7
+unknown function (ip: 0x771f27dd4a46)
+#ABCrejection#23 at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/rejection.jl:63
+ABCrejection at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/rejection.jl:41 [inlined]
+#initialiseABCSMC#26 at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/smc.jl:120
+initialiseABCSMC at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/smc.jl:113 [inlined]
+#ABCSMC#31 at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/smc.jl:357
+ABCSMC at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/smc.jl:351 [inlined]
+#SimulatedABCSMC#68 at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/simulation.jl:128
+SimulatedABCSMC at /home/simoneb/.julia/packages/GpABC/o0EN1/src/abc/simulation.jl:105
+unknown function (ip: 0x771f27dc83b4)
+#menura_bayesian#188 at /home/simoneb/Desktop/JMMenura/src/JMM_Bayesian.jl:240
+menura_bayesian at /home/simoneb/Desktop/JMMenura/src/JMM_Bayesian.jl:233
+unknown function (ip: 0x771f27dbe466)
+macro expansion at ./timing.jl:581 [inlined]
+top-level scope at /home/simoneb/Desktop/JMMenura/juliaStuff/code.jl:315
+jl_toplevel_eval_flex at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/toplevel.c:934
+jl_toplevel_eval_flex at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/toplevel.c:886
+jl_toplevel_eval_flex at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/toplevel.c:886
+ijl_toplevel_eval_in at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/toplevel.c:994
+eval at ./boot.jl:430 [inlined]
+include_string at ./loading.jl:2734
+_include at ./loading.jl:2794
+include at ./Base.jl:557
+jfptr_include_46812.1 at /home/simoneb/.julia/juliaup/julia-1.11.2+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+exec_options at ./client.jl:323
+_start at ./client.jl:531
+jfptr__start_73406.1 at /home/simoneb/.julia/juliaup/julia-1.11.2+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+true_main at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/jlapi.c:900
+jl_repl_entrypoint at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/src/jlapi.c:1059
+main at /cache/build/tester-amdci5-12/julialang/julia-release-1-dot-11/cli/loader_exe.c:58
+unknown function (ip: 0x771f74a2a3b7)
+__libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
+unknown function (ip: 0x4010b8)
+unknown function (ip: (nil))
+Allocations: 847791293 (Pool: 847785721; Big: 5572); GC: 879
   Activating project at `~/Desktop/JMMenura/juliaStuff`
    Resolving package versions...
   No Changes to `~/Desktop/JMMenura/juliaStuff/Project.toml`
   No Changes to `~/Desktop/JMMenura/juliaStuff/Manifest.toml`
 0.0%┣                                               ┫ 0/10 [00:00<00:00, -0s/it]
 [1A10.0%┣████▏                                     ┫ 1/10 [00:04<Inf:Inf, InfGs/it]
-[1A20.0%┣█████████▍                                     ┫ 2/10 [00:05<00:37, 5s/it]
-[1A30.0%┣██████████████                                 ┫ 3/10 [00:06<00:19, 3s/it]
-[1A40.0%┣██████████████████▉                            ┫ 4/10 [00:06<00:13, 2s/it]
-[1A50.0%┣███████████████████████▌                       ┫ 5/10 [00:07<00:09, 2s/it]
-[1A60.0%┣████████████████████████████▏                  ┫ 6/10 [00:08<00:07, 2s/it]
+[1A20.0%┣█████████▍                                     ┫ 2/10 [00:05<00:38, 5s/it]
+[1A30.0%┣██████████████                                 ┫ 3/10 [00:06<00:20, 3s/it]
+[1A40.0%┣██████████████████▉                            ┫ 4/10 [00:07<00:13, 2s/it]
+[1A50.0%┣███████████████████████▌                       ┫ 5/10 [00:08<00:09, 2s/it]
+[1A60.0%┣████████████████████████████▏                  ┫ 6/10 [00:09<00:07, 2s/it]
 [1A70.0%┣█████████████████████████████████              ┫ 7/10 [00:09<00:05, 2s/it]
 [1A80.0%┣█████████████████████████████████████▋         ┫ 8/10 [00:10<00:03, 1s/it]
 [1A90.0%┣██████████████████████████████████████████▎    ┫ 9/10 [00:11<00:01, 1s/it]
 [1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
 [1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
-[ Info: GpABC rejection simulation. ϵ = 4.872963928717537.
-[ Info: GpABC rejection simulation. Accepted 668/1000 particles.
- 27.037267 seconds (67.50 M allocations: 3.313 GiB, 5.77% gc time, 99.18% compilation time)
- 16.649701 seconds (21.73 M allocations: 1.260 GiB, 43.43% gc time, 44.08% compilation time)
-1515.925049 seconds (1.32 G allocations: 96.042 GiB, 75.55% gc time, 0.21% compilation time)
+[ Info: GpABC rejection simulation. ϵ = 4.251514385006325.
+ 27.141247 seconds (67.50 M allocations: 3.313 GiB, 5.83% gc time, 99.20% compilation time)
+ 16.886498 seconds (21.73 M allocations: 1.260 GiB, 43.93% gc time, 43.88% compilation time)
+  Activating project at `~/Desktop/JMMenura/juliaStuff`
+   Resolving package versions...
+  No Changes to `~/Desktop/JMMenura/juliaStuff/Project.toml`
+  No Changes to `~/Desktop/JMMenura/juliaStuff/Manifest.toml`
+0.0%┣                                               ┫ 0/10 [00:00<00:00, -0s/it]
+[1A10.0%┣████▏                                     ┫ 1/10 [00:04<Inf:Inf, InfGs/it]
+[1A20.0%┣█████████▍                                     ┫ 2/10 [00:05<00:38, 5s/it]
+[1A30.0%┣██████████████                                 ┫ 3/10 [00:06<00:20, 3s/it]
+[1A40.0%┣██████████████████▉                            ┫ 4/10 [00:07<00:13, 2s/it]
+[1A50.0%┣███████████████████████▌                       ┫ 5/10 [00:08<00:09, 2s/it]
+[1A60.0%┣████████████████████████████▏                  ┫ 6/10 [00:09<00:07, 2s/it]
+[1A70.0%┣█████████████████████████████████              ┫ 7/10 [00:09<00:05, 2s/it]
+[1A80.0%┣█████████████████████████████████████▋         ┫ 8/10 [00:10<00:03, 1s/it]
+[1A90.0%┣██████████████████████████████████████████▎    ┫ 9/10 [00:11<00:01, 1s/it]
+[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
+[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
+[ Info: GpABC rejection simulation. ϵ = 4.991601257498109.
+[ Info: GpABC rejection simulation. Accepted 379/1000 particles.
+[ Info: GpABC rejection simulation. Accepted 765/2000 particles.
+ 27.596074 seconds (67.50 M allocations: 3.313 GiB, 5.87% gc time, 99.20% compilation time)
+ 16.969328 seconds (21.73 M allocations: 1.260 GiB, 43.78% gc time, 43.83% compilation time)
+2523.840908 seconds (2.30 G allocations: 167.002 GiB, 75.80% gc time, 0.12% compilation time)
