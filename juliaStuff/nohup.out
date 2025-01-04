@@ -17,3 +17,24 @@
  27.348730 seconds (66.61 M allocations: 3.267 GiB, 5.73% gc time, 98.97% compilation time)
  15.954676 seconds (21.63 M allocations: 1.255 GiB, 38.94% gc time, 48.01% compilation time)
 2596.828712 seconds (2.56 G allocations: 186.361 GiB, 72.23% gc time, 0.12% compilation time)
+  Activating project at `~/Desktop/JMMenura/juliaStuff`
+   Resolving package versions...
+  No Changes to `~/Desktop/JMMenura/juliaStuff/Project.toml`
+  No Changes to `~/Desktop/JMMenura/juliaStuff/Manifest.toml`
+0.0%┣                                               ┫ 0/10 [00:00<00:00, -0s/it]
+[1A10.0%┣████▏                                     ┫ 1/10 [00:04<Inf:Inf, InfGs/it]
+[1A20.0%┣█████████▍                                     ┫ 2/10 [00:05<00:37, 5s/it]
+[1A30.0%┣██████████████                                 ┫ 3/10 [00:06<00:19, 3s/it]
+[1A40.0%┣██████████████████▉                            ┫ 4/10 [00:06<00:13, 2s/it]
+[1A50.0%┣███████████████████████▌                       ┫ 5/10 [00:07<00:09, 2s/it]
+[1A60.0%┣████████████████████████████▏                  ┫ 6/10 [00:08<00:07, 2s/it]
+[1A70.0%┣█████████████████████████████████              ┫ 7/10 [00:09<00:05, 2s/it]
+[1A80.0%┣█████████████████████████████████████▋         ┫ 8/10 [00:10<00:03, 1s/it]
+[1A90.0%┣██████████████████████████████████████████▎    ┫ 9/10 [00:11<00:01, 1s/it]
+[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
+[1A100.0%┣█████████████████████████████████████████████┫ 10/10 [00:12<00:00, 1s/it]
+[ Info: GpABC rejection simulation. ϵ = 4.872963928717537.
+[ Info: GpABC rejection simulation. Accepted 668/1000 particles.
+ 27.037267 seconds (67.50 M allocations: 3.313 GiB, 5.77% gc time, 99.18% compilation time)
+ 16.649701 seconds (21.73 M allocations: 1.260 GiB, 43.43% gc time, 44.08% compilation time)
+1515.925049 seconds (1.32 G allocations: 96.042 GiB, 75.55% gc time, 0.21% compilation time)
