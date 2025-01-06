@@ -119,7 +119,7 @@ function sufficient_distance(var_num, leaf_num; err_thres = 10^-14)
         mats1 = [data1[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
         mats2 = [data2[:,(leaf_num + var_num*(i-1)+1):(leaf_num + var_num*(i))] for i in 1:leaf_num]
 
-        trait_diff =  abs((sum(mean(traits1)) + sum(var(traits1)) - (sum(mean(traits2)) + sum(var(traits2)))))
+        trait_diff =  abs((sum(mean(traits1)) + sum(var(traits1))) - (sum(mean(traits2)) + sum(var(traits2))))
         hermi_matrices1, hermi_matrices2 = Hermitian.(mats1), Hermitian.(mats2)
 
         # Fixing floating points
