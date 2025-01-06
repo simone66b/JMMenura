@@ -29,7 +29,7 @@ trait_parameters = (mu = mu1, sigma = sigma1)
 
 # Variables needed for OU matrix model
 mat_alpha = 1
-mat_sigma = 0
+mat_sigma = 1
 mat_mu = copy(P0)
 
 # create matrix dictionary
