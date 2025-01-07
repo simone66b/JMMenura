@@ -54,9 +54,9 @@ thresholds = test_threshold(ther_ref_data, tree1, parameters, mu1, P0, 20, dt = 
 
 threshold = quantile(thresholds, (0:2)./length(thresholds))[2]
 
-out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005, distance_function = distance_function = sufficient_distance(n, n_leaves))
+out = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 10, dt = 0.005, distance_function = sufficient_distance(n, n_leaves))
 
-@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 50, dt = 0.005, distance_function = distance_function = sufficient_distance(n, n_leaves))
+@time out2 = menura_bayesian(ther_ref_data, tree1, parameters, ones(n), P0, threshold, 50, dt = 0.005, distance_function = sufficient_distance(n, n_leaves))
 
 
 x = out.population[1][:,1]
