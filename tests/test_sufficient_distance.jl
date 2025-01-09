@@ -45,7 +45,6 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 
 plot_data(tree1, 1, ylim = (-2, 2), zlim = (-2.0, 2.0), legend = false, reuse = false)
 
-
 ther_ref_data = get_data(ther_ref_sim)
 
 parameters = JMMABCAlphaDifferentConstant([α_prior for _ in 1:n], mu1, sigma1, α_prior, mat_mu, mat_sigma, n)
