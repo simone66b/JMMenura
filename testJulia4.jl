@@ -1,14 +1,9 @@
-using DifferentialEquations
-using Distances
-using Distributions
-using JLD2
-using LinearAlgebra
-using Phylo
+using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo
 ## using PyCall
-using Plots;
+using Plots
 using PyPlot
 # #using ApproxBayes
-using KissABC
+## using KissABC
 pyplot();
 pygui(true);
     #####################################################################################
@@ -16,7 +11,7 @@ pygui(true);
     
     function menura!(tree)
 
-        function diffusion(x0, tspan, p, mat, dt=0.001)
+        function diffusion(x0, tspan, p, mat, dt=0.01)
             function drift(du, u, p, t)
                 alpha = p.alpha;
                 mu = p.mu;
@@ -174,10 +169,10 @@ parms= (alpha=alpha1, sigma=sigma1)
 function simulate(parms = parms, mu=mu1, mat=P0, a=a1, b=b1, tree=tree)
     alpha, sigma = parms
     p1 = (alpha=alpha, sigma = sigma, mu=mu, mat = mat, a=a, b=b)
-    putp!(tree, p1, "parameters");
-    menuramat!(tree);
-    menura!(tree);
- (tree, predictTraitTree(tree))[2];
+    putp!(tree1, p1, "parameters");
+    menuramat!(tree1);
+    menura!(tree1);
+ (tree1, predictTraitTree(tree1))[2];
 end; # simulate
 
 true_data = simulate(parms, mu1, P0, a1, b1, tree);
@@ -206,16 +201,16 @@ Truncated(Normal(0,3), 0, Inf), Truncated(Normal(0,3), 0, Inf)] =#
 # rejection = runabc(setup, true_data)
 
 #################################3 END WORK REGION ##############################
-function cost((alpha, sigma))
-    x=simulate((alpha=alpha, sigma=sigma))
-    y=true_data
-    euclidean(x, y)
-end #cost
+# function cost((alpha, sigma))
+#     x=simulate((alpha=alpha, sigma=sigma))
+#     y=true_data
+#     euclidean(x, y)
+# end #cost
 
-approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
-res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
+# approx_density = ApproxKernelizedPosterior(priors,cost,0.005)
+# res = sample(approx_density, AIS(25), 1000, ntransitions=100, discard_initial = 10)   
 
-save_object("ABCResults.jld2", res)
+# save_object("ABCResults.jld2", res)
 
 
 

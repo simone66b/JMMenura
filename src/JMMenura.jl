@@ -9,7 +9,7 @@ include("Diffusion_Functions.jl")
 include("Evolution_functions.jl")
 include("Tree_Modifying_Functions.jl")
 include("Plotting.jl")
-include("JMMBayesian2.jl")
+include("JMMBayesian.jl")
 include("Sim_Functions.jl")
 
 

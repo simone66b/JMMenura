@@ -22,6 +22,10 @@ end
 """
 Calculates the distance between two JMMenura simulations. 
 """
+
+function trait_mat_distance() 1
+end
+
 function trait_mat_importance(var_num, leaf_num; err_thres = 10^-14)
     function trait_mat_imp(data1, data2)
         data1 = reshape(data1, var_num, (var_num+1)*leaf_num)
@@ -204,7 +208,7 @@ end
 dfunc(distance) = 1.0
 
 function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, n_particles; 
-    t0 = 0.0, each = false, dt = 0.001, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data, verbose = true)
+    t0 = 0.0, each = false, dt = 0.01, distance_function = trait_mat_distance(JMMpara.size,nleaves(tree)), summary_function = get_data, verbose = true)
 
     preallocate_tree!(tree, dt, JMMpara.size)
 

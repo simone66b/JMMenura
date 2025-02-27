@@ -5,13 +5,14 @@ include("./../../../../../JMMenura/src/JMMenura.jl")
 
 using .JMMenura
 
-tree_anole = open(parsenewick, "./../../../..//anoles_data//prunedscaled.tre")
+cd("/home/simoneb/Desktop/JMMenura/anoles_data/")
+tree_anole = open(parsenewick, "prunedscaled.tre")
 
 files = ["cris", "pulc", "grah", "ever", "line", "sagr", "smar"]
 names = ["cristatellus", "pulchellus", "evermanni", "grahami", "lineatopus", "sagrei", "smaragdinus"]
 
 function read_cov_mat(species)
-    cov = open("./../../../..//anoles_data/"*species*".txt","r") do datafile
+    cov = open(""*species*".txt","r") do datafile
         reduce(hcat,[parse.(Float64, split(line)) for line in eachline(datafile)])
     end
     return cov
@@ -21,7 +22,7 @@ cov_mats = read_cov_mat.(reverse(files))
 
 cov_mean = mean(cov_mats)
 
-trait_data = DataFrame(XLSX.readtable("./../../../..//anoles_data/Adult measurements for divergence.xlsx", "Pmatrix Measurements with outli"))
+trait_data = DataFrame(XLSX.readtable("Adult measurements for divergence.xlsx", "Pmatrix Measurements with outli"))
 
 
 overall_trait_mean = describe(trait_data[:, 3:11], :mean)[1:9, 2]
@@ -45,8 +46,8 @@ cov_sd = std(cov_mats)
 
 trait_sigma = repeat([sqrt(2)], 8)
 mat_sigma = sqrt(2)
-
-prior = Gamma(2, 0.25)
+sigmaPrior = 0.0
+prior = Truncated(Normal(0, sigmaPrior), 0, Inf)
 para = JMMABCAlphaDifferentConstant([prior for _ in 1:8], overall_trait_mean[2:end], trait_sigma, prior, cov_mean, mat_sigma, 8)
 
 ######################
@@ -60,11 +61,11 @@ ref_data = reshape(data, length(data), 1)
 # Warm up sim #
 ###############
 
-@load "./threshold.jld2" threshold
+## @load "./threshold.jld2" threshold
 
-n_particles = 200
+n_particles = 1
 
-run_result = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, threshold, n_particles, dt = 0.005, max_iter = 50000*n_particles, each = true)
+@time run_result = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, Inf, n_particles, dt = 0.01, max_iter = n_particles, each = true)
 
 @load "./a_sim_diff_result.jld2" a_sim_diff_result
 

@@ -12,10 +12,9 @@ using Phylo, Distributions, Random, JLD2, LinearAlgebra, PosDefManifold, Distanc
 
 # Number of traits to simulate
 n = 4 # SET
-
+cd("/home/simoneb/Desktop/JMMenura/juliaStuff")
 # Open tree - Set file path to tree
-tree1 = open(parsenewick, "bigsim.tre")
-
+tree1 = open(parsenewick, "smalltree.tre")
 # Find the root node of the trait
 root = getroot(tree1)
 root_num = tree1.nodedict[root.name]
@@ -30,6 +29,7 @@ trait_sigma = repeat([sqrt(2)], n)
 trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = trait_sigma))
 
 @load "./P0.jld2"
+P0 = P0[1:3, 1:3]
 
 # Variables needed for OU matrix model
 mat_alpha = 1
@@ -44,8 +44,7 @@ mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = 
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
-@time ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func
-, mat_evol_func, 0.0, trait_mu, P0, true);
+@time ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, trait_mu, P0, true);
 
 ref_data = get_data(ref_sim)
 @save "ref_data.jld2" ref_data
