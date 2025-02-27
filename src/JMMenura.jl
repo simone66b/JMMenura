@@ -9,7 +9,7 @@ include("Diffusion_Functions.jl")
 include("Evolution_functions.jl")
 include("Tree_Modifying_Functions.jl")
 include("Plotting.jl")
-include("JMM_Bayesian.jl")
+include("JMMBayesian2.jl")
 include("Sim_Functions.jl")
 
 
@@ -26,7 +26,7 @@ export apply_trait, apply_prior,apply_prior_descend, apply_trait_descend, get_tr
 
 export plot_labelled, plot_data, plot_g_mat_evol, plot_traits_cov, animate_data
 
-export menura_bayesian, trait_mat_distance, mat_distance, trait_distance, get_data, get_data_no_trait, get_data_no_mat, get_all_data
+export menura_bayesian, trait_mat_importance, mat_importance, trait_importance, get_data, get_data_no_trait, get_data_no_mat, get_all_data
 
 export test_threshold, trait_mat_distance_scaled
 
