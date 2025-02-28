@@ -1,9 +1,11 @@
-using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2
-Pkg.activate(".")
+import Pkg; Pkg.add("JMMenura")
 
-include("./../../../../../JMMenura/src/JMMenura.jl")
+using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, PosDefManifold, StatsPlots, ProgressBars, GpABC, JMMenura
+## Pkg.activate(".")
+include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
+include("/home/simoneb/Desktop/JMMenura/src/JMMABCparameters.jl")
+include("/home/simoneb/Desktop/JMMenura/src/JMMBayesian.jl")
 
-using .JMMenura
 
 cd("/home/simoneb/Desktop/JMMenura/anoles_data/")
 tree_anole = open(parsenewick, "prunedscaled.tre")
@@ -65,11 +67,16 @@ ref_data = reshape(data, length(data), 1)
 
 n_particles = 1
 
-@time run_result = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, Inf, n_particles, dt = 0.01, max_iter = n_particles, each = true)
+function dfunc(var_num, leaf_num)
+    return 1.0
+end
 
-@load "./a_sim_diff_result.jld2" a_sim_diff_result
+@time run_result = menura_bayesian(ref_data, tree_anole, para, overall_trait_mean[2:end], cov_mean, Inf, n_particles, dt = 0.01, max_iter = n_particles, each = true,
+distance_function = dfunc)
 
-push!(a_sim_diff_result, run_result)
+# @load "./a_sim_diff_result.jld2" a_sim_diff_result
 
-@save "a_sim_diff_result.jld2" a_sim_diff_result
+# push!(a_sim_diff_result, run_result)
+
+# @save "a_sim_diff_result.jld2" a_sim_diff_result
 
