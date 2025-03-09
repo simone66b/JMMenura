@@ -42,11 +42,13 @@ function trait_mat_distance(var_num, leaf_num; err_thres = 10^-14)
 
         # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
         matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
+        
         return trait_diff + matrix_diff
     end
 end
 
-function trait_mat_distance_scaled(var_num, leaf_num, mat_scale = 1, trait_scale = 1; err_thres = 10^-14)
+function trait_mat_distance_scaled(var_num, leaf_num; mat_scale = 1, trait_scale = 1, err_thres = 10^-14, 
+     return_sep = false)
     function trait_mat_dist(data1, data2)
         data1 = reshape(data1, var_num, (var_num+1)*leaf_num)
         data2 = reshape(data2, var_num, (var_num+1)*leaf_num)
@@ -66,7 +68,8 @@ function trait_mat_distance_scaled(var_num, leaf_num, mat_scale = 1, trait_scale
 
         # matrix_diff = mean([PosDefManifold.distance(Fisher, hermi_matrices1[i], hermi_matrices2[i]) for i in 1:leaf_num])
         matrix_diff = mean([sqrt(sum(log.(max.(eigvals(hermi_matrices1[i], hermi_matrices2[i]), 0)).^2)) for i in 1:leaf_num]) # Fisher Rao metric
-        return trait_scale*trait_diff + mat_scale*matrix_diff
+
+        return_sep ? (return [trait_scale*trait_diff, mat_scale*matrix_diff]) : (return trait_scale*trait_diff + mat_scale*matrix_diff)
     end
 end
 
@@ -368,6 +371,53 @@ function test_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0,
     end
     return thresholds
 end
+
+function test_scaled_threshold(reference_data, tree, JMMpara::JMMABCparameters, trait0, mat0, n_particles; 
+    t0 = 0.0, each = false, dt = 0.001, distance_function = trait_mat_distance_scaled, summary_function = get_data, verbose = true)
+
+    preallocate_tree!(tree, dt, JMMpara.size)
+
+    not_scaled_dist_func = distance_function(JMMpara.size,nleaves(tree), return_sep = true)
+
+    bayesian_menura! = create_bayesian_sim(tree, JMMpara, trait0, mat0, t0 = t0, each = each, dt = dt, summary_function = summary_function, verbose = verbose)
+
+    thresholds_1 = zeros(n_particles, 2)
+
+    println("Getting scaling factors")
+    for i in ProgressBar(1:n_particles)
+        found_particle = false
+            while !found_particle
+            para = rand.(get_priors(JMMpara))
+            sim = bayesian_menura!(para)
+            if length(sim) != 0
+                found_particle = true
+                dists = not_scaled_dist_func(sim, reference_data)
+                thresholds_1[i, :] = dists'
+            end
+        end
+    end
+    
+    trait_scaling, matrix_scaling = 1/maximum(thresholds_1[:,1]), 1/maximum(thresholds_1[:,2])
+    scaled_dist_func = distance_function(JMMpara.size,nleaves(tree), mat_scale = matrix_scaling, trait_scale = trait_scaling)
+
+    thresholds_2 = zeros(n_particles)
+    println("Getting thresholds")
+    for i in ProgressBar(1:n_particles)
+        found_particle = false
+            while !found_particle
+            para = rand.(get_priors(JMMpara))
+            sim = bayesian_menura!(para)
+            if length(sim) != 0
+                found_particle = true
+                dist = scaled_dist_func(sim, reference_data)
+                thresholds_2[i] = dist
+            end
+        end
+    end
+    
+    return thresholds_1, thresholds_2, trait_scaling, matrix_scaling
+end
+
 
 
 # function menura_bayesian(reference_data, tree, JMMpara::JMMABCAlphaEqualConstant, trait0, mat0, threshold, n_particles; max_iter = 50*n_particles, t0 = 0.0, each = false, 

@@ -826,7 +826,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstant, trait0, ma
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -844,7 +844,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantSigma, trait
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -862,7 +862,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstant, trait0
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
 
         return get_data(sim)
     end
@@ -880,7 +880,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaSigmaDifferentConstant, t
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
 
         return summary_function(sim)
     end
@@ -898,7 +898,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCSigmaDifferentConstant, trait0
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
 
         return summary_function(sim)
     end
@@ -916,7 +916,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantTraitBrownia
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -934,7 +934,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaConstantEqual, trait0, ma
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -952,7 +952,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentEqual, trait0, m
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -971,7 +971,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlpha, trait0, mat0
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -990,7 +990,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaAB, trait0, ma
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1008,7 +1008,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitBrownia
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1026,7 +1026,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABTraitOUDiff,
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1044,7 +1044,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownian, trait0, mat0; t0 = 0
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1063,7 +1063,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsBrownian, trait0
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1081,7 +1081,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsDiffBrownian, tr
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1099,7 +1099,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianTraitsOUDiff, trait0, 
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data(sim)
     end
@@ -1117,7 +1117,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaDifferentConstantMatrix, 
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, trait_evol(dt = dt), mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
 
         return get_data_no_mat(sim)
     end
@@ -1141,7 +1141,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTrait, tra
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data_no_trait(sim)
     end
@@ -1159,7 +1159,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCAlphaEqualConstantNoTraitSigma
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data_no_trait(sim)
     end
@@ -1177,7 +1177,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCIsospectralAlphaABNoTrait, tra
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_isospectral(dt = dt), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data_no_trait(sim)
     end
@@ -1195,7 +1195,7 @@ function create_bayesian_sim(tree, JMMpara::JMMABCBrownianNoTrait, trait0, mat0;
 
         sim = menura_parameter_descend!(mat_para, trait_para, tree, nothing, mat_evol_affine(dt = dt, verbose = verbose), t0, trait0, mat0, each)
         
-        GC.gc()
+        # GC.gc()
         
         return get_data_no_trait(sim)
     end

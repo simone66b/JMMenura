@@ -105,23 +105,27 @@ function trait_evol(;trait_drift = trait_drift_mean_reversion::Function , trait_
             cor_scaling = inv.(sqrt.(Diagonal.(diag.(mat))))
             cors1 = cor_scaling.*mat.*cor_scaling
 
-            u = Vector{Vector{Float64}}()
-            t = Vector{Float64}()
-            push!(u, x0)
-            push!(t, tspan[1])
+            u = Vector{Vector{Float64}}(undef, length(cors1))
+            t = Vector{Float64}(undef, length(cors1))
+            # push!(u, x0)
+            # push!(t, tspan[1])
+            u[1] = x0
+            t[1] = tspan[1]
             for i in 1:(length(cors1)-1)
                 cor1 = cors1[i]
 
-                small_tspan = t[end]
+                small_tspan = t[i]
                 noise = CorrelatedWienerProcess(cor1,small_tspan,
                                             zeros(size(cor1)[1]),
                                             zeros(size(cor1)[1]))
             
-                prob = SDEProblem(trait_drift, trait_diffusion, u[end], (small_tspan, small_tspan + dt), 
+                prob = SDEProblem(trait_drift, trait_diffusion, u[i], (small_tspan, small_tspan + dt), 
                                     p=para, noise=noise);       
                 sol = solve(prob, EM(), dt=dt/small_dt_scale, p=para, adaptive=false)
-                push!(u, sol.u[end])
-                push!(t, sol.t[end])
+                # push!(u, sol.u[end])
+                # push!(t, sol.t[end])
+                u[i+1] = sol.u[end]
+                t[i+1] = sol.t[end]
             end
             return (u = u, t = t)
         else
@@ -181,34 +185,98 @@ function mat_evol(;mat_drift = matrix_drift_mean_reversion::Function , mat_diffu
 end
 
 
+# """
+# Each must be true for this one. 
+# """
+# function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10, verbose = true)
+#     function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
+#         # err = eigen(mat).values[1]
+#         # if err > 0
+#             uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
+#         # else
+#         #     mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
+#         #     uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 10*mat_err_mat)))
+#         # end
+
+#         # err_mu = eigen(para.mu).values[1]
+#         # if err_mu > 0
+#             mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
+#         # else
+#         #     mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
+#         #     mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 10*mat_err_mat)))
+#         # end
+        
+#         n = size(mat)[1]
+
+#         Gs = [Hermitian(Matrix(1.0I, n,n)) for _ in 1:(ceil((tspan[2] - tspan[1])/dt)+1)]
+
+#         Gs[1] = Hermitian(mat)
+    
+    
+#         for i in 2:length(Gs) 
+#             W_t = Hermitian(rand(Normal(0,1/sqrt(2)), (n,n)))
+#             W_t[diagind(W_t)] .*= sqrt(2)
+#             W_t = Hermitian(W_t)
+#             last_G = Gs[i-1]
+            
+#             G_cond = cond(last_G)
+#             if G_cond > cond_threshold
+#                 if verbose
+#                     @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
+#                     results in instability"
+#                 end
+#                 return (m = nothing, t = nothing), false
+#             end
+
+#             # err = real(eigen(last_G).values[1])
+
+#             # if err > 0
+#                 sqrt_G = Hermitian(sqrt(last_G))
+#             # else
+#             #     mat_err_mat = Matrix((-10^-10)I, size(last_G)...)
+#             #     sqrt_G = Hermitian(sqrt(last_G - 10*mat_err_mat))
+#             # end
+
+            
+            
+#             inv_sqrt_G = Hermitian(inv(sqrt_G))
+#             g_mu = inv_sqrt_G*para.mu*inv_sqrt_G
+#             # err = real(eigen(g_mu).values[1])
+#             # if err > 0
+#                 log_g = Hermitian(log(Hermitian(g_mu)))
+#             # else
+#             #     mat_err_mat = Matrix((min(-10^-10, err))I, size(g_mu)...)
+#             #     log_g = Hermitian(log(Hermitian(g_mu - 10*mat_err_mat)))
+#             # end
+#             inner = para.alpha*real(log_g)*dt + para.sigma*sqrt(dt)*W_t
+#             Gs[i] = Hermitian(sqrt_G*exp(Hermitian(inner))*sqrt_G)
+#         end
+
+#         timebase = [tspan[1] + 0.005*i for i in 0:ceil((tspan[2] - tspan[1])/ dt)]
+#         timebase[end] = tspan[2]
+
+#         return (m = Gs, t = timebase), true 
+#     end
+# end
+
+# Trying to get inplace
 """
 Each must be true for this one. 
 """
 function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10, verbose = true)
-    function mat_evolving(mat, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
-        err = eigen(mat).values[1]
-        if err > 0
-            uu0 = convert(Matrix{Float64}, log(Hermitian(mat)))
-        else
-            mat_err_mat = Matrix((min(-10^-12, err))I, size(mat)...)
-            uu0 = convert(Matrix{Float64}, log(Hermitian(mat - 10*mat_err_mat)))
-        end
+    function mat_evolving!(ancestor_mat, node, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
 
-        err_mu = eigen(para.mu).values[1]
-        if err_mu > 0
-            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
-        else
-            mat_err_mat = Matrix((min(-10^-12, err_mu))I, size(para.mu)...)
-            mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu - 10*mat_err_mat)))
-        end
-        
-        n = size(mat)[1]
+        uu0 = convert(Matrix{Float64}, log(Hermitian(ancestor_mat)))
 
-        Gs = [Hermitian(Matrix(1.0I, n,n)) for _ in 1:(ceil((tspan[2] - tspan[1])/dt)+1)]
+        mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
 
-        Gs[1] = Hermitian(mat)
+        n = size(ancestor_mat)[1]
+
+        Gs = get!(node.data, "mat_trace", [Hermitian(Matrix(1.0I, n,n)) for _ in 1:(ceil((tspan[2] - tspan[1])/dt)+1)]) # Removed to make inplace
+
+        Gs[1] = Hermitian(ancestor_mat)
     
-    
+        # Iterate over timesteps
         for i in 2:length(Gs) 
             W_t = Hermitian(rand(Normal(0,1/sqrt(2)), (n,n)))
             W_t[diagind(W_t)] .*= sqrt(2)
@@ -224,26 +292,14 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold
                 return (m = nothing, t = nothing), false
             end
 
-            err = real(eigen(last_G).values[1])
+            sqrt_G = Hermitian(sqrt(last_G))
 
-            if err > 0
-                sqrt_G = Hermitian(sqrt(last_G))
-            else
-                mat_err_mat = Matrix((-10^-10)I, size(last_G)...)
-                sqrt_G = Hermitian(sqrt(last_G - 10*mat_err_mat))
-            end
-
-            
-            
             inv_sqrt_G = Hermitian(inv(sqrt_G))
+
             g_mu = inv_sqrt_G*para.mu*inv_sqrt_G
-            err = real(eigen(g_mu).values[1])
-            if err > 0
+
                 log_g = Hermitian(log(Hermitian(g_mu)))
-            else
-                mat_err_mat = Matrix((min(-10^-10, err))I, size(g_mu)...)
-                log_g = Hermitian(log(Hermitian(g_mu - 10*mat_err_mat)))
-            end
+
             inner = para.alpha*real(log_g)*dt + para.sigma*sqrt(dt)*W_t
             Gs[i] = Hermitian(sqrt_G*exp(Hermitian(inner))*sqrt_G)
         end
