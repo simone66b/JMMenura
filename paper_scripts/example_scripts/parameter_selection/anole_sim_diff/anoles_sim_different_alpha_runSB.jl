@@ -1,10 +1,10 @@
-using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
-## Pkg.activate(".")
 
+using Pkg
+Pkg.activate(".")
+## Pkg.develop(path="/home/simoneb/Desktop/JMMenura/")
 cd("/home/simoneb/Desktop/JMMenura/")
-
-## include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
-
+using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
+using PosDefManifold
 using JMMenura
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
@@ -38,7 +38,7 @@ end
 species_traits = [species_subset(trait_data[:,2:11], x) for x in reverse(names)]
 
 trait_means = [describe(df[:,2:10], :mean)[2:9, 2] for df in species_traits]
-
+cov_mats = read_cov_mat.(reverse(files))
 
 n = 8 ## 8 traits
 GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
@@ -69,9 +69,9 @@ prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 
 data = [trait_means..., cov_mats...]
 ## ref_data = reshape(data, length(data), 1)
-##trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_means, sigma = trait_sigma))
+## trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_means, sigma = trait_sigma))
 trait_evol_func = trait_evol(dt = 0.01)
-mat_evol_func = mat_evol_affine(dt = 0.0)
+mat_evol_func = mat_evol_affine(dt = 0.01)
 
 ## mat_mu = copy(P0)
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
@@ -93,12 +93,12 @@ test(x, y) = 1.0 ./ (x - y) .^ 2.0
 vals = test.(dattraits, reftraits)
 traitImportances = reduce(.+, vals)
 
-m = SymmetricPositiveDefinite(8)
-testmat(x, y) = 1.0 ./ fisher_rao_distance(x, y) .^ 2.0
+## doesn't quite work for matrices yet... TO DO!
+testmat(x, y) = 1.0 ./ distanceSqr(Fisher, x, y)
 datmats = dat[8:14]
 refmats = refdat[8:14]
 testmat.(datmats, refmats)
-testmat(x, y) = 1.0 ./ fisher_rao_distance(x, y) .^ 2.0
+### testmat(x, y) = 1.0 ./ fisher_rao_distance(x, y) .^ 2.0
 
 @load "./a_sim_diff_result.jld2" a_sim_diff_result
 
