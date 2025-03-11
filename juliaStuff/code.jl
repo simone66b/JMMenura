@@ -1,8 +1,8 @@
 using Pkg
 
 cd("/home/simoneb/Desktop/JMMenura")
-Pkg.activate(".")
-## Pkg.develop(path="/home/simoneb/Desktop/JMMenura/")
+## Pkg.activate(".")
+## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 
 # Set to location of JMMenura
 ##include("../JMMenura/src/JMMenura.jl")
@@ -13,10 +13,10 @@ using Phylo, Distributions, Random, JLD2, LinearAlgebra, PosDefManifold, Distanc
 
 # Number of traits to simulate
 n = 4 # SET
-cd("/home/simoneb/Desktop/JMMenura/juliaStuff")
+cd("/home/simoneb/Desktop/JMMenura2/juliaStuff")
 # Open tree - Set file path to tree
 # 4 species
-tree1 = open(parsenewick, "smalltree.tre")
+tree1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre")
 # Find the root node of the trait
 root = getroot(tree1)
 root_num = tree1.nodedict[root.name]
@@ -30,8 +30,8 @@ trait_sigma = repeat([sqrt(2)], n)
 # Parameters used for reference simulation
 trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = trait_sigma))
 
-@load "./P0.jld2"
-P0 = P0[1:4, 1:4]
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P0.jld2"
+# P0 = P0[1:4, 1:4]
 
 # Variables needed for OU matrix model
 mat_alpha = 1.0
@@ -46,9 +46,10 @@ mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = 
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
-@time ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func, 0.0, trait_mu, P0, true);
+@time sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree1, trait_evol_func, mat_evol_func,
+ 0.0, trait_mu, P0, true);
 
-ref_data = get_data(ref_sim)
+output = get_data2(sim)
 @save "ref_data.jld2" ref_data
 @save "tree.jld2" tree1
 
@@ -72,15 +73,15 @@ para = JMMABCAlphaDifferentConstant([prior for _ in 1:n], trait_mu, trait_sigma,
 
 # # Save threshold
 # @save "./threshold.jld2" threshold
-# s_para_result = Vector{Any}()
-# @save "./s_para_result.jld2" s_para_result
+s_para_result = Vector{Any}()
+@save "./s_para_result.jld2" s_para_result
 
 # n_particles = 1000
 # @load "./threshold.jld2" threshold
-# @load "ref_data.jld2" ref_data
-# @time run_result = menura_bayesian(ref_data, tree1, para, zeros(n), P0, threshold,
-#     n_particles, dt = 0.01,
-#     max_iter = 25000 * n_particles, each = true, verbose=true);
+@load "ref_data.jld2" ref_data
+@time run_result = menura_bayesian(ref_data, tree1, para, zeros(n), P0, Inf,
+n_particles = 1, dt = 0.01,
+max_iter = 1, each = true, verbose=true);
 
 # # Save model results
 # @load "./s_para_result.jld2" s_para_result

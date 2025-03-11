@@ -255,6 +255,14 @@ function get_data(sim_data)
     return sim_data[2] ? reshape(data, length(data), 1) : Array{Float64}(undef, 0, 0)
 end 
 
+function get_data2(sim_data)
+    tree = sim_data[1]
+    traits = [tip.data["trait_trace"][end] for tip in getleaves(tree)]
+    mats = [tip.data["mat_trace"][end] for tip in getleaves(tree)]
+    data = [traits..., mats...]
+    return data
+end 
+
 function get_all_data(sim_data)
     tree = sim_data[1]
     traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getnodes(tree)])
