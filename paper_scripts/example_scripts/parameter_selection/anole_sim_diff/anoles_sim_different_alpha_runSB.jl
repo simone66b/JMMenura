@@ -1,10 +1,12 @@
 using Pkg
-Pkg.activate(".")
 
 cd("/home/simoneb/Desktop/JMMenura/")
+Pkg.activate(".")
+
+
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold
-using JMMenura
+using .JMMenura
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
 
