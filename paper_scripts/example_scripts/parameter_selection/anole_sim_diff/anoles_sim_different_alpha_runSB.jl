@@ -1,7 +1,6 @@
-
 using Pkg
 Pkg.activate(".")
-## Pkg.develop(path="/home/simoneb/Desktop/JMMenura/")
+
 cd("/home/simoneb/Desktop/JMMenura/")
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold
@@ -94,11 +93,12 @@ vals = test.(dattraits, reftraits)
 traitImportances = reduce(.+, vals)
 
 ## doesn't quite work for matrices yet... TO DO!
-testmat(x, y) = 1.0 ./ distanceSqr(Fisher, x, y)
+testmat(x, y) = 1.0 ./ distance(x, y) ^ 2.0
+frobeniusNorm(mat) = sqrt(sum(mat .^ 2))
+FRDistanceSq(A, B) = sum((log(A^(-1/2) * B * A  ^(1/2)) .^ 2))
 datmats = dat[8:14]
 refmats = refdat[8:14]
 testmat.(datmats, refmats)
-### testmat(x, y) = 1.0 ./ fisher_rao_distance(x, y) .^ 2.0
 
 @load "./a_sim_diff_result.jld2" a_sim_diff_result
 
