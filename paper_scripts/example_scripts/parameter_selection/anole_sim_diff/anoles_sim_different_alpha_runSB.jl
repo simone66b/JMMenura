@@ -1,8 +1,10 @@
 using Pkg
 
-cd("/home/simoneb/Desktop/JMMenura/")
 Pkg.activate(".")
+include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 
+## cd("/home/simoneb/Desktop/JMMenura")
+## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold
@@ -52,29 +54,30 @@ Ganc[idx] .= GancVec
 Ganc .= Hermitian(Ganc, :L)
 P0 = Ganc #### FullData[7, :Gmatrix]; ## randPosDefMat(8)
 
-trait_alpha = repeat([1.0], n)
+## trait_alpha = repeat([1.0], n)
 trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
 sigmaPrior = 10.0
-mat_alpha = 0.5
-## @load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P0.jld2"
+## mat_alpha = 0.5
 mat_mu = copy(P0)
 mat_sigma = sqrt(2)
 
-
 root_num = getroot(tree_anole).id
-mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
-trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = trait_sigma))
 
 prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
+priorvec = repeat([prior], 9)## 8 traits and one for the matrix_diff
 
+alphasAll = [rand.(priorvec) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
 data = [trait_means..., cov_mats...]
-## ref_data = reshape(data, length(data), 1)
-## trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_means, sigma = trait_sigma))
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
-## mat_mu = copy(P0)
+for j in 1:5000 ## major loop for 5000 particles
+end
+
+mat_parameters_true = Dict(root_num => (alpha = alphasAll[j][9], mu = mat_mu, sigma = mat_sigma))
+trait_parameters_true = Dict(root_num => (alpha = alphasAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
+
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
 
 @time result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole, trait_evol_func, 
@@ -84,27 +87,19 @@ rundat = get_data2(result)
 
 dat = rundat
 refdat = data
-function importance(dat, refdat)
-end
+dattraits = dat[1:7] # 7 species
+reftraits = refdat[1:7] # 7 species
 
-    dattraits = dat[1:7] # 7 species
-    reftraits = refdat[1:7] # 7 species
-
-test(x, y) = 1.0 ./ (x - y) .^ 2.0
-vals = test.(dattraits, reftraits)
+impTraits(x, y) = 1.0 ./ (x - y) .^ 2.0
+vals = impTraits.(dattraits, reftraits)
 traitImportances = reduce(.+, vals)
 
-## doesn't quite work for matrices yet... TO DO!
-testmat(x, y) = 1.0 ./ distance(x, y) ^ 2.0
-frobeniusNorm(mat) = sqrt(sum(mat .^ 2))
-FRDistanceSq(A, B) = sum((log(A^(-1/2) * B * A  ^(1/2)) .^ 2))
 datmats = dat[8:14]
 refmats = refdat[8:14]
-testmat.(datmats, refmats)
 
-@load "./a_sim_diff_result.jld2" a_sim_diff_result
+datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
 
-push!(a_sim_diff_result, run_result)
+matImportances = sum(1.0/distanceSqr.(Fisher, datmats1, refmats1))
 
-@save "a_sim_diff_result.jld2" a_sim_diff_result
+Importances = [traitImportances, matImportances]
 
