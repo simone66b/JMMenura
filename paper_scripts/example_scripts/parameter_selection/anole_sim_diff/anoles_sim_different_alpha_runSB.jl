@@ -108,10 +108,12 @@ refmats =data[8:14]
 datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
 matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
 
-Importances = [alphasAll[j], [traitImportances, matImportances]]
+Importances = [alphasAll[j], push!(traitImportances, matImportances)]
 push!(res, Importances)
 next!(p)
 end
 res
 end
+
+tst = sim(5000)
 
