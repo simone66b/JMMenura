@@ -7,7 +7,7 @@ include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 ## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
-using PosDefManifold, ProgressMeter
+using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
 using .JMMenura
 
 function read_cov_mat(species)
@@ -86,9 +86,12 @@ data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
+N= 5000 ## number of particles
+traits = 8
+matrixTraits = traits + 1
+species = 7
 function sim(N)
 res = []
-N = 5000
 p = Progress(N, desc="Processing: ")  # Initialize progress meter
 
 for j in 1:N ## major loop for 5000 particles
@@ -122,7 +125,19 @@ res
 end
 
 tst = sim(5000)
-
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
-[alphas[i][1] for i in 1:5000]
+
+for k in 1:9
+alphastraitk = [alphas[i][k] for i in 1:5000]
+wtstraitk = [wts[i][k] for i in 1:5000]
+wtstrait1normalised = Weights(wtstraitk)
+
+samps1 = sample(alphastraitk, wtstrait1normalised, 100000, replace=true)
+his = histogram(samps1, normalize=true)
+
+x = range(0, 40, length=100)
+
+plot!(x, pdf.(prior, x), color=:red)
+display(his)
+end
