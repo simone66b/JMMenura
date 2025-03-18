@@ -7,7 +7,7 @@ include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 ## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
-using PosDefManifold
+using PosDefManifold, ProgressMeter
 using .JMMenura
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
@@ -26,22 +26,30 @@ function species_subset(df, name)
     subset(df, :Species => species -> [coalesce(occursin(name,x), false) for x in species])
 end
 
+function kernel(distance, sigma=500)
+    exp.(- distance.^2 ./ (2 * sigma^2))
+end
+
+impTraits(x, y) = (x - y) .^ 2.0
+
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli"))  # Change as needed
 
+cov_mats = []
 for (i, name) in enumerate(names)
     species_traits = species_subset(trait_data[:,2:11], name)
     species_mu = describe(species_traits[:,2:10], :mean)[2:9, 2]
 
     species_cov = read_cov_mat(files[i])
+    push!(cov_mats, species_cov)
     setnodedata!(tree_anole, name, "trait_trace", [species_mu])
     setnodedata!(tree_anole, name, "mat_trace", [species_cov])
 end
 
-species_traits = [species_subset(trait_data[:,2:11], x) for x in reverse(names)]
+species_traits = [species_subset(trait_data[:,2:11], x) for x in names]
 
 trait_means = [describe(df[:,2:10], :mean)[2:9, 2] for df in species_traits]
-cov_mats = read_cov_mat.(reverse(files))
+## cov_mats = read_cov_mat.(files)
 
 n = 8 ## 8 traits
 GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
@@ -72,34 +80,38 @@ data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
-for j in 1:5000 ## major loop for 5000 particles
-end
+function sim(N)
+res = []
+N = 5000
+p = Progress(N, desc="Processing: ")  # Initialize progress meter
+
+for j in 1:N ## major loop for 5000 particles
 
 mat_parameters_true = Dict(root_num => (alpha = alphasAll[j][9], mu = mat_mu, sigma = mat_sigma))
 trait_parameters_true = Dict(root_num => (alpha = alphasAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
 
-@time result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole, trait_evol_func, 
+result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole, trait_evol_func, 
 mat_evol_func, 0.0, trait_mu, P0, true);
 
 rundat = get_data2(result)
 
-dat = rundat
-refdat = data
-dattraits = dat[1:7] # 7 species
-reftraits = refdat[1:7] # 7 species
+dattraits = rundat[1:7] # 7 species
+reftraits = data[1:7] # 7 species
 
-impTraits(x, y) = 1.0 ./ (x - y) .^ 2.0
 vals = impTraits.(dattraits, reftraits)
-traitImportances = reduce(.+, vals)
+traitImportances = sum(kernel.(vals))
 
-datmats = dat[8:14]
-refmats = refdat[8:14]
-
+datmats = rundat[8:14]
+refmats =data[8:14]
 datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
+matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
 
-matImportances = sum(1.0/distanceSqr.(Fisher, datmats1, refmats1))
-
-Importances = [traitImportances, matImportances]
+Importances = [alphasAll[j], [traitImportances, matImportances]]
+push!(res, Importances)
+next!(p)
+end
+res
+end
 
