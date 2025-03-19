@@ -14,23 +14,23 @@ using Phylo, Distributions, Random, JLD2, LinearAlgebra, PosDefManifold, Distanc
 #####################
 
 # Number of traits to simulate
-n = # SET
+n = 4 # SET
 
 # Open tree - Set file path to tree
-tree1 = open(parsenewick, #"./../..//anoles_data//bigsim.tre")
+tree1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/bigsim.tre")
 
 # Find the root node of the trait
 root = getroot(tree1)
 root_num = tree1.nodedict[root.name]
 
 # Define G matrix - Can be done before hand and then loaded in using JLD2
-@load #"./../../anoles_data/P0.jld2"
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P0.jld2"
 
 # Set trait parameters needed to evolve traits
 # Should be a vector of length n 
-trait_alpha = #repeat([0.0], n)
-trait_mu = #repeat([0.0], n)
-trait_sigma = #repeat([sqrt(2)], n)
+trait_alpha = repeat([0.0], n)
+trait_mu = repeat([0.0], n)
+trait_sigma = repeat([sqrt(2)], n)
 
 # Create trait dictionary
 # Can allow for different traits to be used on different branches
@@ -41,9 +41,9 @@ trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, si
 ############################
 
 # Variables needed for OU matrix model
-mat_alpha = #0
-mat_sigma = #sqrt(2)
-mat_mu = #copy(P0)
+mat_alpha = 0
+mat_sigma = sqrt(2)
+mat_mu = copy(P0)
 
 # Create matrix dictionary
 mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = mat_sigma))
