@@ -9,7 +9,6 @@ include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 using Phylo, Distributions, Pkg, PyPlot, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
 using .JMMenura
-pyplot()
 
 function read_cov_mat(species)
     cov = open("/home/simoneb/Desktop/JMMenura/anoles_data/"*species*".txt","r") do datafile # Change as needed
@@ -60,7 +59,6 @@ GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
 Ganc =zeros(8, 8)
 idx = tril!(trues(size(Ganc)))
 Ganc[idx] = GancVec
-Ganc = Hermitian(Ganc, :L)
 P0 = copy(Ganc)
 
 ## trait_alpha = repeat([1.0], n)
@@ -70,7 +68,6 @@ sigmaPrior = 10.0
 ## mat_alpha = 0.5
 mat_mu = copy(P0)
 mat_sigma = sqrt(2)
-priors = repeat([Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)], 9)
 root_num = getroot(tree_anole).id
 a_sim_res = []
 data = [trait_means..., cov_mats...]
@@ -79,7 +76,8 @@ mat_evol_func = mat_evol_affine(dt = 0.01)
 
 root_num = getroot(tree_anole).id
 
-prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
+## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
+prior = Uniform(0, 20)
 priorvec = repeat([prior], 9)## 8 traits and one for the matrix_diff
 
 alphasAll = [rand.(priorvec) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
@@ -91,7 +89,8 @@ N= 5000 ## number of particles
 traits = 8
 matrixTraits = traits + 1
 species = 7
-function sim(N)
+#######################################################################################################
+function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll)
 res = []
 p = Progress(N, desc="Processing: ")  # Initialize progress meter
 
@@ -125,21 +124,25 @@ end
 res
 end
 
-tst = sim(5000)
+tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll)
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
 using PyPlot
-##for k in 1:9
+##using Plots
+plotvec=[]
+x = range(0, 20, length=100)
+## for k in 1:9
 alphastraitk = [alphas[i][k] for i in 1:5000]
 wtstraitk = [wts[i][k] for i in 1:5000]
 wtstrait1normalised = Weights(wtstraitk)
+samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
 
-samps1 = sample(alphastraitk, wtstrait1normalised, 100000, replace=true)
-his = histogram(samps1, normalize=true)
+p = 
+histogram!(samps1, normalize=true, label="Posterior Sample")
+density!(samps1, normalize=true, linewidth=3, color=:black, bandwith=100, trim=true, label="Posterior Density")
+plot!(x, pdf.(prior, x), color=:red, linewidth=3, label="Prior Density", trim=true)
+push!(plotvec, plt)
+display(plt)
+### end
 
-x = range(0, 40, length=100)
-
-plot!(x, pdf.(prior, x), color=:red, linewidth=3)
-display(his)
-##end
