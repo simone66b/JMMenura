@@ -6,9 +6,10 @@ include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 ## cd("/home/simoneb/Desktop/JMMenura")
 ## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 
-using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
+using Phylo, Distributions, Pkg, PyPlot, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
 using .JMMenura
+pyplot()
 
 function read_cov_mat(species)
     cov = open("/home/simoneb/Desktop/JMMenura/anoles_data/"*species*".txt","r") do datafile # Change as needed
@@ -60,7 +61,7 @@ Ganc =zeros(8, 8)
 idx = tril!(trues(size(Ganc)))
 Ganc[idx] = GancVec
 Ganc = Hermitian(Ganc, :L)
-P0 = Matrix(Ganc)
+P0 = copy(Ganc)
 
 ## trait_alpha = repeat([1.0], n)
 trait_mu = repeat([0.0], n) ##
@@ -128,7 +129,8 @@ tst = sim(5000)
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
-for k in 1:9
+using PyPlot
+##for k in 1:9
 alphastraitk = [alphas[i][k] for i in 1:5000]
 wtstraitk = [wts[i][k] for i in 1:5000]
 wtstrait1normalised = Weights(wtstraitk)
@@ -138,6 +140,6 @@ his = histogram(samps1, normalize=true)
 
 x = range(0, 40, length=100)
 
-plot!(x, pdf.(prior, x), color=:red)
+plot!(x, pdf.(prior, x), color=:red, linewidth=3)
 display(his)
-end
+##end
