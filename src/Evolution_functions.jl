@@ -285,10 +285,10 @@ function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold
             
             G_cond = cond(last_G)
             if G_cond > cond_threshold
-                if verbose
-                    @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
-                    results in instability"
-                end
+                # if verbose
+                #     @warn "Aborting simulation as condition number $G_cond has exceeded threshold $cond_threshold which 
+                #     results in instability"
+                # end
                 return (m = nothing, t = nothing), false
             end
 

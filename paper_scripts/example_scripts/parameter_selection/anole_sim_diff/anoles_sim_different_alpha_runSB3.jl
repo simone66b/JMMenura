@@ -1,5 +1,5 @@
 using Pkg
-
+  
 Pkg.activate(".")
 include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 
@@ -8,7 +8,9 @@ include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
+
 using .JMMenura
+#### using Debugger
 
 function read_cov_mat(species)
     cov = open("/home/simoneb/Desktop/JMMenura/anoles_data/"*species*".txt","r") do datafile # Change as needed
@@ -69,12 +71,16 @@ sigmaPrior = 10.0
 ## mat_alpha = 0.5
 mat_mu = copy(P0)
 ## mat_sigma = sqrt(2)
-priors = repeat([Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)], 9)
-root_num = getroot(tree_anole).id
+##priors = repeat([Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)], 9)
+##root_num = getroot(tree_anole).id
 a_sim_res = []
 data = [trait_means..., cov_mats...]
+##trait_evol_func = trait_evol(dt = 0.01)
+##mat_evol_func = mat_evol_affine(dt = 0.01)
+
 trait_evol_func = trait_evol(dt = 0.01)
-mat_evol_func = mat_evol_affine(dt = 0.01)
+mat_evol_func = mat_evol_affine(dt = 0.01)   
+
 
 root_num = getroot(tree_anole).id
 
@@ -90,17 +96,18 @@ matrixTraits = traits + 1
 species = 7
 
 ######################################################################################
-##function sim(N)
+function sim(N)
 res = []
 p = Progress(N, desc="Processing: ")  # Initialize progress meter
 
-## for j in 1:N ## major loop for 5000 particles
-
+j = 1 ##for j in 1:N ## major loop for 5000 particles
+while j <= N
+try
 mat_parameters_true = Dict(root_num => (alpha = 0.0, mu = mat_mu, sigma = sigmasAll[j][9]))
 trait_parameters_true = Dict(root_num => (alpha = repeat([0.0], 8), mu = trait_mu, sigma = sigmasAll[j][1:8]))
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
-
+    
 result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole, trait_evol_func, 
 mat_evol_func, 0.0, trait_mu, P0, true);
 
@@ -119,14 +126,19 @@ matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
 
 Importances = [sigmasAll[j], push!(traitImportances, matImportances)]
 push!(res, Importances)
-next!(p)
-##end
-res
-##end
+println("Finished iteration $j...")
+j += 1
+## next!(p)
+catch error
+end
 
-tst = sim(5000)
-alphas = [tst[i][1] for i in 1:5000]
-wts = [tst[i][2] for i in 1:5000]
+end
+return res
+end
+
+tst = sim(500)
+sigmas = [tst[i][1] for i in 1:79]
+wts = [tst[i][2] for i in 1:79]
 
 ## for k in 1:9
 # alphastraitk = [alphas[i][k] for i in 1:5000]
