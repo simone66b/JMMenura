@@ -48,6 +48,7 @@ end
 
 species_traits = [species_subset(trait_data[:,2:11], x) for x in names2]
 
+
 trait_means = [describe(df[:,2:10], :mean)[2:9, 2] for df in species_traits]
 ## cov_mats = read_cov_mat.(files)
 

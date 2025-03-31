@@ -30,7 +30,7 @@ export menura_bayesian, trait_mat_distance, mat_distance, trait_distance
 
 export sufficient_distance, sufficient_distance_v2, sufficient_distance_v3, sufficient_distance_v4
 
-export get_data, get_data2, get_data_no_trait, get_data_no_mat, get_all_data
+export get_data, get_data2, get_data_no_trait, get_data_no_mat, get_all_data, get_data2, get_data3
 
 export test_threshold, trait_mat_distance_scaled
 
