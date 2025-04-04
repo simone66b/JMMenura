@@ -1,5 +1,4 @@
 using Pkg
-
 Pkg.activate(".")
 include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 
@@ -80,7 +79,7 @@ root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 ##priormat = Truncated(Normal(0.0, 0.5), 0.0, Inf)
-priormat = Uniform(0, 2.5)
+priormat = Uniform(0, 2.0)
 ##priorvec = repeat([prior], 8)## 8 traits and one for the matrix_diff
 push!(priorvec, priormat)
 
@@ -133,14 +132,14 @@ end
 tst = sim(N)
 sigmas = [tst[i][1] for i in 1:N]
 wts = [tst[i][2] for i in 1:N]
-
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.jld2" sigmas wts
 for k in 1:9
 sigmastraitk = [sigmas[i][k] for i in 1:N]
 wtstraitk = [wts[i][k] for i in 1:N]
 wtstrait1normalised = Weights(wtstraitk)
 
 samps1 = sample(sigmastraitk, wtstrait1normalised, 10000, replace=true)
-his = histogram(samps1, normalize=true)
+his = histogram(samps1, density=true)
 
 if k == 9 
     x = range(0,3, length=100)
@@ -148,5 +147,5 @@ else
 x = range(0, 4, length=100)
 end
 plot!(x, pdf.(priorvec[k], x), color=:red)
-display(his)
 end
+show(his)
