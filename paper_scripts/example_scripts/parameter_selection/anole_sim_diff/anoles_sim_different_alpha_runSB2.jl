@@ -75,7 +75,7 @@ root_num = getroot(tree_anole).id
 a_sim_res = []
 data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
-mat_evol_func = mat_evol_affine(dt = 0.01)
+mat_evol_func = mat_evol(dt = 0.01)
 
 root_num = getroot(tree_anole).id
 

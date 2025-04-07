@@ -1,10 +1,10 @@
 ENV["MPLBACKEND"] = "tkagg"  # or "qt5agg"
 using PyPlot, JLD2, StatsBase, Distributions, XLSX, DataFrames
 PyPlot.matplotlib.use("tkagg")
-# priorvec = repeat([Uniform(0, 3)], 8)
-# priormat = Uniform(0, 2.0)
+# priorvec = repeat([Uniform(0, 3)], 8) ## for sigma/BM analysis
+# priormat = Uniform(0, 2.0) # for sigma/BM analyis
 
-priorvec = repeat([Uniform(0,20)], 9)
+priorvec = repeat([Uniform(0,10)], 9)
 ## push!(priorvec, priormat)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
@@ -36,9 +36,9 @@ title(thisName)
      end
     
 if k == 9 
-    x = range(-1.0e-10,20, length=100)
+    x = range(-1.0e-10, 10, length=100)
 else
-x = range(-1.0e-10, 20, length=100)
+x = range(-1.0e-10, 10, length=100)
 end
 y=pdf(priorvec[k], x)
 plot(x, y, color=:red, label="Prior")
@@ -46,4 +46,5 @@ plot(x, y, color=:red, label="Prior")
     legend()
 end
 end
-show()
+## show()
+PyPlot.savefig("AlphaOUAnoles.pdf")
