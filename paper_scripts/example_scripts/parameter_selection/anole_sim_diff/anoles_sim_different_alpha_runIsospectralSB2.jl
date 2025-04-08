@@ -78,11 +78,12 @@ mat_evol_func = mat_evol_isospectral(dt = 0.01)
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-prior = Uniform(0, 20)
-priorvec = repeat([prior], 8)## 8 traits and one for the matrix_diff
+priorAlpha = Uniform(0, 3)
+priorvec = repeat([priorAlpha], 8)## 8 traits and one for the matrix_diff
 
-aAll = [rand(prior) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
-bAll = [rand(prior) for i in 1:5000]
+priorab = Uniform(0, 10)
+aAll = [rand(priorab) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
+bAll = [rand(priorab) for i in 1:5000]
 alphasAll = [rand.(priorvec) for i in 1:5000]
 data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
@@ -100,7 +101,7 @@ res = []
 ##for j in 1:N ## major loop for 5000 particles
 
 mat_parameters_true = Dict(root_num => (a = aAll[j], b=bAll[j], mu = mat_mu))
-trait_parameters_true = Dict(root_num => (alpha = traitAlpha[j][1:8], mu = trait_mu, sigma = trait_sigma))
+trait_parameters_true = Dict(root_num => (alpha = alphasAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
 
