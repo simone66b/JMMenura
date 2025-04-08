@@ -315,7 +315,7 @@ end
 
 function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function , 
                                     mat_diffusion = matrix_diffusion_isospectral::Function, dt = 0.001::Float64, mat_err = missing)
-    function mat_evolving_skew_symmetric(mat, para, tspan::Tuple{Float64, Float64}, each::Bool)
+    function mat_evolving_skew_symmetric(mat, node, para, tspan::Tuple{Float64, Float64}, each::Bool)
         
         n = size(mat)[1]
         u0_proto = zeros(n,n)
