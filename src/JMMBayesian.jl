@@ -263,6 +263,15 @@ function get_data2(sim_data)
     return data
 end 
 
+function get_data3(sim_data)
+    tree = sim_data[1]
+    traits = [tip.data["trait_para"][end] for tip in getleaves(tree)]
+    mats = [tip.data["mat_para"][end] for tip in geteaves(tree)]
+    data = [traits..., mats...]
+    return data
+end 
+
+
 function get_all_data(sim_data)
     tree = sim_data[1]
     traits = reduce(hcat, [tip.data["trait_trace"][end] for tip in getnodes(tree)])

@@ -48,7 +48,6 @@ end
 
 species_traits = [species_subset(trait_data[:,2:11], x) for x in names2]
 
-
 trait_means = [describe(df[:,2:10], :mean)[2:9, 2] for df in species_traits]
 ## cov_mats = read_cov_mat.(files)
 
@@ -63,7 +62,9 @@ Ganc[idx] = GancVec
 P0 = copy(Ganc)
 
 ## trait_alpha = repeat([1.0], n)
-trait_mu = repeat([0.0], n) ##
+trait_mu = [mean(getindex.(trait_means, i)) for i in 1:8] #### repeat([0.0], n) ##
+
+### trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
 sigmaPrior = 10.0
 ## mat_alpha = 0.5
@@ -78,7 +79,7 @@ mat_evol_func = mat_evol(dt = 0.01)
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-prior = Uniform(0, 20)
+prior = Uniform(0, 10)
 priorvec = repeat([prior], 9)## 8 traits and one for the matrix_diff
 
 alphasAll = [rand.(priorvec) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
@@ -128,8 +129,8 @@ end
 tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll)
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
-cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
-@save "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles.jld2" alphas wts
+cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/test/")
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/test/AlphaOUAnoles22.jld2" alphas wts
 # using PyPlot
 # ##using Plots
 # plotvec=[]
