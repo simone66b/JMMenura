@@ -25,7 +25,7 @@ function recurse_menura!(tree, node, trait_evol, matrix_evol::Function, each::Bo
          end
 
         mat_evol, sol_stable =
-            matrix_evol(evol_matrix,node, ancestor.data["mat_para"],
+            matrix_evol(evol_matrix, node, ancestor.data["mat_para"],
                         (getheight(tree, ancestor),getheight(tree, node)), each)
         
         !sol_stable && return false # solution unstable
