@@ -94,11 +94,11 @@ traits = 8
 matrixTraits = traits + 1
 species = 7
 #######################################################################################################
-##function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, traitAlpha, aAll, bAll)
+function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, traitAlpha, aAll, bAll)
 res = []
-##p = Progress(N, desc="Processing: ")  # Initialize progress meter
+p = Progress(N, desc="Processing: ")  # Initialize progress meter
 
-##for j in 1:N ## major loop for 5000 particles
+for j in 1:N ## major loop for 5000 particles
 
 mat_parameters_true = Dict(root_num => (a = aAll[j], b=bAll[j], mu = mat_mu))
 trait_parameters_true = Dict(root_num => (alpha = alphasAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
@@ -125,29 +125,28 @@ push!(res, Importances)
 next!(p)
 end
 res
-## end
+end
 
 tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll, aAll, bAll)
-as = [tst[i][1] for i in 1:5000]
+ass = [tst[i][1] for i in 1:5000]
 bs = 
-wts = [tst[i][2] for i in 1:5000]
+asswts = [tst[i][2] for i in 1:5000]
 cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
-@save "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" alphas wts
-# using PyPlot
+@save "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" ass asswts bs alphas wts
+using PyPlot
 # ##using Plots
-# plotvec=[]
-# x = range(0, 20, length=100)
-# ## for k in 1:9
-# alphastraitk = [alphas[i][k] for i in 1:5000]
-# wtstraitk = [wts[i][k] for i in 1:5000]
-# wtstrait1normalised = Weights(wtstraitk)
-# samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
-
-# p = 
-# histogram!(samps1, normalize=true, label="Posterior Sample")
-# density!(samps1, normalize=true, linewidth=3, color=:black, bandwith=100, trim=true, label="Posterior Density")
-# plot!(x, pdf.(prior, x), color=:red, linewidth=3, label="Prior Density", trim=true)
-# push!(plotvec, plt)
-# display(plt)
+plotvec=[]
+x = range(0, 20, length=100)
+for k in 1:9
+alphastraitk = [alphas[i][k] for i in 1:5000]
+wtstraitk = [wts[i][k] for i in 1:5000]
+wtstrait1normalised = Weights(wtstraitk)
+samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
+ 
+histogram!(samps1, normalize=true, label="Posterior Sample")
+density!(samps1, normalize=true, linewidth=3, color=:black, bandwith=100, trim=true, label="Posterior Density")
+plot!(x, pdf.(prior, x), color=:red, linewidth=3, label="Prior Density", trim=true)
+push!(plotvec, plt)
+display(plt)
 # ### end
 
