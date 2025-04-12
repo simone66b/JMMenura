@@ -1,47 +1,40 @@
 ENV["MPLBACKEND"] = "tkagg"  # or "qt5agg"
 using PyPlot, JLD2, StatsBase, Distributions, XLSX, DataFrames
 PyPlot.matplotlib.use("tkagg")
-priorvec = repeat([Uniform(0, 3)], 8)
-priormat = Uniform(0, 2.0)
-push!(priorvec, priormat)
+
+priorAlpha = Uniform(0, 3)
+priorvec = repeat([priorAlpha], 8)## 8 traits and one for the matrix_diff
+priorab = Uniform(0, 10)
+priorvec = push!(priorvec, priorab, priorab)
+
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
-nms = push!(names(trait_data)[4:11], "G-Matrix")
-###pyplot()
-@load "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" sigmas wts
+nms = push!(names(trait_data)[4:11], "G-Matrix a", "G-Matrix b")
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" pars wts
 N = 5000
 
-## figure(figsize=(30, 20), layout="tight")
-#= fig, axes = subplots(3,3,figsize=(15, 12))
-for k in 1:9
-   
-    thisName = nms[k]
-    ax = axes[(k-1) ÷ 3 + 1, (k-1) % 3 + 1] 
-sigmastraitk = [sigmas[i][k] for i in 1:N]
-wtstraitk = [wts[i][k] for i in 1:N]
-wtstrait1normalised = Weights(wtstraitk)
+figure(figsize=(30, 20), layout="tight")
+fig, axes = subplots(1,2,figsize=(15, 12))
+for k in 1:2
+    thisName = nms[k+8]
+###   global ax = axes[(k-1) ÷ 2 + 1 , (k-1) % 2 + 1] 
+global parstraitk = [pars[i][k+8] for i in 1:N]
+global wtstraitk = [wts[i][k+8] for i in 1:N]
+global wtstrait1normalised = Weights(wtstraitk)
 
-samps1 = sample(sigmastraitk, wtstrait1normalised, 10000, replace=true)
-subplot(3,3,k)
+global samps1 = sample(parstraitk, wtstrait1normalised, 10000, replace=true)
+subplot(1,2,k)
 hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior")
 title(thisName)
-    
-     if k == 4
-        ylabel("Density", fontsize=14)
-     end
-     if k ==8
-        xlabel("Value", fontsize=16)
-     end
-    
-if k == 9 
-    x = range(-1.0e-10,3, length=100)
-else
-x = range(-1.0e-10, 4, length=100)
-end
-y=pdf(priorvec[k], x)
+ylabel("Density", fontsize=16)
+xlabel("Value", fontsize=16)
+x = range(0.0, 10, length=100)
+y=pdf(priorvec[k+8], x)
 plot(x, y, color=:red, label="Prior")
- if k == 3
-    legend()
+
+if k == 2
+legend()
 end
 end
-PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.pdf") =#
+### show()
+PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/ISOAnoles.pdf")

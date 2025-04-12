@@ -3,9 +3,6 @@ using Pkg
 Pkg.activate(".")
 include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 
-## cd("/home/simoneb/Desktop/JMMenura")
-## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
-
 using Phylo, Distributions, Pkg, PyPlot, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
 using .JMMenura
@@ -80,11 +77,10 @@ root_num = getroot(tree_anole).id
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 priorAlpha = Uniform(0, 3)
 priorvec = repeat([priorAlpha], 8)## 8 traits and one for the matrix_diff
-
 priorab = Uniform(0, 10)
-aAll = [rand(priorab) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
-bAll = [rand(priorab) for i in 1:5000]
-alphasAll = [rand.(priorvec) for i in 1:5000]
+priorvec = push!(priorvec, priorab, priorab)
+
+priorsAll = [rand.(priorvec) for i in 1:5000]
 data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_isospectral(dt = 0.01)
@@ -94,14 +90,14 @@ traits = 8
 matrixTraits = traits + 1
 species = 7
 #######################################################################################################
-function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, traitAlpha, aAll, bAll)
+function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, priorsAll)
 res = []
 p = Progress(N, desc="Processing: ")  # Initialize progress meter
 
 for j in 1:N ## major loop for 5000 particles
 
-mat_parameters_true = Dict(root_num => (a = aAll[j], b=bAll[j], mu = mat_mu))
-trait_parameters_true = Dict(root_num => (alpha = alphasAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
+mat_parameters_true = Dict(root_num => (a = priorsAll[j][9], b=priorsAll[j][10], mu = mat_mu))
+trait_parameters_true = Dict(root_num => (alpha = priorsAll[j][1:8], mu = trait_mu, sigma = trait_sigma))
 
 tree_anole = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
 
@@ -113,40 +109,39 @@ dattraits = rundat[1:7] # 7 species
 reftraits = data[1:7] # 7 species
 
 vals = impTraits.(dattraits, reftraits)
-traitImportances = sum(kernel.(vals))
 
 datmats = rundat[8:14]
-refmats =data[8:14]
+refmats = data[8:14]
 datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
 matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
 
-Importances = [alphasAll[j], push!(traitImportances, matImportances)]
+Importances = [priorsAll[j], push!(traitImportances, matImportances)]
 push!(res, Importances)
 next!(p)
 end
 res
 end
 
-tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll, aAll, bAll)
-ass = [tst[i][1] for i in 1:5000]
-bs = 
-asswts = [tst[i][2] for i in 1:5000]
-cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
-@save "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" ass asswts bs alphas wts
-using PyPlot
+tst = sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, priorsAll)
+pars = [tst[i][1] for i in 1:N]
+wts = [tst[i][2] for i in 1:N]
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" pars wts
+#= using PyPlot
 # ##using Plots
 plotvec=[]
-x = range(0, 20, length=100)
-for k in 1:9
-alphastraitk = [alphas[i][k] for i in 1:5000]
-wtstraitk = [wts[i][k] for i in 1:5000]
-wtstrait1normalised = Weights(wtstraitk)
-samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
+x1 = range(0, 20, length=100)
+x2 = range(0, 3, length=100)
+## for k in 1:10
+parsk = [pars[i][k] for i in 1:5000]
+wtsparsk = [wts[i][k] for i in 1:5000]
+wtsparsknormalised = Weights(wtsparsk)
+samps1 = sample(parsk, wtsparsknormalised, 10000, replace=true)
  
 histogram!(samps1, normalize=true, label="Posterior Sample")
 density!(samps1, normalize=true, linewidth=3, color=:black, bandwith=100, trim=true, label="Posterior Density")
-plot!(x, pdf.(prior, x), color=:red, linewidth=3, label="Prior Density", trim=true)
+plot!(x1, pdf.(priorvec[k], x1), color=:red, linewidth=3, label="Prior Density", trim=true)
 push!(plotvec, plt)
 display(plt)
 # ### end
 
+ =#
