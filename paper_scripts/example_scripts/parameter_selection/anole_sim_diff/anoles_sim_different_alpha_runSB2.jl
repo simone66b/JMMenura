@@ -21,7 +21,7 @@ function species_subset(df, name)
     subset(df, :Species => species -> [coalesce(occursin(name,x), false) for x in species])
 end
 
-function kernel(distance, sigma=5)
+function kernel(distance, sigma=3)
     exp.(- distance.^2 ./ (2 * sigma^2))
 end
 
@@ -77,10 +77,10 @@ mat_evol_func = mat_evol(dt = 0.01)
 
 root_num = getroot(tree_anole).id
 
-## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-prior = Uniform(0, 5)
+prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
+## prior = Uniform(0.0, 5.0)
 priorvec = repeat([prior], 9)## 8 traits and one for the matrix_diff
-
+## priorvec = push!(priorvec, Truncated(Normal(0.0, 10.0), 0.0, Inf))
 alphasAll = [rand.(priorvec) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
 data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
