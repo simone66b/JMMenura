@@ -1,7 +1,7 @@
 ENV["MPLBACKEND"] = "tkagg"  # or "qt5agg"
 using PyPlot, JLD2, StatsBase, Distributions, XLSX, DataFrames
 PyPlot.matplotlib.use("tkagg")
-priorvec = repeat([Uniform(0, 20)], 9)
+priorvec = repeat([Uniform(0, 5)], 9)
 ##priormat = Uniform(0, 2.0)
 ## push!(priorvec, priormat)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
@@ -34,12 +34,12 @@ title(thisName)
      end
     
 if k == 9 
-    x = range(-1.0e-10,20, length=100)
+    x = range(0.0,5.0, length=100)
 else
-x = range(-1.0e-10, 20, length=100)
+x = range(0.0, 5.0, length=100)
 end
 y=pdf(priorvec[k], x)
-plot(x, y, color=:red, label="Prior")
+PyPlot.plot(x, y, color=:red, label="Prior")
  if k == 3
     legend()
 end

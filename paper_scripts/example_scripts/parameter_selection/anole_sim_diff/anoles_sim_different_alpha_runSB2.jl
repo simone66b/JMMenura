@@ -21,11 +21,11 @@ function species_subset(df, name)
     subset(df, :Species => species -> [coalesce(occursin(name,x), false) for x in species])
 end
 
-function kernel(distance, sigma=500)
+function kernel(distance, sigma=5)
     exp.(- distance.^2 ./ (2 * sigma^2))
 end
 
-impTraits(x, y) = (x - y) .^ 2.0
+impTraits(x, y) = abs.(x - y)
 
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli"))  # Change as needed
@@ -78,7 +78,7 @@ mat_evol_func = mat_evol(dt = 0.01)
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-prior = Uniform(0, 20)
+prior = Uniform(0, 5)
 priorvec = repeat([prior], 9)## 8 traits and one for the matrix_diff
 
 alphasAll = [rand.(priorvec) for i in 1:5000]## 8 + 1 draws from prior. 5000 particles
@@ -116,7 +116,7 @@ traitImportances = sum(kernel.(vals))
 datmats = rundat[8:14]
 refmats =data[8:14]
 datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
-matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
+matImportances = sum(kernel.(sqrt.(distanceSqr.(Fisher, datmats1, refmats1))))
 
 Importances = [alphasAll[j], push!(traitImportances, matImportances)]
 push!(res, Importances)
@@ -128,8 +128,8 @@ end
 tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphasAll)
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
-cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
-@save "/home/simoneb/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles.jld2" alphas wts
+## cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles.jld2" alphas wts
 # using PyPlot
 # ##using Plots
 # plotvec=[]
