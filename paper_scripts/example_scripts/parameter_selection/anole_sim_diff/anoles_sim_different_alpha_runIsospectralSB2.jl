@@ -18,11 +18,11 @@ function species_subset(df, name)
     subset(df, :Species => species -> [coalesce(occursin(name,x), false) for x in species])
 end
 
-function kernel(distance, sigma=500)
+function kernel(distance, sigma=3)
     exp.(- distance.^2 ./ (2 * sigma^2))
 end
 
-impTraits(x, y) = (x - y) .^ 2.0
+impTraits(x, y) = abs.(x - y)
 
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli"))  # Change as needed
@@ -75,10 +75,10 @@ mat_evol_func = mat_evol_isospectral(dt = 0.01)
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-priorAlpha = Uniform(0, 3)
-priorvec = repeat([priorAlpha], 8)## 8 traits and one for the matrix_diff
-priorab = Uniform(0, 10)
-priorvec = push!(priorvec, priorab, priorab)
+priorAB = Truncated(Normal(0.0, 10.0), 0.0, Inf)
+priorvec = repeat([priorAB], 10)## 8 traits and one for the matrix_diff
+##priorab = Uniform(0, 10)
+## priorvec = push!(priorvec, priorab, priorab)
 
 priorsAll = [rand.(priorvec) for i in 1:5000]
 data = [trait_means..., cov_mats...]
@@ -87,7 +87,7 @@ mat_evol_func = mat_evol_isospectral(dt = 0.01)
 
 N= 5000 ## number of particles
 traits = 8
-matrixTraits = traits + 1
+matrixTraits = traits + 2
 species = 7
 #######################################################################################################
 function sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, priorsAll)
@@ -113,9 +113,10 @@ vals = impTraits.(dattraits, reftraits)
 datmats = rundat[8:14]
 refmats = data[8:14]
 datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
-matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
+matImportances = sum(kernel.(sqrt.(distanceSqr.(Fisher, datmats1, refmats1))))
+traitImportances = sum(kernel.(vals))
 
-Importances = [priorsAll[j], push!(traitImportances, matImportances)]
+Importances = [priorsAll[j], push!(traitImportances, matImportances, matImportances)]
 push!(res, Importances)
 next!(p)
 end

@@ -39,7 +39,7 @@ title(thisName)
         ylabel("Density", fontsize=16)
      end
      if k ==8
-        xlabel(L"α \,\, Value", fontsize=16)
+        xlabel(raw"α Value", fontsize=16)
      end
     
 if k == 9 
@@ -53,7 +53,5 @@ PyPlot.plot(x, y, color=:red, label="Prior")
     legend(loc= 7) ## centre right
 end
 end
-
-
 
 PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/OUanoles.pdf")

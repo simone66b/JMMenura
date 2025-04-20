@@ -140,7 +140,7 @@ function menura_parameter_descend!(mat_parameters, trait_parameters, tree, trait
 end
 
 ################################
-# Funciton which work in place #
+# Function which work in place #
 ################################
 
 function menura_in_place!(tree, trait_evol::Function, matrix_evol::Function, t0::Float64, trait0::Vector{Float64}

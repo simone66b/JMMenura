@@ -20,11 +20,11 @@ function species_subset(df, name)
     subset(df, :Species => species -> [coalesce(occursin(name,x), false) for x in species])
 end
 
-function kernel(distance, sigma=500)
-    exp.(- distance.^2 ./ (2 * sigma^2))
+function kernel(distance, sigma=3.0)
+    exp.(- distance.^2.0 ./ (2.0 * sigma^2.0))
 end
 
-impTraits(x, y) = (x - y) .^ 2.0
+impTraits(x, y) = abs.(x - y) 
 
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli"))  # Change as needed
@@ -47,7 +47,6 @@ end
 
 species_traits = [species_subset(trait_data[:,2:11], x) for x in names2]
 
-
 trait_means = [describe(df[:,2:10], :mean)[2:9, 2] for df in species_traits]
 ## cov_mats = read_cov_mat.(files)
 
@@ -69,21 +68,23 @@ sigmaPrior = 10.0
 mat_mu = copy(P0)
 ## mat_sigma = sqrt(2)
 ## priorvec = repeat([Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)], 8)
-priorvec = repeat([Uniform(0, 3)], 8)
+
+prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
+priorvec = repeat([prior], 9)
 root_num = getroot(tree_anole).id
 data = [trait_means..., cov_mats...]
 trait_evol_func = trait_evol(dt = 0.01)
-mat_evol_func = mat_evol_affine(dt = 0.01)
+mat_evol_func = mat_evol_affine(dt = 0.01, cond_threshold=1.0e7)
 
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 ##priormat = Truncated(Normal(0.0, 0.5), 0.0, Inf)
-priormat = Uniform(0, 2.0)
+## priormat = Uniform(0, 2.0)
 ##priorvec = repeat([prior], 8)## 8 traits and one for the matrix_diff
-push!(priorvec, priormat)
+## push!(priorvec, priormat)
 
-sigmasAll = [rand.(priorvec) for i in 1:N]## 8 + 1 draws from prior. 5000 particles
+## sigmasAll = [rand.(priorvec) for i in 1:50000]## 8 + 1 draws from prior. 5000 particles
 mat_alpha = 0.0
 ## number of particles
 traits = 8
@@ -94,24 +95,28 @@ function sim(N)
     p = Progress(N, desc="Processing: ")  # Initialize progress meter
     # Change as needed
     
-    for j in 1:N ## major loop for 5000 particles
-        mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = sigmasAll[j][9]))
-        trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = sigmasAll[j][1:8]))
-        tree_anole1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
-
+    for j in 1:N ## major loop for 5000 particles     
         # Loop to rerun till stability
         sol_stable = false
         result = -1
-        reruns = 0
-        max_reruns = 1000
-        while !sol_stable && reruns <= max_reruns
-            result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole1, trait_evol_func, mat_evol_func, 0.0, trait_mu, P0, true);
-            reruns += 1
+        sigmasAll = rand.(priorvec)
+        ##reruns = 0
+        ## max_reruns = 10
+        while !sol_stable ## && reruns <= max_reruns
+            sigmasAll = rand.(priorvec)
+        mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = sigmasAll[9]))
+        trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = sigmasAll[1:8]))
+        tree_anole1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
+
+            result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole1, 
+            trait_evol_func, mat_evol_func, 0.0, trait_mu, P0, true);
+            
+            ## reruns += 1
             sol_stable = result[2]
-        end
-if !sol_stable 
-    continue
-end
+         end
+##if !sol_stable 
+  ##  continue
+##end
         rundat = get_data2(result)
 
         dattraits = rundat[1:7] # 7 species
@@ -121,15 +126,15 @@ end
         datmats = rundat[8:14]
         refmats =data[8:14]
         datmats1, refmats1 = Hermitian.(datmats), Hermitian.(refmats)
-        matImportances = sum(kernel.(distanceSqr.(Fisher, datmats1, refmats1)))
-        Importances = [sigmasAll[j], push!(traitImportances, matImportances)]
+        matImportances = sum(kernel.(sqrt.(distanceSqr.(Fisher, datmats1, refmats1))))
+        Importances = [sigmasAll, push!(traitImportances, matImportances)]
         push!(res, Importances)
         next!(p)
     end
     res
 end
 
-tst = sim(N)
+tst = sim(5000)
 sigmas = [tst[i][1] for i in 1:N]
 wts = [tst[i][2] for i in 1:N]
 @save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.jld2" sigmas wts

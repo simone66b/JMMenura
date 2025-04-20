@@ -263,9 +263,9 @@ end
 """
 Each must be true for this one. 
 """
-function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing, cond_threshold = 1.0e10, verbose = true)
+function mat_evol_affine(;dt = 0.001::Float64, mat_err = missing,  cond_threshold = 1.0e10, verbose = true)
     function mat_evolving!(ancestor_mat, node, para::NamedTuple, tspan::Tuple{Float64, Float64}, each::Bool)
-
+       
         uu0 = convert(Matrix{Float64}, log(Hermitian(ancestor_mat)))
 
         mu2 = convert(Matrix{Float64}, log(Hermitian(para.mu)))
