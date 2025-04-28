@@ -65,7 +65,7 @@ P0 = copy(Ganc)
 ## trait_alpha = repeat([1.0], n)
 trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
-sigmaPrior = 10.0
+sigmaPrior = 50.0
 ## mat_alpha = 0.5
 mat_mu = copy(P0)
 mat_sigma = sqrt(2)
@@ -129,7 +129,7 @@ tst = sim(5000, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, alphas
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 ## cd("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/")
-@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles.jld2" alphas wts
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles50.jld2" alphas wts
 # using PyPlot
 # ##using Plots
 # plotvec=[]

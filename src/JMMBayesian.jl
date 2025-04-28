@@ -260,6 +260,8 @@ function get_data2(sim_data)
     traits = [tip.data["trait_trace"][end] for tip in getleaves(tree)]
     mats = [tip.data["mat_trace"][end] for tip in getleaves(tree)]
     data = [traits..., mats...]
+    return sim_data[2] ? data : Array{Float64}(undef, 0, 0)
+
     return data
 end 
 
