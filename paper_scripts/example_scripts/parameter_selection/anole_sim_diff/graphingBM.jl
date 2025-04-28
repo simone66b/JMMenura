@@ -1,17 +1,17 @@
 ENV["MPLBACKEND"] = "tkagg"  # or "qt5agg"
 using PyPlot, JLD2, StatsBase, Distributions, XLSX, DataFrames
 PyPlot.matplotlib.use("tkagg")
-priorvec = repeat([Truncated(Normal(0, 10), 0, Inf)], 9)
+priorvec = repeat([Truncated(Normal(0, 50), 0, Inf)], 9)
 ##priormat = Uniform(0, 2.0)
 ## push!(priorvec, priormat)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
 nms = push!(names(trait_data)[4:11], "G-Matrix")
 ###pyplot()
-@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.jld2" sigmas wts
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.jld2" sigmas wts
 N = 5000
-labels = ['a', 'b' ,'c' ,'d' ,'e' ,'f' ,'g' , 'h' , 'i']
-
+## labels = ['a', 'b' ,'c' ,'d' ,'e' ,'f' ,'g' , 'h' , 'i']
+labels = collect('a':'i')
 ## figure(figsize=(30, 20), layout="tight")
 fig, axes = subplots(3,3,figsize=(15, 12))
 for k in 1:9
@@ -24,7 +24,7 @@ wtstrait1normalised = Weights(wtstraitk)
 
 samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
 subplot(3,3,k)
-hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior")
+hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=20)
 ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes,
             fontsize=12, va="top", ha="right")
 title(thisName)
@@ -37,9 +37,9 @@ title(thisName)
      end
     
 if k == 9 
-    x = range(0,2.0, length=100)
+    x = range(0.0, 2.0, length=100)
 else
-x = range(0, 35, length=100)
+x = range(0.0, 100.0, length=100)
 end
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
@@ -49,4 +49,4 @@ end
 end
 
 ## show()
-PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.pdf")
+PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.pdf")

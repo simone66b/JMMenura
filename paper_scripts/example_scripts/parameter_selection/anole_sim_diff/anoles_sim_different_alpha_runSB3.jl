@@ -64,7 +64,7 @@ N= 5000 ################## Change as required
 trait_alpha = repeat([0.0], 8)
 trait_mu = [mean(getindex.(trait_means, i)) for i in 1:8] #### repeat([0.0], n) ##
 ### trait_sigma = repeat([sqrt(2)], n)
-sigmaPrior = 10.0
+sigmaPrior = 50.0
 mat_mu = copy(P0)
 ## mat_sigma = sqrt(2)
 ## priorvec = repeat([Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)], 8)
@@ -107,16 +107,15 @@ function sim(N)
         mat_parameters_true = Dict(root_num => (alpha = mat_alpha, mu = mat_mu, sigma = sigmasAll[9]))
         trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = sigmasAll[1:8]))
         tree_anole1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/anoles_data/prunedscaled.tre") # Change as needed
-
+            try
             result = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, tree_anole1, 
             trait_evol_func, mat_evol_func, 0.0, trait_mu, P0, true);
-            
+            catch e
             ## reruns += 1
-            sol_stable = result[2]
-         end
-##if !sol_stable 
-  ##  continue
-##end
+            continue ### sol_stable = false 
+            end
+         sol_stable = result[2] 
+        end
         rundat = get_data2(result)
 
         dattraits = rundat[1:7] # 7 species
@@ -137,7 +136,7 @@ end
 tst = sim(5000)
 sigmas = [tst[i][1] for i in 1:N]
 wts = [tst[i][2] for i in 1:N]
-@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles.jld2" sigmas wts
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.jld2" sigmas wts
 # for k in 1:9
 # sigmastraitk = [sigmas[i][k] for i in 1:N]
 # wtstraitk = [wts[i][k] for i in 1:N]

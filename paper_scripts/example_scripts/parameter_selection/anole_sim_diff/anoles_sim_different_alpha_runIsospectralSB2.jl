@@ -75,7 +75,7 @@ mat_evol_func = mat_evol_isospectral(dt = 0.01)
 root_num = getroot(tree_anole).id
 
 ## prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
-priorAB = Truncated(Normal(0.0, 10.0), 0.0, Inf)
+priorAB = Truncated(Normal(0.0, 50.0), 0.0, Inf)
 priorvec = repeat([priorAB], 10)## 8 traits and one for the matrix_diff
 ##priorab = Uniform(0, 10)
 ## priorvec = push!(priorvec, priorab, priorab)
@@ -126,7 +126,7 @@ end
 tst = sim(N, tree_anole, trait_evol_func, mat_evol_func, trait_mu, P0, priorsAll)
 pars = [tst[i][1] for i in 1:N]
 wts = [tst[i][2] for i in 1:N]
-@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles.jld2" pars wts
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles50.jld2" pars wts
 #= using PyPlot
 # ##using Plots
 plotvec=[]

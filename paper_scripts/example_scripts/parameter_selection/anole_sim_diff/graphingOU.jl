@@ -6,14 +6,14 @@ PyPlot.matplotlib.use("tkagg")
 ## priorvec = push!(priorvec, Uniform(0,10))
 ##priormat = Uniform(0, 2.0)
 ## push!(priorvec, priormat)
-sigmaPrior = 10.0
+sigmaPrior = 50.0
 prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 priorvec = repeat([prior], 9)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
 nms = push!(names(trait_data)[4:11], "G-Matrix")
 ###pyplot()
-@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles.jld2" alphas wts
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles50.jld2" alphas wts
 N = 5000
 labels = ['a', 'b' ,'c' ,'d' ,'e' ,'f' ,'g' , 'h' , 'i']
 ## figure(figsize=(30, 20), layout="tight")
@@ -28,10 +28,10 @@ wtstrait1normalised = Weights(wtstraitk)
 
 samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
 subplot(3,3,k)
-hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior",bins=10)
+hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=200)
 ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes,
             fontsize=12, va="top", ha="right")
-            xlim(0, 40)
+            xlim(0, 10)
 
 title(thisName)
     
@@ -43,9 +43,9 @@ title(thisName)
      end
     
 if k == 9 
-    x = range(0.0,30.0, length=100)
+    x = range(0.0,10.0, length=100)
 else
-x = range(0.0, 30.0, length=100)
+x = range(0.0, 10.0, length=100)
 end
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
@@ -54,4 +54,4 @@ PyPlot.plot(x, y, color=:red, label="Prior")
 end
 end
 
-PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/OUanoles.pdf")
+PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/OUanoles50.pdf")

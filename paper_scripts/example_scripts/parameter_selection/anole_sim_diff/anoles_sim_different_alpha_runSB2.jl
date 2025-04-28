@@ -60,10 +60,13 @@ GancVec = [0.285, 0.118, 0.131, 0.053, 0.212, 0.172, 0.188, 0.210, 0.277,
 Ganc =zeros(8, 8)
 idx = tril!(trues(size(Ganc)))
 Ganc[idx] = GancVec
+Ganc = Hermitian(Ganc, :L)
 P0 = copy(Ganc)
-
+P0 = Matrix(P0)
 ## trait_alpha = repeat([1.0], n)
-trait_mu = repeat([0.0], n) ##
+
+trait_mu = mean.(eachrow(reduce(hcat, trait_means)))
+## trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
 sigmaPrior = 50.0
 ## mat_alpha = 0.5
@@ -71,11 +74,7 @@ mat_mu = copy(P0)
 mat_sigma = sqrt(2)
 root_num = getroot(tree_anole).id
 a_sim_res = []
-data = [trait_means..., cov_mats...]
-trait_evol_func = trait_evol(dt = 0.01)
-mat_evol_func = mat_evol(dt = 0.01)
 
-root_num = getroot(tree_anole).id
 
 prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 ## prior = Uniform(0.0, 5.0)
