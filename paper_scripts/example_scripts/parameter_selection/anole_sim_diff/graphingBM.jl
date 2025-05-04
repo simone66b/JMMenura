@@ -22,25 +22,30 @@ alphastraitk = [sigmas[i][k] for i in 1:N]
 wtstraitk = [wts[i][k] for i in 1:N]
 wtstrait1normalised = Weights(wtstraitk)
 
-samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
-subplot(3,3,k)
-hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=20)
-ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes,
-            fontsize=12, va="top", ha="right")
+    samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
+    subplot(3,3,k)
+    if k == 9
+        bins=10
+        xlim(0, 2)
+        x = range(0.0, 2.0, length=10)
+else
+    bins=200
+    xlim(0, 10)
+    x = range(0.0, 10.0, length=10)
+end
+hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=bins)
+ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes, fontsize=12, va="top", ha="right")
+
 title(thisName)
     
-     if k == 4
-        ylabel("Density", fontsize=16)
-     end
-     if k ==8
-        xlabel(raw"σ Value", fontsize=16)
-     end
-    
-if k == 9 
-    x = range(0.0, 2.0, length=100)
-else
-x = range(0.0, 100.0, length=100)
+if k == 4
+    ylabel("Density", fontsize=16)
 end
+
+if k ==8
+    xlabel(raw"σ Value", fontsize=16)
+ end
+    
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
  if k == 3
@@ -48,5 +53,5 @@ PyPlot.plot(x, y, color=:red, label="Prior")
 end
 end
 
-## show()
+### show()
 PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.pdf")

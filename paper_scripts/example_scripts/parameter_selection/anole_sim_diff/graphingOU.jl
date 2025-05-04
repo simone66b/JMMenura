@@ -53,5 +53,5 @@ PyPlot.plot(x, y, color=:red, label="Prior")
     legend(loc= 7) ## centre right
 end
 end
-
+## show()
 PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/OUanoles50.pdf")
