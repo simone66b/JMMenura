@@ -48,7 +48,7 @@ x = range(0.0, 10.0, length=10)
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
  if k == 3
-    legend(loc= 7) ## centre right
+    legend(loc= 1) ## centre right
 end
 end
 ## show()
