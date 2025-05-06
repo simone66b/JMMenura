@@ -7,6 +7,8 @@ priorvec = repeat([Truncated(Normal(0, 50), 0, Inf)], 9)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
 nms = push!(names(trait_data)[4:11], "G-Matrix")
+nms = ["Jaw Length", "Head Width", "Pectoral", "Pelvic", "Humerus", "Ulna", "Femur", "Tibia", "G-matrix"]
+
 ###pyplot()
 @load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.jld2" sigmas wts
 N = 5000
@@ -34,9 +36,9 @@ else
     x = range(0.0, 10.0, length=10)
 end
 hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=bins)
-ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes, fontsize=12, va="top", ha="right")
-
-title(thisName)
+## ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes, fontsize=12, va="top", ha="right")
+xlim(0,10)
+title("$(labels[k])) $thisName", loc="left")
     
 if k == 4
     ylabel("Density", fontsize=16)
@@ -45,13 +47,17 @@ end
 if k ==8
     xlabel(raw"σ Value", fontsize=16)
  end
+
+ if k == 9
+    xlim(0,2)
+ end
     
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
  if k == 3
-    legend(loc=7)
+    legend(loc=1)
 end
 end
 
-### show()
+## show()
 PyPlot.savefig("/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/BManoles50.pdf")
