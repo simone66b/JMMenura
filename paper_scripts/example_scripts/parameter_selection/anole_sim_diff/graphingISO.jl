@@ -7,6 +7,8 @@ priorvec = repeat([Truncated(Normal(0, 50), 0, Inf)], 10)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
 nms = push!(names(trait_data)[4:11], "G-Matrix a", "G-matrix b")
+nms = ["Jaw Length", "Head Width", "Pectoral", "Pelvic", "Humerus", "Ulna", "Femur", "Tibia", "G-matrix a", "G-matrix b"]
+
 ###pyplot()
 @load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUISOAnoles50.jld2" pars wts
 N = 5000

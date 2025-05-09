@@ -12,6 +12,7 @@ priorvec = repeat([prior], 9)
 trait_data = DataFrame(XLSX.readtable("/home/simoneb/Desktop/JMMenura/anoles_data/Adult measurements for divergence.xlsx", 
 "Pmatrix Measurements with outli")) 
 nms = push!(names(trait_data)[4:11], "G-Matrix")
+nms = ["Jaw Length", "Head Width", "Pectoral", "Pelvic", "Humerus", "Ulna", "Femur", "Tibia", "G-matrix"]
 ###pyplot()
 @load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/parameter_selection/anole_sim_diff/AlphaOUAnoles50.jld2" alphas wts
 N = 5000
@@ -29,11 +30,11 @@ wtstrait1normalised = Weights(wtstraitk)
 samps1 = sample(alphastraitk, wtstrait1normalised, 10000, replace=true)
 subplot(3,3,k)
 hist(samps1; density=true, color="skyblue", edgecolor="black", alpha=0.7, label="Posterior", bins=200)
-ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes,
-            fontsize=12, va="top", ha="right")
-            xlim(0, 10)
+#ax.text(0.95, 0.95, "($(labels[k]))", transform=ax.transAxes,
+#            fontsize=12, va="top", ha="right")
 
-title(thisName)
+xlim(0, 10)
+title("$(labels[k])) $thisName", loc="left")
     
      if k == 4
         ylabel("Density", fontsize=16)
@@ -42,15 +43,12 @@ title(thisName)
         xlabel(raw"α Value", fontsize=16)
      end
     
-if k == 9 
-    x = range(0.0,10.0, length=100)
-else
-x = range(0.0, 10.0, length=100)
-end
+
+x = range(0.0, 10.0, length=10)
 y=pdf(priorvec[k], x)
 PyPlot.plot(x, y, color=:red, label="Prior")
  if k == 3
-    legend(loc= 7) ## centre right
+    legend(loc= 1) ## centre right
 end
 end
 ## show()
