@@ -1,8 +1,8 @@
 using Pkg
-cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/importance_scripts")
-include("./../../../JMMenura/src/JMMenura.jl")
-## cd("/home/simoneb/Desktop/JMMenura")
-## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
+## cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/importance_scripts")
+include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
+cd("/home/simoneb/Desktop/JMMenura")
+Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
 using .JMMenura
@@ -10,21 +10,25 @@ using .JMMenura
 ##################################
 # Load reference simulation data #
 ##################################
-@load "./simulated/BM_model_larger_trait_3/OU_diff_larger_trait_3_para_ref_data.jld2" para_ref_data
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/BM_larger_trait_3/BM_larger_trait_3_para_ref_data.jld2" para_ref_data
 #####################
 # Set up parameters #
 #####################
-n = 4
+n = 4 ## traits
 num_species = 50 
-tree1 = open(parsenewick, "./anoles_data/bigsim.tre")
+## tree1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/bigsim.tre")
+## nu = Ultrametric(num_species)
+## trees = rand(nu,  ['A':'E';])
+## Phylo.write("/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/fiveTrees.tre", trees)
 
+trees = open(parsenexus, "fiveTrees.tre")
 # BM simulation for traits
 trait_alpha = repeat([0.0], n)
 trait_mu = repeat([0.0], n) ##
 
 # BM simulation for matrix
-@load "./anoles_data/P0.jld2"
-@load "./anoles_data/P1.jld2"
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P0.jld2"
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P1.jld2"
 mat_alpha = 0.0
 mat_mu = copy(P0)
 
@@ -38,7 +42,7 @@ start_trait_alpha = [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
+trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 sigmaPrior = 50
@@ -62,7 +66,7 @@ function impTraits(x, y)
     return abs.(x - y)
 end
 
-function sim(N)
+function sim(N, this_tree)
     res = []
     unrun = []
     p = Progress(N, desc="Processing: ")  # Initialize progress meter
@@ -70,7 +74,9 @@ function sim(N)
     reruns = 0
     for j in 1:N ## major loop for 5000 particles
 
-        tree1 = open(parsenewick, "./anoles_data/bigsim.tre")
+        ##tree1 = open(parsenewick, "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/bigsim.tre")
+       
+
 
         # Loop to rerun till stability
         sol_stable = false
@@ -113,6 +119,7 @@ function sim(N)
 end
 
 # Perform simulation
-tst, unrun = sim(5000)
-
-@save "./simulated/BM_model_larger_trait_3/BM_model_larger_trait_3_importance_result.jld2" tst unrun
+for i in 1:5 
+tst, unrun = sim(5000, trees[i])
+end
+@save "./simulated/BM_model_larger_trait_3/BM_model_larger_trait_3_importance_resultTST.jld2" tst unrun
