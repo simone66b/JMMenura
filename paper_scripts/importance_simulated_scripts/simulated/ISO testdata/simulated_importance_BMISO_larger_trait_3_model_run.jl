@@ -46,19 +46,17 @@ trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
 # Same starting conditions as OU
-start_trait_alpha = [2, 4, 6, 8]
+start_trait_alpha = repeat([0.0], n) ## 2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) ## start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 sigmaPrior = 50
 prior = Truncated(Normal(0.0, sigmaPrior), 0.0, Inf)
 priorvec = repeat([prior], n+1) # 4 traits and one for the matrix_diff
 sigmasAll = [rand.(priorvec) for i in 1:5000]## 8 + 2 draws from prior. 5000 particles
-
-
 
 function get_data2(sim_data)
     tree = sim_data[1]

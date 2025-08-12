@@ -48,11 +48,11 @@ trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_isospectral(dt = 0.01)
 
 # Same starting conditions as OU
-start_trait_alpha = [2, 4, 6, 8]
+start_trait_alpha = rep([0.0], n) ## [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) ## start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 mat_mu = copy(P0)
 mat_alpha = 0.0

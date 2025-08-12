@@ -35,11 +35,11 @@ mat_evol_func = mat_evol_affine(dt = 0.01)
 root_num = getroot(tree1).id
 
 # Same starting conditions as OU
-start_trait_alpha = [2, 4, 6, 8]
+start_trait_alpha = repeat([0.0], n) ## [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n)  ### start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 sigmaPrior = 50
@@ -114,6 +114,6 @@ function sim(N)
 end
 
 # Perform simulation
-tst, unrun = sim(5000)
+res, unrun = sim(5000)
 
 @save "./simulated/BM_larger_trait_3/BM_larger_trait_3_importance_result.jld2" tst unrun 

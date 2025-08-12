@@ -1,0 +1,511 @@
+Precompiling DifferentialEquations...
+┌ Warning: attempting to remove probably stale pidfile
+│   path = "/home/simoneb/.julia/compiled/v1.11/Moshi/AXKwX_yy7sM.ji.pidfile"
+└ @ FileWatching.Pidfile ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/FileWatching/src/pidfile.jl:249
+    LinearAlgebraExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/LinearAlgebraExt/Pm3AL_yy7sM.ji.pidfile)
+    StaticArrays Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StaticArrays/yY9vm_yy7sM.ji.pidfile)
+    BandedMatrices Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BandedMatrices/OxlqV_yy7sM.ji.pidfile)
+    ExponentialUtilities Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/ExponentialUtilities/gINTF_yy7sM.ji.pidfile)
+    StatsBase Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StatsBase/EZjIG_yy7sM.ji.pidfile)
+    SpecialFunctionsChainRulesCoreExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/SpecialFunctionsChainRulesCoreExt/wr3Ok_yy7sM.ji.pidfile)
+┌ Warning: attempting to remove probably stale pidfile
+│   path = "/home/simoneb/.julia/compiled/v1.11/HypergeometricFunctions/tHlAh_yy7sM.ji.pidfile"
+└ @ FileWatching.Pidfile ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/FileWatching/src/pidfile.jl:249
+┌ Warning: attempting to remove probably stale pidfile
+│   path = "/home/simoneb/.julia/compiled/v1.11/LevyArea/gmMkI_yy7sM.ji.pidfile"
+└ @ FileWatching.Pidfile ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/FileWatching/src/pidfile.jl:249
+┌ Warning: attempting to remove probably stale pidfile
+│   path = "/home/simoneb/.julia/compiled/v1.11/ForwardDiff/k0ETY_yy7sM.ji.pidfile"
+└ @ FileWatching.Pidfile ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/FileWatching/src/pidfile.jl:249
+┌ Warning: attempting to remove probably stale pidfile
+│   path = "/home/simoneb/.julia/compiled/v1.11/DifferentiationInterfaceSparseMatrixColoringsExt/Ze6MR_yy7sM.ji.pidfile"
+└ @ FileWatching.Pidfile ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/FileWatching/src/pidfile.jl:249
+    Polyester Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Polyester/V16F5_yy7sM.ji.pidfile)
+   1377.5 ms  ✓ Accessors → LinearAlgebraExt
+    SciMLOperators Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SciMLOperators/G7AwB_yy7sM.ji.pidfile)
+    SymbolicIndexingInterface Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SymbolicIndexingInterface/nIEWT_yy7sM.ji.pidfile)
+   1531.0 ms  ✓ LevyArea
+   1430.7 ms  ✓ Polyester
+    FastBroadcast Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/FastBroadcast/4ZWkL_yy7sM.ji.pidfile)
+   2455.0 ms  ✓ DifferentiationInterface → DifferentiationInterfaceSparseMatrixColoringsExt
+   2961.1 ms  ✓ HypergeometricFunctions
+    StatsFuns Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StatsFuns/530lR_yy7sM.ji.pidfile)
+   1902.8 ms  ✓ FastBroadcast
+   4054.3 ms  ✓ SpecialFunctions → SpecialFunctionsChainRulesCoreExt
+   3131.8 ms  ✓ SciMLOperators
+    SciMLOperatorsStaticArraysCoreExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SciMLOperatorsStaticArraysCoreExt/1x2Xl_yy7sM.ji.pidfile)
+    SciMLOperatorsSparseArraysExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SciMLOperatorsSparseArraysExt/XG7P7_yy7sM.ji.pidfile)
+   3242.4 ms  ✓ SymbolicIndexingInterface
+    RecursiveArrayTools Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/RecursiveArrayTools/6B7tG_yy7sM.ji.pidfile)
+   1217.6 ms  ✓ SciMLOperators → SciMLOperatorsStaticArraysCoreExt
+   5470.6 ms  ✓ StatsBase
+   1451.5 ms  ✓ SciMLOperators → SciMLOperatorsSparseArraysExt
+   3692.2 ms  ✓ StatsFuns
+    StatsFunsInverseFunctionsExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StatsFunsInverseFunctionsExt/q61Ri_yy7sM.ji.pidfile)
+    StatsFunsChainRulesCoreExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StatsFunsChainRulesCoreExt/CNges_yy7sM.ji.pidfile)
+    Distributions Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Distributions/xILW0_yy7sM.ji.pidfile)
+   1235.4 ms  ✓ StatsFuns → StatsFunsInverseFunctionsExt
+   8020.1 ms  ✓ ForwardDiff
+   4503.9 ms  ✓ RecursiveArrayTools
+    RecursiveArrayToolsForwardDiffExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/RecursiveArrayToolsForwardDiffExt/hFOID_yy7sM.ji.pidfile)
+    RecursiveArrayToolsFastBroadcastExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/RecursiveArrayToolsFastBroadcastExt/xYqlt_yy7sM.ji.pidfile)
+    RecursiveArrayToolsSparseArraysExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/RecursiveArrayToolsSparseArraysExt/bbZ8J_yy7sM.ji.pidfile)
+   1756.2 ms  ✓ FastPower → FastPowerForwardDiffExt
+   1874.8 ms  ✓ PreallocationTools
+   3428.8 ms  ✓ StatsFuns → StatsFunsChainRulesCoreExt
+   2112.9 ms  ✓ DifferentiationInterface → DifferentiationInterfaceForwardDiffExt
+   1590.0 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsFastBroadcastExt
+   1645.7 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsForwardDiffExt
+   2389.2 ms  ✓ NLSolversBase
+   1706.6 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsSparseArraysExt
+  11736.6 ms  ✓ Krylov
+   3013.3 ms  ✓ LineSearches
+  13876.3 ms  ✓ StaticArrays
+    StaticArraysStatisticsExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StaticArraysStatisticsExt/EfhbW_yy7sM.ji.pidfile)
+    StaticArraysChainRulesCoreExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StaticArraysChainRulesCoreExt/ETade_yy7sM.ji.pidfile)
+    ArnoldiMethod Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/ArnoldiMethod/zP00S_yy7sM.ji.pidfile)
+    DifferentiationInterfaceStaticArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/DifferentiationInterfaceStaticArraysExt/etrLL_yy7sM.ji.pidfile)
+    ConstructionBaseStaticArraysExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/ConstructionBaseStaticArraysExt/MmdaU_yy7sM.ji.pidfile)
+    ResettableStacks Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/ResettableStacks/jhukk_yy7sM.ji.pidfile)
+    StaticArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StaticArraysExt/sIz4V_yy7sM.ji.pidfile)
+    FiniteDiffStaticArraysExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/FiniteDiffStaticArraysExt/hU6OA_yy7sM.ji.pidfile)
+   2468.1 ms  ✓ StaticArrays → StaticArraysChainRulesCoreExt
+   2476.4 ms  ✓ ConstructionBase → ConstructionBaseStaticArraysExt
+   2538.6 ms  ✓ DifferentiationInterface → DifferentiationInterfaceStaticArraysExt
+   2482.9 ms  ✓ Adapt → AdaptStaticArraysExt
+   2447.7 ms  ✓ StaticArrayInterface → StaticArrayInterfaceStaticArraysExt
+   2514.9 ms  ✓ FiniteDiff → FiniteDiffStaticArraysExt
+   2703.4 ms  ✓ StaticArrays → StaticArraysStatisticsExt
+   2599.4 ms  ✓ ResettableStacks
+   2988.7 ms  ✓ Accessors → StaticArraysExt
+   2997.1 ms  ✓ ForwardDiff → ForwardDiffStaticArraysExt
+   3681.3 ms  ✓ LazyArrays → LazyArraysStaticArraysExt
+   3804.8 ms  ✓ ArnoldiMethod
+    Graphs Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Graphs/VJ6vx_yy7sM.ji.pidfile)
+   4362.4 ms  ✓ NLsolve
+  19482.5 ms  ✓ Moshi
+  11562.2 ms  ✓ Distributions
+    DistributionsChainRulesCoreExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/DistributionsChainRulesCoreExt/uFTmV_yy7sM.ji.pidfile)
+   4474.8 ms  ✓ FastGaussQuadrature
+   1420.6 ms  ✓ Distributions → DistributionsChainRulesCoreExt
+   6666.3 ms  ✓ Optim
+   5721.5 ms  ✓ Graphs
+    VertexSafeGraphs Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/VertexSafeGraphs/rbQnM_yy7sM.ji.pidfile)
+   1445.3 ms  ✓ VertexSafeGraphs
+  27935.3 ms  ✓ BandedMatrices
+    BandedMatricesSparseArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BandedMatricesSparseArraysExt/jEPZv_yy7sM.ji.pidfile)
+    ArrayInterfaceBandedMatricesExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/ArrayInterfaceBandedMatricesExt/u5a6D_yy7sM.ji.pidfile)
+    LazyArraysBandedMatricesExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/LazyArraysBandedMatricesExt/EgnLE_yy7sM.ji.pidfile)
+    MatrixFactorizationsBandedMatricesExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/MatrixFactorizationsBandedMatricesExt/3zlYy_yy7sM.ji.pidfile)
+    FiniteDiffBandedMatricesExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/FiniteDiffBandedMatricesExt/0IUGA_yy7sM.ji.pidfile)
+   3105.7 ms  ✓ SparseDiffTools
+  10071.8 ms  ✓ SciMLBase
+   1666.5 ms  ✓ FiniteDiff → FiniteDiffBandedMatricesExt
+   2033.5 ms  ✓ ArrayInterface → ArrayInterfaceBandedMatricesExt
+   1892.9 ms  ✓ SciMLBase → SciMLBaseChainRulesCoreExt
+   2596.3 ms  ✓ BandedMatrices → BandedMatricesSparseArraysExt
+   2582.0 ms  ✓ MatrixFactorizations → MatrixFactorizationsBandedMatricesExt
+   2571.3 ms  ✓ SparseDiffTools → SparseDiffToolsPolyesterExt
+   3253.2 ms  ✓ LazyArrays → LazyArraysBandedMatricesExt
+    FastAlmostBandedMatrices Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/FastAlmostBandedMatrices/jcRYP_yy7sM.ji.pidfile)
+   4170.0 ms  ✓ SciMLJacobianOperators
+   7192.8 ms  ✓ DiffEqBase
+   2405.7 ms  ✓ DiffEqBase → DiffEqBaseSparseArraysExt
+   2921.7 ms  ✓ DiffEqBase → DiffEqBaseChainRulesCoreExt
+    JumpProcesses Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/JumpProcesses/Ysdrs_yy7sM.ji.pidfile)
+   2930.8 ms  ✓ DiffEqBase → DiffEqBaseDistributionsExt
+   6201.8 ms  ✓ LineSearch
+   3582.0 ms  ✓ DiffEqBase → DiffEqBaseForwardDiffExt
+   2042.8 ms  ✓ LineSearch → LineSearchLineSearchesExt
+   6714.6 ms  ✓ OrdinaryDiffEqCore
+   7280.2 ms  ✓ DiffEqCallbacks
+  10346.8 ms  ✓ NonlinearSolveBase
+   5609.1 ms  ✓ DiffEqNoiseProcess
+    NonlinearSolveBaseLineSearchExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveBaseLineSearchExt/V9CmJ_yy7sM.ji.pidfile)
+    NonlinearSolveBaseDiffEqBaseExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveBaseDiffEqBaseExt/bXiki_yy7sM.ji.pidfile)
+    BracketingNonlinearSolve Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/BracketingNonlinearSolve/dghrV_yy7sM.ji.pidfile)
+   6297.0 ms  ✓ JumpProcesses
+   3176.8 ms  ✓ OrdinaryDiffEqCore → OrdinaryDiffEqCoreEnzymeCoreExt
+    OrdinaryDiffEqTsit5 Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqTsit5/41wm2_yy7sM.ji.pidfile)
+    OrdinaryDiffEqPRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqPRK/oxyJW_yy7sM.ji.pidfile)
+    OrdinaryDiffEqExplicitRK Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqExplicitRK/qN4KQ_yy7sM.ji.pidfile)
+    OrdinaryDiffEqStabilizedRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqStabilizedRK/8TE07_yy7sM.ji.pidfile)
+   4174.8 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseSparseMatrixColoringsExt
+   4152.8 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseSparseArraysExt
+   4160.5 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseForwardDiffExt
+   2440.6 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseLineSearchExt
+    OrdinaryDiffEqRKN Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqRKN/Ew5ZD_yy7sM.ji.pidfile)
+    OrdinaryDiffEqQPRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqQPRK/L190g_yy7sM.ji.pidfile)
+    OrdinaryDiffEqHighOrderRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqHighOrderRK/yTEdZ_yy7sM.ji.pidfile)
+    OrdinaryDiffEqSymplecticRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqSymplecticRK/sznXF_yy7sM.ji.pidfile)
+    OrdinaryDiffEqLowOrderRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqLowOrderRK/437gb_yy7sM.ji.pidfile)
+    OrdinaryDiffEqVerner Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqVerner/ruT55_yy7sM.ji.pidfile)
+    OrdinaryDiffEqFeagin Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqFeagin/ysmGW_yy7sM.ji.pidfile)
+    OrdinaryDiffEqLowStorageRK Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqLowStorageRK/zTMC4_yy7sM.ji.pidfile)
+   2443.2 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseDiffEqBaseExt
+    NonlinearSolveSpectralMethods Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveSpectralMethods/vhrwB_yy7sM.ji.pidfile)
+   4995.1 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseBandedMatricesExt
+   9133.9 ms  ✓ SteadyStateDiffEq
+  26365.6 ms  ✓ FastAlmostBandedMatrices
+  26822.2 ms  ✓ BracketingNonlinearSolve
+  25753.4 ms  ✓ OrdinaryDiffEqExplicitRK
+  24384.8 ms  ✓ OrdinaryDiffEqFeagin
+  24384.6 ms  ✓ OrdinaryDiffEqLowStorageRK
+  24383.7 ms  ✓ NonlinearSolveSpectralMethods
+  26068.1 ms  ✓ OrdinaryDiffEqFunctionMap
+  25588.9 ms  ✓ OrdinaryDiffEqSSPRK
+  24613.8 ms  ✓ OrdinaryDiffEqSymplecticRK
+    NonlinearSolveSpectralMethodsForwardDiffExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveSpectralMethodsForwardDiffExt/jMsv6_yy7sM.ji.pidfile)
+  41597.4 ms  ✓ LinearSolve
+  33853.7 ms  ✓ Sundials
+    BracketingNonlinearSolveForwardDiffExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/BracketingNonlinearSolveForwardDiffExt/ak3V3_yy7sM.ji.pidfile)
+  29006.8 ms  ✓ OrdinaryDiffEqTsit5
+  28962.4 ms  ✓ OrdinaryDiffEqPRK
+  28735.6 ms  ✓ OrdinaryDiffEqStabilizedRK
+  27533.3 ms  ✓ OrdinaryDiffEqRKN
+  27533.3 ms  ✓ OrdinaryDiffEqQPRK
+  27538.2 ms  ✓ OrdinaryDiffEqHighOrderRK
+  27537.5 ms  ✓ OrdinaryDiffEqLowOrderRK
+    OrdinaryDiffEqAdamsBashforthMoulton Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqAdamsBashforthMoulton/iK9eS_yy7sM.ji.pidfile)
+    342.5 ms  ✓ OrdinaryDiffEqAdamsBashforthMoulton
+   3518.3 ms  ✓ BracketingNonlinearSolve → BracketingNonlinearSolveForwardDiffExt
+    SimpleNonlinearSolve Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SimpleNonlinearSolve/s3W17_yy7sM.ji.pidfile)
+   3897.9 ms  ✓ NonlinearSolveSpectralMethods → NonlinearSolveSpectralMethodsForwardDiffExt
+   4317.7 ms  ✓ OrdinaryDiffEqNordsieck
+   6559.6 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseLinearSolveExt
+   8490.4 ms  ✓ LinearSolve → LinearSolveEnzymeExt
+   8029.8 ms  ✓ LinearSolve → LinearSolveBandedMatricesExt
+   7970.5 ms  ✓ LinearSolve → LinearSolveFastAlmostBandedMatricesExt
+  83237.3 ms  ✓ ExponentialUtilities
+    ExponentialUtilitiesStaticArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/ExponentialUtilitiesStaticArraysExt/gv0qr_yy7sM.ji.pidfile)
+  12370.1 ms  ✓ LinearSolve → LinearSolveSparseArraysExt
+    NonlinearSolveQuasiNewton Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveQuasiNewton/U7BzS_yy7sM.ji.pidfile)
+   2739.8 ms  ✓ ExponentialUtilities → ExponentialUtilitiesStaticArraysExt
+   6737.9 ms  ✓ OrdinaryDiffEqDifferentiation
+  19940.0 ms  ✓ SimpleNonlinearSolve
+    SimpleNonlinearSolveDiffEqBaseExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/SimpleNonlinearSolveDiffEqBaseExt/yJeb7_yy7sM.ji.pidfile)
+   2908.2 ms  ✓ SimpleNonlinearSolve → SimpleNonlinearSolveChainRulesCoreExt
+   3160.4 ms  ✓ SimpleNonlinearSolve → SimpleNonlinearSolveDiffEqBaseExt
+  11216.5 ms  ✓ OrdinaryDiffEqExtrapolation
+  22245.0 ms  ✓ NonlinearSolveQuasiNewton
+  63429.3 ms  ✓ OrdinaryDiffEqVerner
+    OrdinaryDiffEqLinear Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqLinear/M98fk_yy7sM.ji.pidfile)
+   3185.8 ms  ✓ NonlinearSolveQuasiNewton → NonlinearSolveQuasiNewtonForwardDiffExt
+   2293.7 ms  ✓ OrdinaryDiffEqLinear
+  33215.4 ms  ✓ NonlinearSolveFirstOrder
+    BoundaryValueDiffEqCore Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BoundaryValueDiffEqCore/5Fpvd_yy7sM.ji.pidfile)
+    NonlinearSolve Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolve/8YWaI_yy7sM.ji.pidfile)
+  28904.5 ms  ✓ OrdinaryDiffEqRosenbrock
+   5258.3 ms  ✓ BoundaryValueDiffEqCore
+    BoundaryValueDiffEqAscher Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BoundaryValueDiffEqAscher/ICLpl_yy7sM.ji.pidfile)
+    BoundaryValueDiffEqFIRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BoundaryValueDiffEqFIRK/ughQx_yy7sM.ji.pidfile)
+    BoundaryValueDiffEqMIRK Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/BoundaryValueDiffEqMIRK/6bkfK_yy7sM.ji.pidfile)
+  11655.2 ms  ✓ NonlinearSolve
+    NonlinearSolveNLsolveExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveNLsolveExt/IOynl_yy7sM.ji.pidfile)
+    NonlinearSolveSundialsExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/NonlinearSolveSundialsExt/OBPjh_yy7sM.ji.pidfile)
+    OrdinaryDiffEqNonlinearSolve Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqNonlinearSolve/jGadk_yy7sM.ji.pidfile)
+   7053.1 ms  ✓ BoundaryValueDiffEqAscher
+   7458.9 ms  ✓ BoundaryValueDiffEqMIRKN
+   4629.1 ms  ✓ NonlinearSolve → NonlinearSolveNLsolveExt
+   4896.2 ms  ✓ NonlinearSolve → NonlinearSolveSundialsExt
+   5450.3 ms  ✓ OrdinaryDiffEqNonlinearSolve
+    OrdinaryDiffEqPDIRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqPDIRK/oJmXi_yy7sM.ji.pidfile)
+    OrdinaryDiffEqStabilizedIRK Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqStabilizedIRK/Ioqfb_yy7sM.ji.pidfile)
+    OrdinaryDiffEqSDIRK Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqSDIRK/gKeQT_yy7sM.ji.pidfile)
+    OrdinaryDiffEqIMEXMultistep Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqIMEXMultistep/KRumG_yy7sM.ji.pidfile)
+   5831.3 ms  ✓ OrdinaryDiffEqIMEXMultistep
+   6270.7 ms  ✓ OrdinaryDiffEqStabilizedIRK
+   7401.7 ms  ✓ OrdinaryDiffEqPDIRK
+   9028.2 ms  ✓ OrdinaryDiffEqSDIRK
+    OrdinaryDiffEqExponentialRK Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqExponentialRK/DRjIX_yy7sM.ji.pidfile)
+    OrdinaryDiffEqBDF Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OrdinaryDiffEqBDF/DafTP_yy7sM.ji.pidfile)
+   6675.5 ms  ✓ OrdinaryDiffEqExponentialRK
+  16580.3 ms  ✓ StochasticDiffEq
+  26280.0 ms  ✓ OrdinaryDiffEqFIRK
+  18069.8 ms  ✓ OrdinaryDiffEqBDF
+  26862.3 ms  ✓ OrdinaryDiffEqDefault
+   7154.3 ms  ✓ OrdinaryDiffEq
+   9158.9 ms  ✓ DelayDiffEq
+   9308.3 ms  ✓ BoundaryValueDiffEqShooting
+  94583.3 ms  ✓ BoundaryValueDiffEqMIRK
+ 132497.1 ms  ✓ BoundaryValueDiffEqFIRK
+    BoundaryValueDiffEq Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/BoundaryValueDiffEq/Levrg_yy7sM.ji.pidfile)
+   6472.0 ms  ✓ BoundaryValueDiffEq
+    DifferentialEquations Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/DifferentialEquations/UQdwS_yy7sM.ji.pidfile)
+   9270.3 ms  ✓ DifferentialEquations
+  141 dependencies successfully precompiled in 277 seconds. 165 already precompiled.
+Precompiling JLD2...
+    JLD2 Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/JLD2/O1EyT_yy7sM.ji.pidfile)
+  22865.7 ms  ✓ JLD2
+  1 dependency successfully precompiled in 24 seconds. 31 already precompiled.
+Precompiling Phylo...
+    PrettyTables Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/PrettyTables/kRdcL_yy7sM.ji.pidfile)
+    695.9 ms  ✓ IntervalSets
+    IntervalSetsRandomExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/IntervalSetsRandomExt/GqezX_yy7sM.ji.pidfile)
+    724.5 ms  ✓ InlineStrings
+    393.8 ms  ✓ IntervalSets → IntervalSetsStatisticsExt
+    504.4 ms  ✓ IntervalSets → IntervalSetsRecipesBaseExt
+    503.1 ms  ✓ IntervalSets → IntervalSetsRandomExt
+    AxisArrays Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/AxisArrays/zm48T_yy7sM.ji.pidfile)
+    659.5 ms  ✓ AxisArrays
+  16900.9 ms  ✓ PrettyTables
+    DataFrames Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/DataFrames/AR9oZ_yy7sM.ji.pidfile)
+  17608.9 ms  ✓ Unitful
+  33321.5 ms  ✓ DataFrames
+    Phylo Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Phylo/9tAbj_yy7sM.ji.pidfile)
+   4439.2 ms  ✓ Phylo
+  10 dependencies successfully precompiled in 59 seconds. 86 already precompiled.
+Precompiling UnitfulExt...
+    Scratch Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Scratch/ICI1U_yy7sM.ji.pidfile)
+    Latexify Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Latexify/AItXo_yy7sM.ji.pidfile)
+    InverseFunctionsUnitfulExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/InverseFunctionsUnitfulExt/77rDl_yy7sM.ji.pidfile)
+    ConstructionBaseUnitfulExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/ConstructionBaseUnitfulExt/XxhMX_yy7sM.ji.pidfile)
+    TestExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/TestExt/hMow3_yy7sM.ji.pidfile)
+    UnitfulExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/UnitfulExt/dmt9b_yy7sM.ji.pidfile)
+    OpenSSL_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OpenSSL_jll/M3X35_yy7sM.ji.pidfile)
+    Xorg_libICE_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libICE_jll/06LST_yy7sM.ji.pidfile)
+    Libffi_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Libffi_jll/y4lM8_yy7sM.ji.pidfile)
+    Wayland_protocols_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Wayland_protocols_jll/FwDhI_yy7sM.ji.pidfile)
+    Libuuid_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Libuuid_jll/H4xj5_yy7sM.ji.pidfile)
+    LLVMOpenMP_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/LLVMOpenMP_jll/KocKf_yy7sM.ji.pidfile)
+    fzf_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/fzf_jll/kEuMt_yy7sM.ji.pidfile)
+    Ogg_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Ogg_jll/gOU2R_yy7sM.ji.pidfile)
+    Xorg_libXau_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXau_jll/S8Fsv_yy7sM.ji.pidfile)
+    libpng_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/libpng_jll/paYot_yy7sM.ji.pidfile)
+    LAME_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/LAME_jll/SFEUf_yy7sM.ji.pidfile)
+    Opus_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Opus_jll/vFQVB_yy7sM.ji.pidfile)
+   2439.5 ms  ✓ Pipe
+   1968.1 ms  ✓ StableRNGs
+   2434.3 ms  ✓ URIs
+   2075.5 ms  ✓ Xorg_xtrans_jll
+    XZ_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/XZ_jll/uX93p_yy7sM.ji.pidfile)
+    gperf_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/gperf_jll/yapsv_yy7sM.ji.pidfile)
+    libevdev_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/libevdev_jll/ycIBu_yy7sM.ji.pidfile)
+   2580.7 ms  ✓ Graphite2_jll
+   2756.4 ms  ✓ Accessors → UnitfulExt
+   3370.4 ms  ✓ mtdev_jll
+    ColorSchemes Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/ColorSchemes/EO5fj_yy7sM.ji.pidfile)
+    Dbus_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Dbus_jll/1kwKZ_yy7sM.ji.pidfile)
+    FreeType2_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/FreeType2_jll/AzWNe_yy7sM.ji.pidfile)
+   4550.7 ms  ✓ Scratch
+   3510.6 ms  ✓ Unitful → ConstructionBaseUnitfulExt
+   3512.1 ms  ✓ Unitful → InverseFunctionsUnitfulExt
+   3474.8 ms  ✓ Accessors → TestExt
+   3381.7 ms  ✓ LLVMOpenMP_jll
+    Xorg_libpthread_stubs_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libpthread_stubs_jll/Ef0AA_yy7sM.ji.pidfile)
+    Pixman_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Pixman_jll/yWAFT_yy7sM.ji.pidfile)
+   3127.0 ms  ✓ Opus_jll
+   3395.5 ms  ✓ fzf_jll
+   3264.0 ms  ✓ LAME_jll
+   3399.1 ms  ✓ Xorg_libICE_jll
+    RelocatableFolders Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/RelocatableFolders/Yg3O9_yy7sM.ji.pidfile)
+    Xorg_libSM_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libSM_jll/A09k2_yy7sM.ji.pidfile)
+   3399.1 ms  ✓ Wayland_protocols_jll
+    JLFzf Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/JLFzf/dM4lv_yy7sM.ji.pidfile)
+   3423.6 ms  ✓ OpenSSL_jll
+    OpenSSL Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/OpenSSL/B4VRP_yy7sM.ji.pidfile)
+   3500.4 ms  ✓ Libffi_jll
+   3616.2 ms  ✓ FriBidi_jll
+   3581.4 ms  ✓ libpng_jll
+   3675.7 ms  ✓ Ogg_jll
+   3684.5 ms  ✓ Libuuid_jll
+    libvorbis_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/libvorbis_jll/X4qYa_yy7sM.ji.pidfile)
+   3292.3 ms  ✓ Libmount_jll
+   3347.2 ms  ✓ libfdk_aac_jll
+   3701.4 ms  ✓ Xorg_libXau_jll
+   3688.6 ms  ✓ Xorg_libXdmcp_jll
+   3417.5 ms  ✓ LERC_jll
+   1700.4 ms  ✓ libevdev_jll
+   4056.3 ms  ✓ Gettext_jll
+   1811.1 ms  ✓ XZ_jll
+    Libtiff_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Libtiff_jll/f0w9B_yy7sM.ji.pidfile)
+   2053.2 ms  ✓ gperf_jll
+    eudev_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/eudev_jll/sB3LA_yy7sM.ji.pidfile)
+   2360.5 ms  ✓ Libgpg_error_jll
+    Libgcrypt_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Libgcrypt_jll/qUUnq_yy7sM.ji.pidfile)
+   1349.1 ms  ✓ Xorg_libpthread_stubs_jll
+   1458.4 ms  ✓ Pixman_jll
+   1526.5 ms  ✓ RelocatableFolders
+   1957.9 ms  ✓ FreeType2_jll
+    Fontconfig_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Fontconfig_jll/xsKJT_yy7sM.ji.pidfile)
+   2024.9 ms  ✓ Xorg_libSM_jll
+   2332.3 ms  ✓ Dbus_jll
+   2268.8 ms  ✓ Wayland_jll
+   2246.1 ms  ✓ libvorbis_jll
+   2627.5 ms  ✓ JLFzf
+   1724.8 ms  ✓ eudev_jll
+    libinput_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/libinput_jll/6TBe0_yy7sM.ji.pidfile)
+   1564.8 ms  ✓ Libgcrypt_jll
+    XSLT_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/XSLT_jll/HNSqD_yy7sM.ji.pidfile)
+   2191.7 ms  ✓ Libtiff_jll
+   2271.8 ms  ✓ Glib_jll
+   1553.3 ms  ✓ Fontconfig_jll
+   1059.4 ms  ✓ libinput_jll
+   1101.4 ms  ✓ XSLT_jll
+    Xorg_libxcb_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libxcb_jll/n4mZf_yy7sM.ji.pidfile)
+   3967.9 ms  ✓ OpenSSL
+    HTTP Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/HTTP/zXWya_yy7sM.ji.pidfile)
+   7905.6 ms  ✓ Latexify
+    UnitfulLatexify Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/UnitfulLatexify/trCzg_yy7sM.ji.pidfile)
+    SparseArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/SparseArraysExt/h5qXK_yy7sM.ji.pidfile)
+   1080.4 ms  ✓ Latexify → SparseArraysExt
+   1998.7 ms  ✓ Xorg_libxcb_jll
+    Xorg_xcb_util_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xcb_util_jll/oHgey_yy7sM.ji.pidfile)
+    Xorg_libX11_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libX11_jll/KzQhU_yy7sM.ji.pidfile)
+   6332.1 ms  ✓ ColorSchemes
+    PlotUtils Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/PlotUtils/YveHG_yy7sM.ji.pidfile)
+   2994.4 ms  ✓ UnitfulLatexify
+   1810.4 ms  ✓ Xorg_libX11_jll
+    Xorg_libXrender_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXrender_jll/izQY6_yy7sM.ji.pidfile)
+    Xorg_libXext_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXext_jll/H6ltV_yy7sM.ji.pidfile)
+    Xorg_libXfixes_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXfixes_jll/dilDp_yy7sM.ji.pidfile)
+    Xorg_libxkbfile_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libxkbfile_jll/PAhQT_yy7sM.ji.pidfile)
+   1846.0 ms  ✓ Xorg_xcb_util_jll
+    Xorg_xcb_util_keysyms_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xcb_util_keysyms_jll/J2ZCX_yy7sM.ji.pidfile)
+    Xorg_xcb_util_renderutil_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xcb_util_renderutil_jll/3elYg_yy7sM.ji.pidfile)
+    Xorg_xcb_util_image_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xcb_util_image_jll/dYB7z_yy7sM.ji.pidfile)
+   1568.8 ms  ✓ Xorg_libXext_jll
+    Xorg_libXinerama_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXinerama_jll/IG7Gi_yy7sM.ji.pidfile)
+    Libglvnd_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Libglvnd_jll/z0JB7_yy7sM.ji.pidfile)
+   1606.4 ms  ✓ Xorg_libXfixes_jll
+    Xorg_libXi_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXi_jll/1sAS5_yy7sM.ji.pidfile)
+   1621.3 ms  ✓ Xorg_xcb_util_renderutil_jll
+   1620.0 ms  ✓ Xorg_xcb_util_wm_jll
+   1652.0 ms  ✓ Xorg_xcb_util_keysyms_jll
+   1728.9 ms  ✓ Xorg_libxkbfile_jll
+    Xorg_xkbcomp_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xkbcomp_jll/lfGsl_yy7sM.ji.pidfile)
+   1827.9 ms  ✓ Xorg_libXrender_jll
+    Xorg_libXrandr_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXrandr_jll/UlKyO_yy7sM.ji.pidfile)
+    Cairo_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Cairo_jll/ouRHo_yy7sM.ji.pidfile)
+    Xorg_libXcursor_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_libXcursor_jll/iyuAX_yy7sM.ji.pidfile)
+   1834.1 ms  ✓ Xorg_xcb_util_image_jll
+    Xorg_xcb_util_cursor_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xcb_util_cursor_jll/XVAgT_yy7sM.ji.pidfile)
+   1277.0 ms  ✓ Xorg_xkbcomp_jll
+    Xorg_xkeyboard_config_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Xorg_xkeyboard_config_jll/Os86B_yy7sM.ji.pidfile)
+   1563.8 ms  ✓ Xorg_libXinerama_jll
+   1341.8 ms  ✓ Xorg_libXcursor_jll
+   1646.8 ms  ✓ Libglvnd_jll
+   1418.3 ms  ✓ Xorg_libXrandr_jll
+   1681.1 ms  ✓ Xorg_libXi_jll
+   1608.1 ms  ✓ Xorg_xcb_util_cursor_jll
+   1959.3 ms  ✓ Cairo_jll
+    HarfBuzz_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/HarfBuzz_jll/h60co_yy7sM.ji.pidfile)
+    910.7 ms  ✓ Xorg_xkeyboard_config_jll
+    xkbcommon_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/xkbcommon_jll/1mf1R_yy7sM.ji.pidfile)
+   1013.4 ms  ✓ xkbcommon_jll
+    Vulkan_Loader_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Vulkan_Loader_jll/MvdhX_yy7sM.ji.pidfile)
+   1396.5 ms  ✓ HarfBuzz_jll
+    libass_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/libass_jll/JqZi8_yy7sM.ji.pidfile)
+    Pango_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Pango_jll/lZI8Y_yy7sM.ji.pidfile)
+   1224.4 ms  ✓ Vulkan_Loader_jll
+    Qt6Base_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Qt6Base_jll/Lg7vK_yy7sM.ji.pidfile)
+   1269.6 ms  ✓ libass_jll
+    FFMPEG_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/FFMPEG_jll/uSD0T_yy7sM.ji.pidfile)
+   1541.3 ms  ✓ Pango_jll
+   1757.3 ms  ✓ libdecor_jll
+   2514.8 ms  ✓ Qt6Base_jll
+    Qt6ShaderTools_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Qt6ShaderTools_jll/O8E7A_yy7sM.ji.pidfile)
+   2903.0 ms  ✓ FFMPEG_jll
+    FFMPEG Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/FFMPEG/TGvga_yy7sM.ji.pidfile)
+   1706.3 ms  ✓ GLFW_jll
+   2701.2 ms  ✓ FFMPEG
+   3777.4 ms  ✓ Qt6ShaderTools_jll
+    Qt6Declarative_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Qt6Declarative_jll/rB4FL_yy7sM.ji.pidfile)
+   2272.8 ms  ✓ GR_jll
+  14978.3 ms  ✓ PlotUtils
+    RecipesPipeline Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/RecipesPipeline/QQIne_yy7sM.ji.pidfile)
+   3563.4 ms  ✓ Qt6Declarative_jll
+    Qt6Wayland_jll Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/Qt6Wayland_jll/mzY2s_yy7sM.ji.pidfile)
+   3177.4 ms  ✓ Qt6Wayland_jll
+   6082.3 ms  ✓ PlotThemes
+  30242.0 ms  ✓ Parsers
+   7946.1 ms  ✓ RecipesPipeline
+  26830.9 ms  ✓ HTTP
+   1543.2 ms  ✓ JSON
+   3638.9 ms  ✓ GR
+  52097.0 ms  ✓ Plots
+   2933.7 ms  ✓ Plots → UnitfulExt
+  97 dependencies successfully precompiled in 114 seconds. 101 already precompiled.
+Precompiling DiffEqBaseUnitfulExt...
+    DiffEqBaseUnitfulExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/DiffEqBaseUnitfulExt/Z8ebP_yy7sM.ji.pidfile)
+    996.0 ms  ✓ DiffEqBase → DiffEqBaseUnitfulExt
+  1 dependency successfully precompiled in 1 seconds. 98 already precompiled.
+Precompiling ConstructionBaseIntervalSetsExt...
+    ConstructionBaseIntervalSetsExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/ConstructionBaseIntervalSetsExt/yl6Pl_yy7sM.ji.pidfile)
+    348.4 ms  ✓ ConstructionBase → ConstructionBaseIntervalSetsExt
+  1 dependency successfully precompiled in 0 seconds. 4 already precompiled.
+Precompiling IntervalSetsExt...
+    IntervalSetsExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/IntervalSetsExt/TQHvG_yy7sM.ji.pidfile)
+    109.3 ms  ✓ Accessors → IntervalSetsExt
+  1 dependency successfully precompiled in 1 seconds. 15 already precompiled.
+Precompiling SparseMatrixColoringsColorsExt...
+    654.9 ms  ✓ SparseMatrixColorings → SparseMatrixColoringsColorsExt
+  1 dependency successfully precompiled in 1 seconds. 29 already precompiled.
+Precompiling SpecialFunctionsExt...
+    591.8 ms  ✓ ColorVectorSpace → SpecialFunctionsExt
+  1 dependency successfully precompiled in 1 seconds. 26 already precompiled.
+Precompiling ParsersExt...
+    ParsersExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/ParsersExt/cULGY_yy7sM.ji.pidfile)
+     63.4 ms  ✓ InlineStrings → ParsersExt
+  1 dependency successfully precompiled in 1 seconds. 9 already precompiled.
+Precompiling FileIOExt...
+    HTTPExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/HTTPExt/VIoHu_yy7sM.ji.pidfile)
+    FileIOExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/FileIOExt/uE6Zh_yy7sM.ji.pidfile)
+   1197.2 ms  ✓ FileIO → HTTPExt
+   2509.6 ms  ✓ Plots → FileIOExt
+  2 dependencies successfully precompiled in 3 seconds. 185 already precompiled.
+Precompiling DataFramesExt...
+   1070.7 ms  ✓ Latexify → DataFramesExt
+  1 dependency successfully precompiled in 1 seconds. 37 already precompiled.
+Precompiling PosDefManifold...
+    PosDefManifold Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/PosDefManifold/vb3YZ_yy7sM.ji.pidfile)
+   2056.8 ms  ✓ PosDefManifold
+  1 dependency successfully precompiled in 2 seconds. 1 already precompiled.
+Precompiling StatsPlots...
+    TableOperations Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/TableOperations/5GGWt_yy7sM.ji.pidfile)
+    Widgets Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Widgets/F5dj0_yy7sM.ji.pidfile)
+    FFTW_jll Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/FFTW_jll/9AVlm_yy7sM.ji.pidfile)
+    DistributionsTestExt Being precompiled by another process (pid: 26131, pidfile: /home/simoneb/.julia/compiled/v1.11/DistributionsTestExt/Mb8xE_yy7sM.ji.pidfile)
+    657.3 ms  ✓ AbstractFFTs → AbstractFFTsChainRulesCoreExt
+    860.2 ms  ✓ TableOperations
+    853.6 ms  ✓ Arpack_jll
+    956.7 ms  ✓ FFTW_jll
+    FFTW Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/FFTW/PvIn2_yy7sM.ji.pidfile)
+   1290.0 ms  ✓ OffsetArrays
+   1099.6 ms  ✓ Widgets
+    417.9 ms  ✓ OffsetArrays → OffsetArraysAdaptExt
+   1560.2 ms  ✓ Distributions → DistributionsTestExt
+    876.9 ms  ✓ Arpack
+   2358.7 ms  ✓ NearestNeighbors
+    Clustering Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/Clustering/Ovl2Q_yy7sM.ji.pidfile)
+   2021.9 ms  ✓ MultivariateStats
+   2405.0 ms  ✓ Interpolations
+   1719.7 ms  ✓ Clustering
+    992.7 ms  ✓ Interpolations → InterpolationsUnitfulExt
+   7955.0 ms  ✓ FFTW
+    KernelDensity Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/KernelDensity/4QyGx_yy7sM.ji.pidfile)
+   1511.6 ms  ✓ KernelDensity
+    StatsPlots Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StatsPlots/SiylL_yy7sM.ji.pidfile)
+   5485.9 ms  ✓ StatsPlots
+  17 dependencies successfully precompiled in 21 seconds. 235 already precompiled.
+Precompiling StaticArrayInterfaceOffsetArraysExt...
+    StaticArrayInterfaceOffsetArraysExt Being precompiled by another process (pid: 26120, pidfile: /home/simoneb/.julia/compiled/v1.11/StaticArrayInterfaceOffsetArraysExt/LOVcL_yy7sM.ji.pidfile)
+    443.9 ms  ✓ StaticArrayInterface → StaticArrayInterfaceOffsetArraysExt
+  1 dependency successfully precompiled in 1 seconds. 18 already precompiled.
+ERROR: LoadError: package `JMMenura [15b01a9d]` has the same name or UUID as the active project
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/Types.jl:68
+ [2] develop(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; shared::Bool, preserve::Pkg.Types.PreserveLevel, platform::Base.BinaryPlatforms.Platform, kwargs::@Kwargs{io::IOContext{IO}})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:250
+ [3] develop(pkgs::Vector{Pkg.Types.PackageSpec}; io::IOContext{IO}, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:159
+ [4] develop(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:148
+ [5] develop
+   @ ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:146 [inlined]
+ [6] develop(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::String, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:176
+ [7] top-level scope
+   @ ~/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU testdata/simulated_importance_BMOU_larger_trait_3_model_run.jl:5
+in expression starting at /home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU testdata/simulated_importance_BMOU_larger_trait_3_model_run.jl:5
