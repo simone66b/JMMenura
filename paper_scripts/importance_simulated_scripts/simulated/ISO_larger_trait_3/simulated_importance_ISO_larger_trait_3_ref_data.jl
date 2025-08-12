@@ -26,7 +26,11 @@ trees = open(parsenexus, "fiveTrees.tre")
 ## tree1 = open(parsenewick, "./anoles_data/bigsim.tre")
 time_tot = 1.0
 tspan = (0.0, time_tot)
+<<<<<<< HEAD
  global para_ref_data_tree = []
+=======
+para_ref_data_tree = []
+>>>>>>> origin/main
 for i in keys(trees) 
 # Get root number
 root = getroot(trees[i])
@@ -38,7 +42,7 @@ root_num = trees[i].nodedict[root.name]
 # traits needed to evolve traits
 trait_alpha = repeat([0.0], n)
 trait_mu = repeat([0.0], n)
-trait_sigma = [2, 4, 6, 8]
+trait_sigma = repeat([0.0], n) ## [2, 4, 6, 8]
 
 # create trait dictionary
 trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = trait_sigma))
@@ -56,11 +60,11 @@ mat_evol_func = mat_evol_isospectral(dt = 0.01)
 trait_evol_func = trait_evol(dt = 0.01)
 
 # Same starting conditions as OU
-start_trait_alpha = [2, 4, 6, 8]
+start_trait_alpha = repeat([0.0], n) ## [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
-start_trait_sigma = repeat([sqrt(2)], n)
+start_trait_sigma = repeat([0.0], n) ## repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) #start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, trees[i], trait_evol_func, mat_evol_func, 0.0, trait_start, P1, true)
