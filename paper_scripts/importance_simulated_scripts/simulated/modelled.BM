@@ -1,0 +1,329 @@
+
+[32835] signal 15: Terminated
+in expression starting at /home/simoneb/Desktop/JMMenura/src/JMMenura.jl:4
+jl_typemap_entry_assoc_exact at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/typemap.c:1196
+jl_typemap_assoc_exact at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia_internal.h:1503 [inlined]
+jl_lookup_generic_ at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:3070 [inlined]
+ijl_apply_generic at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:3121
+is_mutation_free_argtype at ./compiler/typeutils.jl:374
+getfield_effects at ./compiler/tfuncs.jl:2498
+builtin_effects at ./compiler/tfuncs.jl:2538
+abstract_call_known at ./compiler/abstractinterpretation.jl:2116
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/ssair/irinterp.jl:49
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+reprocess_instruction! at ./compiler/ssair/irinterp.jl:141
+#572 at ./compiler/ssair/irinterp.jl:326
+scan! at ./compiler/ssair/irinterp.jl:248
+#_ir_abstract_constant_propagation#571 at ./compiler/ssair/irinterp.jl:294
+_ir_abstract_constant_propagation at ./compiler/ssair/irinterp.jl:280
+ir_abstract_constant_propagation at ./compiler/ssair/irinterp.jl:440
+semi_concrete_eval_call at ./compiler/abstractinterpretation.jl:1219
+abstract_call_method_with_const_args at ./compiler/abstractinterpretation.jl:847
+abstract_call_method_with_const_args at ./compiler/abstractinterpretation.jl:823
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:111
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3044
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3044
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_apply at ./compiler/abstractinterpretation.jl:1690
+abstract_call_known at ./compiler/abstractinterpretation.jl:2102
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3044
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_edge at ./compiler/typeinfer.jl:923
+abstract_call_method at ./compiler/abstractinterpretation.jl:660
+abstract_call_gf_by_type at ./compiler/abstractinterpretation.jl:102
+abstract_call_known at ./compiler/abstractinterpretation.jl:2200
+abstract_call at ./compiler/abstractinterpretation.jl:2282
+abstract_call at ./compiler/abstractinterpretation.jl:2275
+abstract_call at ./compiler/abstractinterpretation.jl:2423
+abstract_eval_call at ./compiler/abstractinterpretation.jl:2438
+abstract_eval_statement_expr at ./compiler/abstractinterpretation.jl:2454
+abstract_eval_statement at ./compiler/abstractinterpretation.jl:2752
+abstract_eval_basic_statement at ./compiler/abstractinterpretation.jl:3068
+typeinf_local at ./compiler/abstractinterpretation.jl:3331
+typeinf_nocycle at ./compiler/abstractinterpretation.jl:3413
+_typeinf at ./compiler/typeinfer.jl:244
+typeinf at ./compiler/typeinfer.jl:215
+typeinf_ext at ./compiler/typeinfer.jl:1101
+typeinf_ext_toplevel at ./compiler/typeinfer.jl:1139
+typeinf_ext_toplevel at ./compiler/typeinfer.jl:1135
+jfptr_typeinf_ext_toplevel_39964.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+jl_type_infer at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:390
+jl_generate_fptr_impl at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/jitlayers.cpp:519
+jl_compile_method_internal at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:2536 [inlined]
+jl_compile_method_internal at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:2423
+_jl_invoke at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:2940 [inlined]
+ijl_apply_generic at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/gf.c:3125
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+jl_f__call_latest at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/builtins.c:875
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+do_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/builtins.c:831
+#invokelatest#2 at ./essentials.jl:1055
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+do_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/builtins.c:831
+invokelatest at ./essentials.jl:1052
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+do_call at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:126
+eval_value at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:223
+eval_stmt_value at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:174 [inlined]
+eval_body at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:670
+jl_fptr_interpret_call at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:760
+__init__ at /home/simoneb/.julia/packages/Arpack_jll/zfgpQ/src/wrappers/x86_64-linux-gnu-libgfortran5.jl:9
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+jl_module_run_initializer at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:76
+run_module_init at ./loading.jl:1378
+register_restored_modules at ./loading.jl:1366
+#_include_from_serialized#1082 at ./loading.jl:1254
+_include_from_serialized at ./loading.jl:1210 [inlined]
+_include_from_serialized at ./loading.jl:1210 [inlined]
+#_require_search_from_serialized#1105 at ./loading.jl:2041
+_require_search_from_serialized at ./loading.jl:1969
+jfptr__require_search_from_serialized_44906.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+_require at ./loading.jl:2527
+__require_prelocked at ./loading.jl:2388
+jfptr___require_prelocked_71260.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+jl_f__call_in_world at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/builtins.c:894
+#invoke_in_world#3 at ./essentials.jl:1089 [inlined]
+invoke_in_world at ./essentials.jl:1086 [inlined]
+_require_prelocked at ./loading.jl:2375
+macro expansion at ./loading.jl:2314 [inlined]
+macro expansion at ./lock.jl:273 [inlined]
+__require at ./loading.jl:2271
+jfptr___require_71191.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+jl_f__call_in_world at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/builtins.c:894
+#invoke_in_world#3 at ./essentials.jl:1089 [inlined]
+invoke_in_world at ./essentials.jl:1086 [inlined]
+require at ./loading.jl:2260
+jfptr_require_71188.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+call_require at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:486 [inlined]
+eval_import_path at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:523
+jl_toplevel_eval_flex at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:759
+jl_eval_module_expr at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:215 [inlined]
+jl_toplevel_eval_flex at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:743
+jl_toplevel_eval_flex at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:886
+ijl_toplevel_eval_in at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:994
+eval at ./boot.jl:430 [inlined]
+include_string at ./loading.jl:2734
+_include at ./loading.jl:2794
+include at ./sysimg.jl:38
+unknown function (ip: 0x776c0ee89112)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+do_call at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:126
+eval_value at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:223
+eval_stmt_value at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:174 [inlined]
+eval_body at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:666
+jl_interpret_toplevel_thunk at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/interpreter.c:824
+jl_toplevel_eval_flex at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:943
+jl_toplevel_eval_flex at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:886
+ijl_toplevel_eval_in at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/toplevel.c:994
+eval at ./boot.jl:430 [inlined]
+include_string at ./loading.jl:2734
+_include at ./loading.jl:2794
+include at ./Base.jl:562
+jfptr_include_46943.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+exec_options at ./client.jl:323
+_start at ./client.jl:531
+jfptr__start_73597.1 at /home/simoneb/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/lib/julia/sys.so (unknown line)
+jl_apply at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/julia.h:2157 [inlined]
+true_main at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/jlapi.c:900
+jl_repl_entrypoint at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/src/jlapi.c:1059
+main at /cache/build/tester-amdci4-12/julialang/julia-release-1-dot-11/cli/loader_exe.c:58
+unknown function (ip: 0x776c1c02a577)
+__libc_start_main at /lib/x86_64-linux-gnu/libc.so.6 (unknown line)
+unknown function (ip: 0x4010b8)
+unknown function (ip: (nil))
+Allocations: 14153610 (Pool: 14152904; Big: 706); GC: 17
