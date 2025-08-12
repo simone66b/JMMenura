@@ -23,10 +23,10 @@ end
 n = 4 ## 4 traits
 
 # Creating tree
-trees = open(parsenexus, "fiveTrees.tre")
+trees = open(parsenexus, "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/fiveTrees.tre")
 time_tot = 1.0
 tspan = (0.0, time_tot)
-para_ref_data_tree = []
+global para_ref_data_tree = []
 
 for i in keys(trees) ## 5 trees
 ## i="A"
@@ -67,11 +67,9 @@ trait_start = start_trait_mu + 3*(start_trait_sigma./sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_true, trees[i], trait_evol_func, mat_evol_func, 0.0, trait_start, P1, true)
-para_ref_data_tree = push!(para_ref_data_tree, [trees[i], get_data2(ther_ref_sim)])
+global para_ref_data_tree = push!(para_ref_data_tree, [trees[i], get_data2(ther_ref_sim)])
 end ## for loop
 
+@save "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/BM_larger_trait_3/BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 
-
-@save "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
-
-@load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree

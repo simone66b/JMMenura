@@ -1,11 +1,11 @@
 using Pkg
 ## cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/importance_scripts")
-include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
-cd("/home/simoneb/Desktop/JMMenura")
-Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
+## include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
+cd("/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/BM_model_larger_trait_3")
+## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
-using .JMMenura
+using JMMenura
 
 ##################################
 # Load reference simulation data #
