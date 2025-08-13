@@ -1,11 +1,11 @@
 using Pkg
 ## cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/importance_scripts")
-include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
+##include("/home/simoneb/Desktop/JMMenura/src/JMMenura.jl")
 cd("/home/simoneb/Desktop/JMMenura")
-Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
+## Pkg.develop(path="/home/simoneb/Desktop/JMMenura")
 using Phylo, Distributions, Pkg, Plots, DataFrames, XLSX, StatsBase, JLD2, LinearAlgebra, DifferentialEquations
 using PosDefManifold, ProgressMeter, StatsPlots, Random, Distributions
-using .JMMenura
+using JMMenura
 
 ##################################
 # Load reference simulation data #
@@ -46,11 +46,11 @@ trait_evol_func = trait_evol(dt = 0.01)
 mat_evol_func = mat_evol_affine(dt = 0.01)
 
 # Same starting conditions as OU
-start_trait_alpha = [2, 4, 6, 8]
+start_trait_alpha = repeat([0.0], n) ## [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) ## start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 sigmaPrior = 50

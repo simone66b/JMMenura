@@ -1,0 +1,122 @@
+[MASTER] Start: Tue Aug 12 06:43:28 PM AEST 2025  (TS=20250812-184328)
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+Uptime: 2 hours, 22 mins 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+WM Theme: Adwaita 
+Theme: Yaru-dark [GTK2/3] 
+Icons: Yaru [GTK2/3] 
+Cursor: Yaru [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+GPU: AMD ATI 1024 MByte) 
+GPU: Intel HD Graphics 630 
+Memory: 6.53 GiB / 14.87 GiB (43%) 
+Network: 1 Gbps 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+Tue Aug 12 06:43:29 PM AEST 2025
+Her locks an ancient lady gave
+Her loving husband's life to save;
+And men -- they honored so the dame --
+Upon some stars bestowed her name.
+
+But to our modern married fair,
+Who'd give their lords to save their hair,
+No stellar recognition's given.
+There are not stars enough in heaven.
+[MASTER] Scanning for .jl files...
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+Uptime: 2 hours, 22 mins 
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+OS: Ubuntu 25.04 x86_64 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+Kernel: 6.14.0-27-generic 
+Uptime: 2 hours, 22 mins 
+Uptime: 2 hours, 22 mins 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+WM Theme: Adwaita 
+Theme: Yaru-dark [GTK2/3] 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+Icons: Yaru [GTK2/3] 
+WM Theme: Adwaita 
+Cursor: Yaru [GTK2/3] 
+Theme: Yaru-dark [GTK2/3] 
+Terminal: xargs 
+Icons: Yaru [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+DE: GNOME 48.0 (wayland) 
+Cursor: Yaru [GTK2/3] 
+WM: Mutter 
+GPU: AMD ATI 1024 MByte) 
+WM Theme: Adwaita 
+GPU: Intel HD Graphics 630 
+Terminal: xargs 
+Memory: 6.73 GiB / 14.87 GiB (45%) 
+Theme: Yaru-dark [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+Network: 1 Gbps 
+Icons: Yaru [GTK2/3] 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+GPU: AMD ATI 1024 MByte) 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+GPU: Intel HD Graphics 630 
+Cursor: Yaru [GTK2/3] 
+Memory: 6.73 GiB / 14.87 GiB (45%) 
+Tue Aug 12 06:43:30 PM AEST 2025
+Terminal: xargs 
+Network: 1 Gbps 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+Tue Aug 12 06:43:30 PM AEST 2025
+GPU: AMD ATI 1024 MByte) 
+GPU: Intel HD Graphics 630 
+Nothing so needs reforming as other people's habits.
+		-- Mark Twain
+[JOB] START  simulated_importance_OUISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:30 PM AEST 2025
+Memory: 6.73 GiB / 14.87 GiB (45%) 
+Network: 1 Gbps 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+In every hierarchy the cream rises until it sours.
+		-- Dr. Laurence J. Peter
+[JOB] START  simulated_importance_BMISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:30 PM AEST 2025
+Tue Aug 12 06:43:30 PM AEST 2025
+I want the presidency so bad I can already taste the hors d'oeuvres.
+[JOB] START  simulated_importance_ISOISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:30 PM AEST 2025
+[JOB] END    simulated_importance_OUISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:51 PM AEST 2025  (exit=1)
+[JOB] END    simulated_importance_BMISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:51 PM AEST 2025  (exit=1)
+[JOB] END    simulated_importance_ISOISO_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:52 PM AEST 2025  (exit=1)

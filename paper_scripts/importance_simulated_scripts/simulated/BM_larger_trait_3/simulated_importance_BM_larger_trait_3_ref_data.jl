@@ -47,7 +47,7 @@ trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, si
 trait_parameters = (mu = trait_mu, sigma = trait_sigma)
 
 # Variables needed for OU matrix model
-mat_alpha = 1.0 ## 0.0
+mat_alpha = 0.0 ## 0.0
 mat_sigma = 1.0 ## sqrt(2)
 mat_mu = copy(P0)
 
@@ -76,7 +76,11 @@ end ## for loop
 ## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 =======
 
-@save "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+@save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 
+<<<<<<< HEAD
 @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+>>>>>>> origin/main
+=======
+## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 >>>>>>> origin/main

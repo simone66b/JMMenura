@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Usage: ./run_all_xargs_nohup.sh
+# Runs all *.jl here in parallel via xargs, detached with nohup &.
+# Per-script logs go in logs/<script>_<ts>.out and a master log captures the whole run.
+
+set -euo pipefail
+
+mkdir -p logs
+
+TS="$(date +'%Y%m%d-%H%M%S')"
+MASTER="logs/run_${TS}.master.log"
+
+echo "[MASTER] Start: $(date)  (TS=${TS})" > "$MASTER"
+
+# Adjust -P 3 to your desired parallelism
+nohup bash -lc "
+  set -euo pipefail
+  echo '[MASTER] Scanning for .jl files...' 
+  find . -maxdepth 1 -type f -name '*.jl' -print0 |
+  xargs -0 -n1 -P 3 -I{} bash -lc '
+    f=\"{}\"
+    f=\"\${f#./}\"                 # nice names
+    b=\"\${f%.jl}\"
+    ts=\$(date +%Y%m%d-%H%M%S)
+    echo \"[JOB] START  \${f}  at \$(date)\"
+    stdbuf -oL -eL julia --project \"\$f\" > \"logs/\${b}_\${ts}.out\" 2>&1
+    rc=\$?
+    echo \"[JOB] END    \${f}  at \$(date)  (exit=\${rc})\"
+    exit \$rc
+  '
+  echo '[MASTER] All jobs launched; waiting for completion...'
+" >>"$MASTER" 2>&1 &
+echo "[MASTER] nohup pid: $!  (detached)"
+echo "[MASTER] Logging to: $MASTER"
+echo "Tail it with: tail -f \"$MASTER\""
+

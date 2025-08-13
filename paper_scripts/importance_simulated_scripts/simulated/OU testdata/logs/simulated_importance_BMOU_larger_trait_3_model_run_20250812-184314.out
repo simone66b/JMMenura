@@ -1,0 +1,17 @@
+ERROR: LoadError: package `JMMenura [15b01a9d]` has the same name or UUID as the active project
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/Types.jl:68
+ [2] develop(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; shared::Bool, preserve::Pkg.Types.PreserveLevel, platform::Base.BinaryPlatforms.Platform, kwargs::@Kwargs{io::IOContext{IO}})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:250
+ [3] develop(pkgs::Vector{Pkg.Types.PackageSpec}; io::IOContext{IO}, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:159
+ [4] develop(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:148
+ [5] develop
+   @ ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:146 [inlined]
+ [6] develop(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::String, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.11.6+0.x64.linux.gnu/share/julia/stdlib/v1.11/Pkg/src/API.jl:176
+ [7] top-level scope
+   @ ~/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU testdata/simulated_importance_BMOU_larger_trait_3_model_run.jl:5
+in expression starting at /home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU testdata/simulated_importance_BMOU_larger_trait_3_model_run.jl:5

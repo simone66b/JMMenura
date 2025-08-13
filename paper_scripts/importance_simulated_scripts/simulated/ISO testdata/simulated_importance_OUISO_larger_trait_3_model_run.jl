@@ -31,7 +31,7 @@ num_species = 50
 ##    open(parsenewick, "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/bigsim$i.tre")
 
 # BM simulation for traits
-trait_alpha = [2, 4, 6, 8] ## trait_alpha = repeat([0.0], n)
+trait_alpha = repeat([0.0], n) ## [2, 4, 6, 8] ## trait_alpha = repeat([0.0], n)
 trait_mu = repeat([0.0], n) ##
 trait_sigma = repeat([sqrt(2)], n)
 
@@ -50,7 +50,7 @@ start_trait_alpha = [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
 
-trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) ## start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 alphaPrior = 50 ## sigmaPrior = 50

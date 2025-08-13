@@ -1,0 +1,121 @@
+[MASTER] Start: Tue Aug 12 06:43:12 PM AEST 2025  (TS=20250812-184312)
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+Uptime: 2 hours, 22 mins 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+WM Theme: Adwaita 
+Theme: Yaru-dark [GTK2/3] 
+Icons: Yaru [GTK2/3] 
+Cursor: Yaru [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+GPU: AMD ATI 1024 MByte) 
+GPU: Intel HD Graphics 630 
+Memory: 4.39 GiB / 14.87 GiB (29%) 
+Network: 1 Gbps 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+Tue Aug 12 06:43:13 PM AEST 2025
+What is research but a blind date with knowledge?
+		-- Will Harvey
+[MASTER] Scanning for .jl files...
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+simoneb@simoneb-OptiPlex-7050 
+----------------------------- 
+Uptime: 2 hours, 22 mins 
+OS: Ubuntu 25.04 x86_64 
+OS: Ubuntu 25.04 x86_64 
+Host: OptiPlex 7050 
+Host: OptiPlex 7050 
+Kernel: 6.14.0-27-generic 
+Kernel: 6.14.0-27-generic 
+Uptime: 2 hours, 22 mins 
+Uptime: 2 hours, 22 mins 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+Resolution: 1920x1080, 1920x1200 
+Packages: 3981 (dpkg), 44 (snap) 
+Shell: bash 5.2.37 
+Resolution: 1920x1080, 1920x1200 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+WM Theme: Adwaita 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+Theme: Yaru-dark [GTK2/3] 
+WM Theme: Adwaita 
+Icons: Yaru [GTK2/3] 
+Theme: Yaru-dark [GTK2/3] 
+DE: GNOME 48.0 (wayland) 
+WM: Mutter 
+Cursor: Yaru [GTK2/3] 
+Icons: Yaru [GTK2/3] 
+WM Theme: Adwaita 
+Terminal: xargs 
+Cursor: Yaru [GTK2/3] 
+Theme: Yaru-dark [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+Terminal: xargs 
+Icons: Yaru [GTK2/3] 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+GPU: AMD ATI 1024 MByte) 
+GPU: Intel HD Graphics 630 
+Cursor: Yaru [GTK2/3] 
+Memory: 4.49 GiB / 14.87 GiB (30%) 
+GPU: AMD ATI 1024 MByte) 
+Terminal: xargs 
+GPU: Intel HD Graphics 630 
+Network: 1 Gbps 
+Memory: 4.49 GiB / 14.87 GiB (30%) 
+CPU: Intel i7-7700 (8) @ 4.2GHz 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+Network: 1 Gbps 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+GPU: AMD ATI 1024 MByte) 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+Tue Aug 12 06:43:14 PM AEST 2025
+GPU: Intel HD Graphics 630 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+Memory: 4.49 GiB / 14.87 GiB (30%) 
+Tue Aug 12 06:43:14 PM AEST 2025
+Network: 1 Gbps 
+Bluetooth: Realtek Semiconductor Corp. Bluetooth Radio 
+BIOS: Dell Inc. 1.27 (09/18/2023) 
+
+Tue Aug 12 06:43:14 PM AEST 2025
+< asuffield> a workstation is anything you can stick on somebodies desk
+             and con them into using
+		-- in #debian-devel
+[JOB] START  simulated_importance_OUOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:14 PM AEST 2025
+Stock's Observation:
+	You no sooner get your head above water but what someone pulls
+	your flippers off.
+[JOB] START  simulated_importance_BMOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:14 PM AEST 2025
+... we must not judge the society of the future by considering whether or not
+we should like to live in it; the question is whether those who have grown up
+in it will be happier than those who have grown up in our society or those of
+the past.
+		-- Joseph Wood Krutch
+[JOB] START  simulated_importance_ISOOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:14 PM AEST 2025
+[JOB] END    simulated_importance_BMOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:35 PM AEST 2025  (exit=1)
+[JOB] END    simulated_importance_ISOOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:35 PM AEST 2025  (exit=1)
+[JOB] END    simulated_importance_OUOU_larger_trait_3_model_run.jl  at Tue Aug 12 06:43:36 PM AEST 2025  (exit=1)

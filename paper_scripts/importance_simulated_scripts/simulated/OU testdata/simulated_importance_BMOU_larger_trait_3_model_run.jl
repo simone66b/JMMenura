@@ -33,7 +33,7 @@ num_species = 50
 # BM simulation for traits
 trait_alpha = repeat([0.0], n)
 trait_mu = repeat([0.0], n) ##
-## trait_sigma = repeat([sqrt(2)], n)
+trait_sigma = repeat([sqrt(2)], n)
 
 # BM simulation for matrix
 @load "/home/simoneb/Desktop/JMMenura/paper_scripts/example_scripts/anoles_data/P0.jld2"
@@ -49,8 +49,7 @@ mat_evol_func = mat_evol_affine(dt = 0.01)
 start_trait_alpha = [2, 4, 6, 8]
 start_trait_mu = repeat([0.0], n)
 start_trait_sigma = repeat([sqrt(2)], n)
-
-trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
+trait_start = repeat([0.0], n) ## start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
 
 sigmaPrior = 50

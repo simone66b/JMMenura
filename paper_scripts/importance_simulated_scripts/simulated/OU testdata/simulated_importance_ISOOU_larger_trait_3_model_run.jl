@@ -55,9 +55,9 @@ start_trait_sigma = repeat([sqrt(2)], n)
 
 trait_start = start_trait_mu + 3*(start_trait_sigma ./ sqrt.(2*start_trait_alpha))
 mat_start = P1
-mat_mu = copy(P0)
-mat_alpha = 0.0
-mat_sigma = sqrt(2.0)
+# mat_mu = copy(P0)
+# mat_alpha = 0.0
+# mat_sigma = sqrt(2.0)
 
 sigmaPrior = 50
 abPrior = 50

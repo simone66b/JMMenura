@@ -49,8 +49,8 @@ trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, si
 trait_parameters = (mu = trait_mu, sigma = trait_sigma)
 
 # Variables needed for OU matrix model
-mat_a = 5
-mat_b = 5
+mat_a = 1.0
+mat_b = 1.0
 
 # create matrix dictionary
 mat_parameters_true = Dict(root_num => (a = mat_a, b = mat_b))
