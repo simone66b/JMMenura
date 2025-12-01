@@ -26,7 +26,11 @@ trees = open(parsenexus, "fiveTrees.tre")
 ## tree1 = open(parsenewick, "./anoles_data/bigsim.tre")
 time_tot = 1.0
 tspan = (0.0, time_tot)
+<<<<<<< HEAD
+ global para_ref_data_tree = []
+=======
 para_ref_data_tree = []
+>>>>>>> origin/main
 for i in keys(trees) 
 # Get root number
 root = getroot(trees[i])
