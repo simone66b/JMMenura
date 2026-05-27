@@ -24,8 +24,8 @@ end
 
 Handles evolving the covariance matrix of a node
 """
-function gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.001)
-    # Wait why is u0 here. Shouldn't it be mat?
+function gen_cov_mat(mat, p, tspan, matrix_drift, u0= mat, dt=0.001) ###zeros(size(mat)), dt = 0.001)
+    # Wait why is u0 here. Shouldn't it be mat? Changed to mat for now.
     lowertri = LowerTriangular(mat)
     uppertri = - UpperTriangular(mat)
     skewsymm = lowertri + uppertri

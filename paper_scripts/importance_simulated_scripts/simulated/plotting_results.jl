@@ -1,5 +1,5 @@
 using Pkg
-cd("/Users/coope/OneDrive/Documents/Uni/Phylogenetics_coding/importance_scripts")
+cd("/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated")
 ENV["MPLBACKEND"] = "tkagg"  # or "qt5agg"
 using PyPlot, JLD2, StatsBase, Distributions, XLSX, DataFrames
 PyPlot.matplotlib.use("tkagg")
@@ -7,7 +7,7 @@ PyPlot.matplotlib.use("tkagg")
 # Left justify the subtitles to the left with 
 
 
-@load "./simulated/OU_diff_larger_trait_3/OU_diff_larger_trait_3_importance_result.jld2" tst
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU_diff_larger_trait_3/OU_diff_larger_trait_3_importance_result.jld2" tst
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
@@ -61,11 +61,11 @@ axes[6].spines["right"].set_visible(false)
 axes[6].xaxis.set_visible(false)
 axes[6].yaxis.set_visible(false)
 
-# show()
-PyPlot.savefig("OUsim.pdf")
+show() ## show the plot
+##PyPlot.savefig("OUsim.pdf")
 
 
-@load "./simulated/BM_larger_trait_3/BM_larger_trait_3_importance_result.jld2" tst
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/BM_model_larger_trait_3/BM_model_larger_trait_3_importance_result.jld2" tst
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
@@ -125,11 +125,11 @@ axes[6].spines["right"].set_visible(false)
 axes[6].xaxis.set_visible(false)
 axes[6].yaxis.set_visible(false)
 
-# show()
-PyPlot.savefig("BMsim.pdf")
+ show()
+#PyPlot.savefig("BMsim.pdf")
 
 
-@load "./simulated/ISO_larger_trait_3/ISO_larger_trait_3_importance_result.jld2" tst
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/ISO_larger_trait_3/ISO_larger_trait_3_importance_result.jld2" tst
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
@@ -176,10 +176,10 @@ for k in 1:6
     end
 end
 
-# show()
-PyPlot.savefig("ISOsim.pdf")
+show()
+##PyPlot.savefig("ISOsim.pdf")
 
-@load "./simulated/OU_diff_larger_trait_3_copy/OU_diff_larger_trait_3_importance_result.jld2" tst
+@load "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/OU_diff_larger_trait_3/OU_diff_larger_trait_3_importance_result.jld2" tst
 alphas = [tst[i][1] for i in 1:5000]
 wts = [tst[i][2] for i in 1:5000]
 
@@ -231,5 +231,5 @@ axes[6].spines["right"].set_visible(false)
 axes[6].xaxis.set_visible(false)
 axes[6].yaxis.set_visible(false)
 
-# show()
-PyPlot.savefig("OUsim_copy.pdf")
+show()
+## PyPlot.savefig("OUsim_copy.pdf")
