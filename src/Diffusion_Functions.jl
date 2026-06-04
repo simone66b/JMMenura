@@ -86,7 +86,7 @@ One possible method for G matrix drift.
 Combined with matrix_diffusion_isospectral evolves the G matrix while keeping the eigenvalues and vectors constant
 """
 function matrix_drift_isospectral(du, u, p, t) ## drift function for the SDE
-    du = p.a * t * p.A
+    du .= p.a .* t .* vec(p.A)   ## mutate du in place (was `du = ...`, a no-op rebind)
 end
 
 """
