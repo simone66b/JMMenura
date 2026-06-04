@@ -24,8 +24,8 @@ end
 
 Handles evolving the covariance matrix of a node
 """
-function gen_cov_mat(mat, p, tspan, matrix_drift, u0= mat, dt=0.001) ###zeros(size(mat)), dt = 0.001)
-    # Wait why is u0 here. Shouldn't it be mat? Changed to mat for now.
+function gen_cov_mat(mat, p, tspan, matrix_drift, u0=zeros(size(mat)), dt = 0.001)
+    # Wait why is u0 here. Shouldn't it be mat?
     lowertri = LowerTriangular(mat)
     uppertri = - UpperTriangular(mat)
     skewsymm = lowertri + uppertri
@@ -324,6 +324,11 @@ function mat_evol_isospectral(;mat_drift = matrix_drift_isospectral::Function ,
         lowertri = LowerTriangular(mat)
         uppertri = - UpperTriangular(mat)
         skewsymm = lowertri + uppertri
+        # Normalize the generator to unit Frobenius norm so the rotation rate is O(a·t)
+        # rather than O(a·t·‖skew(G)‖) (≈O(a·t·100)). Without this the rotation saturates
+        # for a or b ≳ 0.1, leaving a/b unidentifiable at their true values (~1).
+        nrm = norm(skewsymm)
+        nrm > 0 && (skewsymm = skewsymm ./ nrm)
         W = WienerProcess(0.0,zeros(1), 0.0)
 
         pp = (A=hcat(skewsymm...), B=hcat(skewsymm...), a=para.a, b=para.b) ## skew symmetric matrices not necessarily the same.
