@@ -1,7 +1,11 @@
 module JMMenura
 
 using DifferentialEquations, Distances, Distributions, JLD2, LinearAlgebra, Phylo, Plots
-using PosDefManifold, StatsPlots, ProgressBars 
+using PosDefManifold, StatsPlots, ProgressBars
+# DifferentialEquations v8 dropped its re-export of the SDE/noise subpackages, so
+# pull them in explicitly: CorrelatedWienerProcess (DiffEqNoiseProcess) and EM
+# (StochasticDiffEq) are used in Evolution_functions.jl.
+using DiffEqNoiseProcess, StochasticDiffEq
 
 include("Preallocation.jl")
 include("JMMABCparameters.jl")
