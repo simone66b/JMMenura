@@ -70,6 +70,7 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 global para_ref_data_tree = push!(para_ref_data_tree, [trees[i], get_data2(ther_ref_sim)])
 end ## for loop
 
+<<<<<<< HEAD
 @save "/home/simoneb/Desktop/ABC/BM_larger_trait_3_para_ref_data5Di2.6.jld2" para_ref_data_tree
 
 ## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
@@ -77,4 +78,11 @@ end ## for loop
 ## @save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 
  ## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+=======
+@save "/home/simoneb/Desktop/BM_larger_trait_3_para_ref_data5D1.6.jld2" para_ref_data_tree
+
+## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+## @save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+>>>>>>> origin/main
 ## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
