@@ -40,7 +40,7 @@ root_num = trees[i].nodedict[root.name]
 # traits needed to evolve traits
 trait_alpha = repeat([0.0], n) ## ## use for BM 
 trait_mu = repeat([0.0], n)
-trait_sigma = repeat([1.0], n)
+trait_sigma = [2.0, 4.0, 6.0, 8.0] ## repeat([1.0], n)
 
 # create trait dictionary
 trait_parameters_true = Dict(root_num => (alpha = trait_alpha, mu = trait_mu, sigma = trait_sigma))
@@ -48,7 +48,7 @@ trait_parameters = (mu = trait_mu, sigma = trait_sigma)
 
 # Variables needed for OU matrix model
 mat_alpha = 0.0 ## 0.0
-mat_sigma = 1.0 ## sqrt(2)
+mat_sigma = sqrt(2.0)
 mat_mu = copy(P0)
 
 # create matrix dictionary
@@ -70,17 +70,19 @@ ther_ref_sim = menura_parameter_descend!(mat_parameters_true, trait_parameters_t
 global para_ref_data_tree = push!(para_ref_data_tree, [trees[i], get_data2(ther_ref_sim)])
 end ## for loop
 
-@save "/home/simoneb/Desktop/JMMenura/paper_scripts/importance_simulated_scripts/simulated/BM_larger_trait_3/BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
-
 <<<<<<< HEAD
+@save "/home/simoneb/Desktop/ABC/BM_larger_trait_3_para_ref_data5Di2.6.jld2" para_ref_data_tree
+
 ## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
-=======
 
-@save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+## @save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 
-<<<<<<< HEAD
-@load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
->>>>>>> origin/main
+ ## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 =======
+@save "/home/simoneb/Desktop/BM_larger_trait_3_para_ref_data5D1.6.jld2" para_ref_data_tree
+
+## @load "OU_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
+## @save "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 ## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
 >>>>>>> origin/main
+## @load "BM_larger_trait_3_para_ref_data5D.jld2" para_ref_data_tree
