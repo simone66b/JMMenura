@@ -22,7 +22,7 @@ include("Sim_Functions.jl")
 # export menura_sim_mat_OU_each
 
 export trait_drift_mean_reversion, trait_drift_brownian_motion, trait_diffusion_brownian_motion, 
-        trait_diffusion_cox_ingersoll_ross_gamma, trait_diff_beta
+        trait_diffusion_cox_ingersoll_ross_gamma, trait_diffusion_beta
 
 export matrix_drift_isospectral, matrix_diffusion_isospectral, matrix_drift_mean_reversion, matrix_diffusion_brownian_motion
 
